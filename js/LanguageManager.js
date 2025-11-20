@@ -2,6 +2,10 @@ const content = {
   fr: {
     subtitle: 'Développeur Full Stack',
     sectionTitle: 'À propos',
+    techTitle: 'Stack Technique',
+    techFrontend: 'Frontend',
+    techBackend: 'Backend',
+    techTools: 'Outils & DevOps',
     aboutList: [
       "10 ans d'expérience en développement Fullstack JS",
       "Expert React, Node.js et TypeScript",
@@ -15,6 +19,10 @@ const content = {
   en: {
     subtitle: 'Full Stack Developer',
     sectionTitle: 'About me',
+    techTitle: 'Tech Stack',
+    techFrontend: 'Frontend',
+    techBackend: 'Backend',
+    techTools: 'Tools & DevOps',
     aboutList: [
       "10 years of experience in Fullstack JS development",
       "Expert in React, Node.js, and TypeScript",
@@ -74,6 +82,10 @@ export class LanguageManager {
     const textMap = {
       'hero-subtitle': 'subtitle',
       'section-title': 'sectionTitle',
+      'tech-title': 'techTitle',
+      'tech-frontend': 'techFrontend',
+      'tech-backend': 'techBackend',
+      'tech-tools': 'techTools',
       'resume-text': 'resumeText',
       'footer-text': 'footerText'
     };
