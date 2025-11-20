@@ -631,6 +631,17 @@ body {
   opacity: 1;
 }
 
+/* Vercel icon - force white in dark mode */
+[data-theme="dark"] .tech-item[aria-label="Vercel"] .tech-icon {
+  filter: brightness(0) invert(1);
+  opacity: 1;
+}
+
+[data-theme="dark"] .tech-item[aria-label="Vercel"]:hover .tech-icon {
+  filter: brightness(0) invert(1);
+  opacity: 1;
+}
+
 
 /* Buttons & Links */
 .btn-primary {
@@ -975,5 +986,12 @@ body {
   .tech-icon {
     width: 24px;
     height: 24px;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 319px) {
+  .tech-label {
+    display: none;
   }
 }
