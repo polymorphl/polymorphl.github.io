@@ -2,7 +2,7 @@ const content = {
   fr: {
     subtitle: 'Développeur Full Stack',
     sectionTitle: 'À propos',
-    techTitle: 'Stack Technique',
+    techTitle: 'Stack technique',
     techFrontend: 'Frontend',
     techBackend: 'Backend',
     techTools: 'Outils & DevOps',
@@ -19,7 +19,7 @@ const content = {
   en: {
     subtitle: 'Full Stack Developer',
     sectionTitle: 'About me',
-    techTitle: 'Tech Stack',
+    techTitle: 'Tech stack',
     techFrontend: 'Frontend',
     techBackend: 'Backend',
     techTools: 'Tools & DevOps',
