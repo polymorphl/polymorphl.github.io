@@ -96,6 +96,7 @@ class LanguageManager {
     this.currentLang = lang;
     localStorage.setItem('language', lang);
     document.documentElement.setAttribute('data-lang', lang);
+    document.documentElement.setAttribute('lang', lang);
 
     // Update UI
     this.updateButtons(lang);
