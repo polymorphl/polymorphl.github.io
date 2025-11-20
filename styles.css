@@ -342,11 +342,6 @@ body {
   filter: brightness(0) saturate(100%) invert(100%);
 }
 
-/* Invert SVG icons for dark theme */
-[data-theme="dark"] .social-icon {
-  filter: invert(1);
-}
-
 /* ==========================================================================
    HERO SECTION
    ========================================================================== */
@@ -617,6 +612,10 @@ body {
   opacity: 0.9;
 }
 
+.tech-icon use {
+  fill: inherit;
+}
+
 .tech-item:hover .tech-icon {
   opacity: 1;
 }
@@ -677,6 +676,7 @@ body {
   border-radius: 50%;
   transition: all 0.2s ease;
   box-shadow: var(--shadow-soft);
+  color: var(--color-text-primary);
 }
 
 .social-link:hover {
@@ -689,6 +689,11 @@ body {
   width: 20px;
   height: 20px;
   transition: transform 0.2s ease;
+  color: var(--color-text-primary);
+}
+
+.social-icon use {
+  fill: currentColor;
 }
 
 .social-link:hover .social-icon {
