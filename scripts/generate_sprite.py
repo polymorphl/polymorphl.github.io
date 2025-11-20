@@ -55,7 +55,7 @@ def create_sprite():
             # No svg tag found, use content as-is
             pass
         
-        symbol = f'<symbol id="icon-{icon_id}" viewBox="{viewbox}">{content}</symbol>'
+        symbol = f'<symbol id="{icon_id}" viewBox="{viewbox}">{content}</symbol>'
         sprite_content.append(symbol)
     
     sprite_content.append('</svg>')

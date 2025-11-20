@@ -15,7 +15,5 @@ To add a new technology icon to the sprite:
 
 4. Use the icon in your HTML:
    <svg class="tech-icon" width="40" height="40">
-     <use href="assets/icons/sprite.svg#icon-python"/>
+     <use href="assets/icons/sprite.svg#python"/>
    </svg>
-
-   (Replace `icon-python` with `icon-yourfilename` based on the filename you saved in step 1)
