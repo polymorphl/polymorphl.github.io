@@ -121,4 +121,3 @@ export class FluidAurora {
     requestAnimationFrame(() => this.animate());
   }
 }
-
