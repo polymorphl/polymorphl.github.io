@@ -32,11 +32,12 @@ The site is deployed via GitHub Actions. On each push to `main`, the workflow (`
 │   │   ├── main.js         # Entry point - imports CSS and initializes managers
 │   │   ├── ThemeManager.js # Handles dark/light theme toggle with localStorage persistence
 │   │   ├── LanguageManager.js # Handles FR/EN language switching with localStorage persistence
+│   │   ├── ProjectsManager.js # Featured Work section - projects grid with i18n
 │   │   └── FluidAurora.js  # Canvas-based animated background with theme-aware colors
 │   └── styles/
 │       ├── main.css        # Tailwind entry - @import tailwindcss, @theme, imports
 │       ├── base/
-│       │   └── fonts.css   # @font-face Geist Sans
+│       │   └── fonts.css   # Placeholder (fonts via HTML: Space Grotesk, DM Sans)
 │       └── complex.css     # Pseudo-elements, theme toggle, invert-dark, canvas
 ├── public/                 # Static assets served at root path
 │   ├── assets/
@@ -62,7 +63,7 @@ The CSS uses **Tailwind CSS v4** with the Vite plugin. Styling is utility-first 
 - Imports `fonts.css` and `complex.css`
 
 **base/fonts.css**:
-- `@font-face` for Geist Sans variable font
+- Placeholder (fonts loaded via HTML link: Space Grotesk, DM Sans)
 
 **complex.css** (uniquement ce que Tailwind ne peut pas gérer):
 - Navbar centering, logo invert dark
@@ -84,6 +85,7 @@ The CSS uses **Tailwind CSS v4** with the Vite plugin. Styling is utility-first 
 **Legacy Classes** (in complex.css):
 - `.theme-toggle`, `.theme-icon`, `.moon-icon`, `.sun-icon` — theme toggle
 - `.language-selector`, `.lang-btn` — language switcher with pseudo-element slider
+- `.project-card`, `.project-card-overlay` — Featured Work cards with hover overlay
 - `.tech-item`, `.tech-icon`, `.invert-dark` — tech stack items
 - `.about-item` — about list with `::before` arrow
 
@@ -100,6 +102,8 @@ The CSS uses **Tailwind CSS v4** with the Vite plugin. Styling is utility-first 
 
 **Internationalization**:
 - Content defined in `LanguageManager.js` as `content` object with `fr` and `en` keys
+- Projects in `ProjectsManager.js` with `projects.fr` and `projects.en`
+- `languagechange` custom event for syncing ProjectsManager when language switches
 - HTML elements have IDs mapping to content keys (e.g., `hero-subtitle` → `subtitle`)
 - `data-lang` attribute on `<html>` drives content updates and CSS selectors
 

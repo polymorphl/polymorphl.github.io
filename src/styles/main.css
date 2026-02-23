@@ -9,6 +9,7 @@
 @layer base {
   html {
     height: 100%;
+    scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -25,30 +26,37 @@
     flex-direction: column;
   }
 
+  h1, h2, h3, .hero-title, .section-title, .tech-category-title {
+    font-family: var(--font-display);
+  }
+
   [data-theme="dark"] {
-    --color-primary: #ffffff;
-    --color-secondary: #000000;
-    --color-background: #0a0a0a;
-    --color-surface: #1a1a1a;
-    --color-text-primary: #eeeeee;
-    --color-text-secondary: #a0a0a0;
-    --color-border: #2a2a2a;
-    --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.3);
+    --color-primary: #fafafa;
+    --color-secondary: #a1a1aa;
+    --color-accent: #3b82f6;
+    --color-background: #09090b;
+    --color-surface: #18181b;
+    --color-text-primary: #fafafa;
+    --color-text-secondary: #a1a1aa;
+    --color-border: #27272a;
+    --color-on-primary: #09090b;
+    --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.4);
     --shadow-floating: 0 10px 40px rgba(0, 0, 0, 0.5);
     --shadow-button: 0 2px 8px rgba(0, 0, 0, 0.3);
   }
 }
 
 @theme {
-  /* Colors - Light theme defaults (overridden by [data-theme="dark"] in complex.css) */
-  --color-primary: #000000;
-  --color-secondary: #ffffff;
-  --color-accent: #ff5533;
+  /* Colors - Design system (light) */
+  --color-primary: #18181b;
+  --color-secondary: #3f3f46;
+  --color-accent: #2563eb;
   --color-background: #fafafa;
   --color-surface: #ffffff;
-  --color-text-primary: #111111;
-  --color-text-secondary: #555555;
-  --color-border: #e5e5e5;
+  --color-text-primary: #09090b;
+  --color-text-secondary: #52525b;
+  --color-border: #e4e4e7;
+  --color-on-primary: #ffffff;
 
   /* Shadows */
   --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.05);
@@ -73,7 +81,8 @@
   --z-navbar: 1000;
 
   /* Font */
-  --font-sans: "Geist Sans", system-ui, -apple-system, sans-serif;
+  --font-sans: "DM Sans", system-ui, sans-serif;
+  --font-display: "Space Grotesk", system-ui, sans-serif;
 
   /* Animations */
   --animate-slide-down: slide-down 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
