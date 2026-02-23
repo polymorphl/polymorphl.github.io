@@ -14,19 +14,23 @@
 
 <body>
   <!-- Floating Navbar -->
-  <nav class="navbar">
-    <div class="navbar-content">
-      <img src="/favicon.svg" alt="LT Logo" class="logo" width="32" height="32">
-      <div class="nav-controls">
-        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
-          <svg class="theme-icon moon-icon" width="18" height="18">
+  <nav
+    class="navbar fixed top-6 left-1/2 z-[1000] max-w-[1000px] w-[calc(100%-3rem)] md:w-[calc(100%-2rem)] md:top-4 animate-slide-down">
+    <div
+      class="flex justify-between items-center w-full min-w-0 bg-surface rounded-full px-6 py-3 shadow-[var(--shadow-floating)] backdrop-blur-md gap-4">
+      <img src="/favicon.svg" alt="LT Logo" class="nav-logo w-8 h-8 rounded-full transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:rotate-[10deg] hover:scale-110 shrink-0"
+        width="32" height="32">
+        <div class="flex gap-4 items-center shrink-0">
+        <button class="theme-toggle relative w-10 h-10 bg-background rounded-full cursor-pointer flex items-center justify-center transition-all duration-300 overflow-hidden border-none hover:bg-border focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
+          id="theme-toggle" aria-label="Toggle theme">
+          <svg class="theme-icon moon-icon w-[18px] h-[18px]" width="18" height="18">
             <use href="/assets/icons/sprite.svg#moon" />
           </svg>
-          <svg class="theme-icon sun-icon" width="18" height="18">
+          <svg class="theme-icon sun-icon w-[18px] h-[18px]" width="18" height="18">
             <use href="/assets/icons/sprite.svg#sun" />
           </svg>
         </button>
-        <div class="language-selector">
+        <div class="language-selector flex gap-2 bg-background rounded-full p-1 relative">
           <button class="lang-btn active" data-lang="fr" aria-label="Switch to French">FR</button>
           <button class="lang-btn" data-lang="en" aria-label="Switch to English">EN</button>
         </div>
@@ -35,34 +39,48 @@
   </nav>
 
   <!-- Main Content -->
-  <main class="container">
+  <main
+    class="max-w-[1000px] mx-auto flex-1 flex flex-col md:grid md:grid-cols-2 gap-6 md:gap-8 lg:gap-12 min-h-full pt-28 pb-12 px-6 md:px-8 lg:px-12 text-left w-full md:items-start">
     <!-- Hero Section -->
-    <section class="hero">
-      <div class="hero-name-row">
-        <div class="profile-card">
-          <img src="/profile.png" alt="Luc TERRACHER" class="profile-image" width="120" height="120">
+    <section class="hero w-full flex flex-col items-start gap-6 text-left animate-fade-in-up md:items-center md:text-center overflow-hidden">
+      <div class="flex flex-row items-center gap-6 w-full md:flex-col md:items-center md:gap-4">
+        <div class="profile-card block shrink-0 animate-scale-in overflow-hidden rounded-[24px]" style="animation-delay: 0.4s">
+          <img src="/profile.png" alt="Luc TERRACHER"
+            class="profile-image w-60 h-[220px] md:w-52 md:h-[180px] rounded-[24px] object-cover shadow-[var(--shadow-soft)] transition-all duration-300 hover:shadow-[var(--shadow-floating)]"
+            width="120" height="120">
         </div>
-        <h1 class="hero-title">Luc<br>TERRACHER</h1>
+        <h1
+          class="hero-title text-text-primary text-4xl lg:text-5xl xl:text-[3.5rem] font-extrabold leading-tight tracking-tight mb-2 animate-fade-in-up md:text-3xl"
+          style="animation-delay: 0.5s">
+          Luc<br>TERRACHER
+        </h1>
       </div>
 
-      <div class="hero-content">
-        <p class="hero-subtitle" id="hero-subtitle">Développeur Full Stack</p>
+      <div class="hero-content w-full md:flex md:flex-col md:items-center">
+        <p class="hero-subtitle text-lg font-medium text-text-secondary mb-6 animate-fade-in-up md:text-center md:text-[1.125rem]"
+          id="hero-subtitle" style="animation-delay: 0.6s">Développeur Full Stack</p>
 
         <!-- Action Buttons -->
-        <div class="actions">
-          <a href="/cv_luc_terracher.pdf" class="btn-primary" id="resume-btn" download>
+        <div
+          class="actions flex flex-row flex-wrap items-center gap-4 gap-y-6 animate-fade-in-up md:flex-nowrap md:justify-center"
+          style="animation-delay: 0.7s">
+          <a href="/cv_luc_terracher.pdf"
+            class="btn-primary inline-flex items-center justify-center bg-primary text-secondary px-6 py-3 rounded-full font-medium text-sm no-underline shadow-[var(--shadow-button)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow-floating)] hover:opacity-90 active:translate-y-0 shrink-0"
+            id="resume-btn" download>
             <span id="resume-text">Télécharger mon CV</span>
           </a>
-          <div class="social-links">
-            <a href="https://www.linkedin.com/in/lucterracher/" class="social-link" target="_blank"
-              rel="noopener noreferrer" aria-label="LinkedIn profile">
-              <svg class="social-icon" width="20" height="20" viewBox="0 0 24 24">
+          <div class="social-links flex gap-3">
+            <a href="https://www.linkedin.com/in/lucterracher/" class="social-link flex items-center justify-center w-11 h-11 bg-surface border border-border rounded-full transition-all duration-200 shadow-[var(--shadow-soft)] text-text-primary hover:-translate-y-0.5 hover:shadow-[var(--shadow-button)] hover:border-accent no-underline"
+              target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile">
+              <svg class="social-icon w-5 h-5 text-text-primary transition-transform duration-200 [fill:currentColor]" width="20"
+                height="20" viewBox="0 0 24 24">
                 <use href="/assets/icons/sprite.svg#linkedin" />
               </svg>
             </a>
-            <a href="https://github.com/polymorphl" class="social-link" target="_blank" rel="noopener noreferrer"
-              aria-label="GitHub profile">
-              <svg class="social-icon" width="20" height="20" viewBox="0 0 24 24">
+            <a href="https://github.com/polymorphl" class="social-link flex items-center justify-center w-11 h-11 bg-surface border border-border rounded-full transition-all duration-200 shadow-[var(--shadow-soft)] text-text-primary hover:-translate-y-0.5 hover:shadow-[var(--shadow-button)] hover:border-accent no-underline"
+              target="_blank" rel="noopener noreferrer" aria-label="GitHub profile">
+              <svg class="social-icon w-5 h-5 text-text-primary transition-transform duration-200 [fill:currentColor]" width="20"
+                height="20" viewBox="0 0 24 24">
                 <use href="/assets/icons/sprite.svg#github" />
               </svg>
             </a>
@@ -72,110 +90,142 @@
     </section>
 
     <!-- About Me Section -->
-    <section class="about-section">
-      <h2 class="section-title" id="section-title">À propos</h2>
-      <ul class="about-list" id="about-list">
-        <li class="about-item">10 ans d'expérience en développement Fullstack JS</li>
-        <li class="about-item">Expert React, Node.js et TypeScript</li>
-        <li class="about-item">Compétences en Go (~2 ans)</li>
-        <li class="about-item">Forte sensibilité UX/UI et culture produit</li>
+    <section class="about-section w-full text-left animate-fade-in-up" style="animation-delay: 0.9s">
+      <h2 class="section-title text-2xl font-bold text-text-primary mb-6 tracking-tight" id="section-title">À propos</h2>
+      <ul class="about-list list-none p-0 m-0 flex flex-col gap-4 max-w-[600px] md:max-w-full" id="about-list">
+        <li class="about-item text-[1.125rem] leading-relaxed text-text-secondary flex items-start gap-3">10 ans
+          d'expérience en développement Fullstack JS</li>
+        <li class="about-item text-[1.125rem] leading-relaxed text-text-secondary flex items-start gap-3">Expert React,
+          Node.js et TypeScript</li>
+        <li class="about-item text-[1.125rem] leading-relaxed text-text-secondary flex items-start gap-3">Compétences en
+          Go (~2 ans)</li>
+        <li class="about-item text-[1.125rem] leading-relaxed text-text-secondary flex items-start gap-3">Forte sensibilité
+          UX/UI et culture produit</li>
       </ul>
     </section>
 
     <!-- Tech Stack Section -->
-    <section class="tech-section">
-      <h2 class="section-title" id="tech-title">Stack Technique</h2>
+    <section class="tech-section md:col-span-2 w-full max-w-full min-w-0 self-start text-left mt-8 md:mt-12">
+      <h2 class="section-title text-2xl font-bold text-text-primary mb-6 tracking-tight animate-fade-in-up"
+        id="tech-title" style="animation-delay: 0.5s">Stack Technique</h2>
 
-      <div class="tech-categories-wrapper">
+      <div class="tech-categories-wrapper grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 w-full">
         <!-- Frontend Group -->
-        <div class="tech-category">
-          <h3 class="tech-category-title" id="tech-frontend">Frontend</h3>
-          <div class="tech-grid">
-            <div class="tech-item" aria-label="React">
-              <svg class="tech-icon" width="28" height="28" viewBox="0 0 128 128">
+        <div class="tech-category flex flex-col min-h-0 animate-fade-in-up" style="animation-delay: 0.6s">
+          <h3 class="tech-category-title text-sm uppercase tracking-widest text-text-secondary mb-2 font-semibold opacity-80"
+            id="tech-frontend">Frontend</h3>
+          <div class="tech-grid grid grid-cols-4 gap-2 md:gap-4 w-full [perspective:1000px]">
+            <div class="tech-item flex flex-col items-center justify-center p-2 bg-surface rounded-xl shadow-[var(--shadow-soft)] border border-border transition-all duration-300 text-center aspect-square min-h-0 min-w-0 overflow-hidden animate-rotate-in-up opacity-0 [transform-style:preserve-3d] hover:shadow-[var(--shadow-floating)] hover:border-accent hover:bg-background"
+              aria-label="React">
+              <svg class="tech-icon w-7 h-7 md:w-8 md:h-8 transition-all duration-300 opacity-90 [fill:inherit]" width="28"
+                height="28" viewBox="0 0 128 128">
                 <use href="/assets/icons/sprite.svg#react" />
               </svg>
-              <span class="tech-label">React</span>
+              <span class="tech-label hidden max-md:block max-[319px]:hidden text-xs mt-1 text-text-secondary font-medium leading-tight">React</span>
             </div>
-            <div class="tech-item" aria-label="Next.js">
-              <svg class="tech-icon invert-dark" width="28" height="28" viewBox="0 0 128 128">
+            <div class="tech-item flex flex-col items-center justify-center p-2 bg-surface rounded-xl shadow-[var(--shadow-soft)] border border-border transition-all duration-300 text-center aspect-square min-h-0 min-w-0 overflow-hidden animate-rotate-in-up opacity-0 [transform-style:preserve-3d] hover:shadow-[var(--shadow-floating)] hover:border-accent hover:bg-background"
+              aria-label="Next.js">
+              <svg class="tech-icon invert-dark w-7 h-7 md:w-8 md:h-8 transition-all duration-300 opacity-90 [fill:inherit]"
+                width="28" height="28" viewBox="0 0 128 128">
                 <use href="/assets/icons/sprite.svg#nextjs" />
               </svg>
-              <span class="tech-label">Next.js</span>
+              <span class="tech-label hidden max-md:block max-[319px]:hidden text-xs mt-1 text-text-secondary font-medium leading-tight">Next.js</span>
             </div>
-            <div class="tech-item" aria-label="TypeScript">
-              <svg class="tech-icon" width="28" height="28" viewBox="0 0 128 128">
+            <div class="tech-item flex flex-col items-center justify-center p-2 bg-surface rounded-xl shadow-[var(--shadow-soft)] border border-border transition-all duration-300 text-center aspect-square min-h-0 min-w-0 overflow-hidden animate-rotate-in-up opacity-0 [transform-style:preserve-3d] hover:shadow-[var(--shadow-floating)] hover:border-accent hover:bg-background"
+              aria-label="TypeScript">
+              <svg class="tech-icon w-7 h-7 md:w-8 md:h-8 transition-all duration-300 opacity-90 [fill:inherit]" width="28"
+                height="28" viewBox="0 0 128 128">
                 <use href="/assets/icons/sprite.svg#typescript" />
               </svg>
-              <span class="tech-label">TypeScript</span>
+              <span class="tech-label hidden max-md:block max-[319px]:hidden text-xs mt-1 text-text-secondary font-medium leading-tight">TypeScript</span>
             </div>
-            <div class="tech-item" aria-label="JavaScript">
-              <svg class="tech-icon" width="28" height="28">
+            <div class="tech-item flex flex-col items-center justify-center p-2 bg-surface rounded-xl shadow-[var(--shadow-soft)] border border-border transition-all duration-300 text-center aspect-square min-h-0 min-w-0 overflow-hidden animate-rotate-in-up opacity-0 [transform-style:preserve-3d] hover:shadow-[var(--shadow-floating)] hover:border-accent hover:bg-background"
+              aria-label="JavaScript">
+              <svg class="tech-icon w-7 h-7 md:w-8 md:h-8 transition-all duration-300 opacity-90 [fill:inherit]" width="28"
+                height="28">
                 <use href="/assets/icons/sprite.svg#javascript" />
               </svg>
-              <span class="tech-label">JavaScript</span>
+              <span class="tech-label hidden max-md:block max-[319px]:hidden text-xs mt-1 text-text-secondary font-medium leading-tight">JavaScript</span>
             </div>
           </div>
         </div>
 
         <!-- Backend Group -->
-        <div class="tech-category">
-          <h3 class="tech-category-title" id="tech-backend">Backend</h3>
-          <div class="tech-grid">
-            <div class="tech-item" aria-label="Node.js">
-              <svg class="tech-icon" width="28" height="28">
+        <div class="tech-category flex flex-col min-h-0 animate-fade-in-up" style="animation-delay: 0.7s">
+          <h3 class="tech-category-title text-sm uppercase tracking-widest text-text-secondary mb-2 font-semibold opacity-80"
+            id="tech-backend">Backend</h3>
+          <div class="tech-grid grid grid-cols-4 gap-2 md:gap-4 w-full [perspective:1000px]">
+            <div class="tech-item flex flex-col items-center justify-center p-2 bg-surface rounded-xl shadow-[var(--shadow-soft)] border border-border transition-all duration-300 text-center aspect-square min-h-0 min-w-0 overflow-hidden animate-rotate-in-up opacity-0 [transform-style:preserve-3d] hover:shadow-[var(--shadow-floating)] hover:border-accent hover:bg-background"
+              aria-label="Node.js">
+              <svg class="tech-icon w-7 h-7 md:w-8 md:h-8 transition-all duration-300 opacity-90 [fill:inherit]" width="28"
+                height="28">
                 <use href="/assets/icons/sprite.svg#nodejs" />
               </svg>
-              <span class="tech-label">Node.js</span>
+              <span class="tech-label hidden max-md:block max-[319px]:hidden text-xs mt-1 text-text-secondary font-medium leading-tight">Node.js</span>
             </div>
-            <div class="tech-item" aria-label="NestJS">
-              <svg class="tech-icon" width="28" height="28">
+            <div class="tech-item flex flex-col items-center justify-center p-2 bg-surface rounded-xl shadow-[var(--shadow-soft)] border border-border transition-all duration-300 text-center aspect-square min-h-0 min-w-0 overflow-hidden animate-rotate-in-up opacity-0 [transform-style:preserve-3d] hover:shadow-[var(--shadow-floating)] hover:border-accent hover:bg-background"
+              aria-label="NestJS">
+              <svg class="tech-icon w-7 h-7 md:w-8 md:h-8 transition-all duration-300 opacity-90 [fill:inherit]" width="28"
+                height="28">
                 <use href="/assets/icons/sprite.svg#nestjs" />
               </svg>
-              <span class="tech-label">NestJS</span>
+              <span class="tech-label hidden max-md:block max-[319px]:hidden text-xs mt-1 text-text-secondary font-medium leading-tight">NestJS</span>
             </div>
-            <div class="tech-item" aria-label="Go">
-              <svg class="tech-icon" width="28" height="28">
+            <div class="tech-item flex flex-col items-center justify-center p-2 bg-surface rounded-xl shadow-[var(--shadow-soft)] border border-border transition-all duration-300 text-center aspect-square min-h-0 min-w-0 overflow-hidden animate-rotate-in-up opacity-0 [transform-style:preserve-3d] hover:shadow-[var(--shadow-floating)] hover:border-accent hover:bg-background"
+              aria-label="Go">
+              <svg class="tech-icon w-7 h-7 md:w-8 md:h-8 transition-all duration-300 opacity-90 [fill:inherit]" width="28"
+                height="28">
                 <use href="/assets/icons/sprite.svg#go" />
               </svg>
-              <span class="tech-label">Go</span>
+              <span class="tech-label hidden max-md:block max-[319px]:hidden text-xs mt-1 text-text-secondary font-medium leading-tight">Go</span>
             </div>
-            <div class="tech-item" aria-label="PostgreSQL">
-              <svg class="tech-icon" width="28" height="28">
+            <div class="tech-item flex flex-col items-center justify-center p-2 bg-surface rounded-xl shadow-[var(--shadow-soft)] border border-border transition-all duration-300 text-center aspect-square min-h-0 min-w-0 overflow-hidden animate-rotate-in-up opacity-0 [transform-style:preserve-3d] hover:shadow-[var(--shadow-floating)] hover:border-accent hover:bg-background"
+              aria-label="PostgreSQL">
+              <svg class="tech-icon w-7 h-7 md:w-8 md:h-8 transition-all duration-300 opacity-90 [fill:inherit]" width="28"
+                height="28">
                 <use href="/assets/icons/sprite.svg#postgresql" />
               </svg>
-              <span class="tech-label">PostgreSQL</span>
+              <span class="tech-label hidden max-md:block max-[319px]:hidden text-xs mt-1 text-text-secondary font-medium leading-tight">PostgreSQL</span>
             </div>
           </div>
         </div>
 
         <!-- Tools Group -->
-        <div class="tech-category">
-          <h3 class="tech-category-title" id="tech-tools">Outils & DevOps</h3>
-          <div class="tech-grid">
-            <div class="tech-item" aria-label="Docker">
-              <svg class="tech-icon" width="28" height="28">
+        <div class="tech-category flex flex-col min-h-0 animate-fade-in-up" style="animation-delay: 0.8s">
+          <h3 class="tech-category-title text-sm uppercase tracking-widest text-text-secondary mb-2 font-semibold opacity-80"
+            id="tech-tools">Outils & DevOps</h3>
+          <div class="tech-grid grid grid-cols-4 gap-2 md:gap-4 w-full [perspective:1000px]">
+            <div class="tech-item flex flex-col items-center justify-center p-2 bg-surface rounded-xl shadow-[var(--shadow-soft)] border border-border transition-all duration-300 text-center aspect-square min-h-0 min-w-0 overflow-hidden animate-rotate-in-up opacity-0 [transform-style:preserve-3d] hover:shadow-[var(--shadow-floating)] hover:border-accent hover:bg-background"
+              aria-label="Docker">
+              <svg class="tech-icon w-7 h-7 md:w-8 md:h-8 transition-all duration-300 opacity-90 [fill:inherit]" width="28"
+                height="28">
                 <use href="/assets/icons/sprite.svg#docker" />
               </svg>
-              <span class="tech-label">Docker</span>
+              <span class="tech-label hidden max-md:block max-[319px]:hidden text-xs mt-1 text-text-secondary font-medium leading-tight">Docker</span>
             </div>
-            <div class="tech-item" aria-label="Vercel">
-              <svg class="tech-icon invert-dark" width="28" height="28" viewBox="0 0 128 128">
+            <div class="tech-item flex flex-col items-center justify-center p-2 bg-surface rounded-xl shadow-[var(--shadow-soft)] border border-border transition-all duration-300 text-center aspect-square min-h-0 min-w-0 overflow-hidden animate-rotate-in-up opacity-0 [transform-style:preserve-3d] hover:shadow-[var(--shadow-floating)] hover:border-accent hover:bg-background"
+              aria-label="Vercel">
+              <svg class="tech-icon invert-dark w-7 h-7 md:w-8 md:h-8 transition-all duration-300 opacity-90 [fill:inherit]"
+                width="28" height="28" viewBox="0 0 128 128">
                 <use href="/assets/icons/sprite.svg#vercel" />
               </svg>
-              <span class="tech-label">Vercel</span>
+              <span class="tech-label hidden max-md:block max-[319px]:hidden text-xs mt-1 text-text-secondary font-medium leading-tight">Vercel</span>
             </div>
-            <div class="tech-item" aria-label="Google Cloud">
-              <svg class="tech-icon" width="28" height="28">
+            <div class="tech-item flex flex-col items-center justify-center p-2 bg-surface rounded-xl shadow-[var(--shadow-soft)] border border-border transition-all duration-300 text-center aspect-square min-h-0 min-w-0 overflow-hidden animate-rotate-in-up opacity-0 [transform-style:preserve-3d] hover:shadow-[var(--shadow-floating)] hover:border-accent hover:bg-background"
+              aria-label="Google Cloud">
+              <svg class="tech-icon w-7 h-7 md:w-8 md:h-8 transition-all duration-300 opacity-90 [fill:inherit]" width="28"
+                height="28">
                 <use href="/assets/icons/sprite.svg#googlecloud" />
               </svg>
-              <span class="tech-label">GCP</span>
+              <span class="tech-label hidden max-md:block max-[319px]:hidden text-xs mt-1 text-text-secondary font-medium leading-tight">GCP</span>
             </div>
-            <div class="tech-item" aria-label="AWS">
-              <svg class="tech-icon" width="28" height="28">
+            <div class="tech-item flex flex-col items-center justify-center p-2 bg-surface rounded-xl shadow-[var(--shadow-soft)] border border-border transition-all duration-300 text-center aspect-square min-h-0 min-w-0 overflow-hidden animate-rotate-in-up opacity-0 [transform-style:preserve-3d] hover:shadow-[var(--shadow-floating)] hover:border-accent hover:bg-background"
+              aria-label="AWS">
+              <svg class="tech-icon w-7 h-7 md:w-8 md:h-8 transition-all duration-300 opacity-90 [fill:inherit]" width="28"
+                height="28">
                 <use href="/assets/icons/sprite.svg#aws" />
               </svg>
-              <span class="tech-label">AWS</span>
+              <span class="tech-label hidden max-md:block max-[319px]:hidden text-xs mt-1 text-text-secondary font-medium leading-tight">AWS</span>
             </div>
           </div>
         </div>
@@ -183,8 +233,8 @@
     </section>
   </main>
 
-  <footer class="site-footer">
-    <p id="footer-text">Basé en France 🇫🇷</p>
+  <footer class="site-footer text-center py-4 px-8 w-full shrink-0">
+    <p class="m-0 text-sm text-text-secondary" id="footer-text">Basé en France 🇫🇷</p>
   </footer>
 
   <!-- Background Pattern -->

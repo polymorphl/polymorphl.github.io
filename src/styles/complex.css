@@ -1,0 +1,157 @@
+/* ==========================================================================
+   COMPLEX.CSS - Pseudo-elements, theme-specific logic, canvas
+   Ce qui ne peut pas être exprimé en utilitaires Tailwind
+   ========================================================================== */
+
+/* --- Navbar --- */
+nav.navbar {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+[data-theme="dark"] .nav-logo {
+  filter: invert(1);
+}
+
+/* --- Theme toggle (moon/sun) --- */
+.theme-icon {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  transition: all 0.3s ease;
+}
+
+.moon-icon {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+  filter: brightness(0) saturate(100%);
+}
+
+.sun-icon {
+  opacity: 0;
+  transform: rotate(180deg) scale(0);
+  filter: brightness(0) saturate(100%);
+}
+
+[data-theme="dark"] .moon-icon {
+  opacity: 0;
+  transform: rotate(-180deg) scale(0);
+  filter: brightness(0) saturate(100%) invert(100%);
+}
+
+[data-theme="dark"] .sun-icon {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+  filter: brightness(0) saturate(100%) invert(100%);
+}
+
+/* --- Language selector (slider ::before) --- */
+.language-selector::before {
+  content: '';
+  position: absolute;
+  top: var(--spacing-xs);
+  left: var(--spacing-xs);
+  width: calc(50% - var(--spacing-sm));
+  height: calc(100% - var(--spacing-sm));
+  background-color: var(--color-primary);
+  border-radius: var(--radius-pill);
+  transition: transform var(--transition-smooth);
+  box-shadow: var(--shadow-button);
+  z-index: 0;
+}
+
+.language-selector:has(.lang-btn[data-lang="en"].active)::before {
+  transform: translateX(calc(100% + var(--spacing-sm)));
+}
+
+.lang-btn {
+  background: transparent;
+  border: none;
+  padding: 0.5rem 1.25rem;
+  border-radius: var(--radius-pill);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-smooth);
+  font-family: inherit;
+  position: relative;
+  z-index: 1;
+}
+
+.lang-btn:hover { color: var(--color-text-primary); }
+.lang-btn.active { color: var(--color-secondary); }
+.lang-btn:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* --- About (flèche ::before) --- */
+.about-item::before {
+  content: "→";
+  color: var(--color-accent);
+  font-weight: 700;
+  margin-top: 0.05rem;
+}
+
+/* --- Tech icons (dark mode) --- */
+[data-theme="dark"] .tech-icon.invert-dark {
+  filter: invert(1);
+  opacity: 0.9;
+}
+
+[data-theme="dark"] .tech-item:hover .tech-icon.invert-dark {
+  filter: invert(1);
+  opacity: 1;
+}
+
+[data-theme="dark"] .tech-item[aria-label="Vercel"] .tech-icon,
+[data-theme="dark"] .tech-item[aria-label="Vercel"]:hover .tech-icon {
+  filter: brightness(0) invert(1);
+  opacity: 1;
+}
+
+/* --- Background canvas --- */
+.background-pattern {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: var(--z-background);
+  pointer-events: none;
+  filter: blur(30px) contrast(110%);
+  opacity: 0.9;
+  transform: scale(1.1);
+}
+
+/* --- Tech stagger (animation-delay par nth-child) --- */
+.tech-category:nth-child(1) .tech-item:nth-child(1) { animation-delay: 0.65s; }
+.tech-category:nth-child(1) .tech-item:nth-child(2) { animation-delay: 0.7s; }
+.tech-category:nth-child(1) .tech-item:nth-child(3) { animation-delay: 0.75s; }
+.tech-category:nth-child(1) .tech-item:nth-child(4) { animation-delay: 0.8s; }
+.tech-category:nth-child(2) .tech-item:nth-child(1) { animation-delay: 0.85s; }
+.tech-category:nth-child(2) .tech-item:nth-child(2) { animation-delay: 0.9s; }
+.tech-category:nth-child(2) .tech-item:nth-child(3) { animation-delay: 0.95s; }
+.tech-category:nth-child(2) .tech-item:nth-child(4) { animation-delay: 1s; }
+.tech-category:nth-child(3) .tech-item:nth-child(1) { animation-delay: 1.05s; }
+.tech-category:nth-child(3) .tech-item:nth-child(2) { animation-delay: 1.1s; }
+.tech-category:nth-child(3) .tech-item:nth-child(3) { animation-delay: 1.15s; }
+.tech-category:nth-child(3) .tech-item:nth-child(4) { animation-delay: 1.2s; }
+
+/* --- Reduced motion --- */
+@media (prefers-reduced-motion: reduce) {
+  .tech-item {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+}
+
+/* --- Responsive --- */
+@media (max-height: 700px) and (min-width: 769px) {
+  body { height: auto; min-height: 100vh; overflow-y: auto; display: block; }
+  main { padding-top: 6rem; padding-bottom: 2rem; }
+}
+
+@media (max-width: 768px) {
+  body { height: auto; overflow-y: auto; overflow-x: clip; display: block; }
+}

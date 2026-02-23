@@ -23,5 +23,9 @@
   "homepage": "https://github.com/polymorphl/polymorphl.github.io#readme",
   "devDependencies": {
     "vite": "^7.3.1"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.2.1",
+    "tailwindcss": "^4.2.1"
   }
 }
