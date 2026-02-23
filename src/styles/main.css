@@ -1,0 +1,21 @@
+/* ==========================================================================
+   MAIN CSS ENTRY POINT
+   ========================================================================== */
+
+/* Base */
+@import './base/variables.css';
+@import './base/fonts.css';
+@import './base/reset.css';
+@import './base/animations.css';
+
+/* Components */
+@import './components/buttons.css';
+@import './components/social-links.css';
+@import './components/tech-item.css';
+
+/* Layout */
+@import './layout/container.css';
+@import './layout/navbar.css';
+@import './layout/hero.css';
+@import './layout/about.css';
+@import './layout/tech-stack.css';

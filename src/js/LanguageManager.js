@@ -13,7 +13,7 @@ const content = {
       "Forte sensibilité UX/UI et culture produit"
     ],
     resumeText: 'Télécharger mon CV',
-    resumeFile: '/public/cv_luc_terracher.pdf',
+    resumeFile: '/cv_luc_terracher.pdf',
     footerText: 'Basé en France 🇫🇷'
   },
   en: {
@@ -30,7 +30,7 @@ const content = {
       "Strong UX/UI sensibility and product culture"
     ],
     resumeText: 'Download my Resume',
-    resumeFile: '/public/luc_Terracher_Resume.pdf',
+    resumeFile: '/luc_Terracher_Resume.pdf',
     footerText: 'Based in France 🇫🇷'
   }
 };
@@ -124,4 +124,3 @@ export class LanguageManager {
     }
   }
 }
-
