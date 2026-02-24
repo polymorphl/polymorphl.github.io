@@ -133,9 +133,10 @@ button:focus-visible {
   opacity: 1;
 }
 
-/* Rust icon: force orange fill */
+/* Rust icon: force orange fill (path has fill="#CE422B" but [fill:currentColor] overrides it) */
+.tech-icon-rust,
 .tech-pill[aria-label="Rust"] .tech-icon {
-  fill: #CE422B;
+  fill: #CE422B !important;
 }
 
 /* --- Background canvas --- */
