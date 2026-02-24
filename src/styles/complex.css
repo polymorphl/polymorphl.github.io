@@ -5,8 +5,16 @@
 
 /* --- Navbar --- */
 nav.navbar {
-  left: 50%;
-  transform: translateX(-50%);
+  /* Mobile: left-4 right-4 - full width within margins, no centering transform */
+  animation: var(--animate-slide-down-mobile);
+}
+
+@media (min-width: 768px) {
+  nav.navbar {
+    left: 50%;
+    transform: translateX(-50%);
+    animation: var(--animate-slide-down);
+  }
 }
 
 /* --- Theme toggle (moon/sun) --- */

@@ -138,14 +138,14 @@ export class LanguageManager {
       ];
       langContent.aboutCards.forEach((card, index) => {
         const article = document.createElement('article');
-        article.className = 'about-card group flex flex-col gap-4 p-5 md:p-6 rounded-2xl bg-surface border border-border shadow-[var(--shadow-soft)] transition-all duration-200 hover:border-accent/50 hover:shadow-[var(--shadow-floating)] hover:-translate-y-0.5 cursor-default';
+        article.className = 'about-card group flex flex-row md:flex-col gap-3 md:gap-4 p-3 md:p-6 rounded-xl md:rounded-2xl bg-surface border border-border shadow-[var(--shadow-soft)] transition-all duration-200 hover:border-accent/50 hover:shadow-[var(--shadow-floating)] hover:-translate-y-0.5 cursor-default';
         article.innerHTML = `
-          <div class="about-card-icon flex items-center justify-center w-10 h-10 rounded-xl bg-accent-on-surface/15 text-accent-on-surface shrink-0 transition-colors duration-200 group-hover:bg-accent-on-surface/25">
-            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${icons[index]}</svg>
+          <div class="about-card-icon flex items-center justify-center w-9 h-9 md:w-10 md:h-10 rounded-lg md:rounded-xl bg-accent-on-surface/15 text-accent-on-surface shrink-0 transition-colors duration-200 group-hover:bg-accent-on-surface/25">
+            <svg class="w-4 h-4 md:w-5 md:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${icons[index]}</svg>
           </div>
-          <div class="flex flex-col gap-1 min-w-0">
-            <h3 class="about-card-label text-sm font-semibold uppercase tracking-wider text-accent-on-surface">${card.label}</h3>
-            <p class="about-card-text text-[1rem] text-text-secondary leading-relaxed">${card.text}</p>
+          <div class="flex flex-col gap-0.5 md:gap-1 min-w-0 flex-1">
+            <h3 class="about-card-label text-xs md:text-sm font-semibold uppercase tracking-wider text-accent-on-surface">${card.label}</h3>
+            <p class="about-card-text text-sm md:text-[1rem] text-text-secondary leading-relaxed">${card.text}</p>
           </div>
         `;
         if (animate) {
