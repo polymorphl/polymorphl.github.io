@@ -140,11 +140,11 @@ export class LanguageManager {
         const article = document.createElement('article');
         article.className = 'about-card group flex flex-col gap-4 p-5 md:p-6 rounded-2xl bg-surface border border-border shadow-[var(--shadow-soft)] transition-all duration-200 hover:border-accent/50 hover:shadow-[var(--shadow-floating)] hover:-translate-y-0.5 cursor-default';
         article.innerHTML = `
-          <div class="about-card-icon flex items-center justify-center w-10 h-10 rounded-xl bg-accent/15 text-accent shrink-0 transition-colors duration-200 group-hover:bg-accent/25">
+          <div class="about-card-icon flex items-center justify-center w-10 h-10 rounded-xl bg-accent-on-surface/15 text-accent-on-surface shrink-0 transition-colors duration-200 group-hover:bg-accent-on-surface/25">
             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${icons[index]}</svg>
           </div>
           <div class="flex flex-col gap-1 min-w-0">
-            <h4 class="about-card-label text-sm font-semibold uppercase tracking-wider text-accent">${card.label}</h4>
+            <h3 class="about-card-label text-sm font-semibold uppercase tracking-wider text-accent-on-surface">${card.label}</h3>
             <p class="about-card-text text-[1rem] text-text-secondary leading-relaxed">${card.text}</p>
           </div>
         `;

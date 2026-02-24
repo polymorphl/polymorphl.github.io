@@ -8,12 +8,7 @@
     content="Luc TERRACHER is a full stack developer who likes building stuff with React, Node.js, TypeScript, Go, Rust.">
   <title>Luc TERRACHER - Full Stack Developer</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
-    rel="stylesheet">
-  <link rel="preload" href="/profile.png" as="image" type="image/jpeg">
+  <link rel="preload" href="/profile.webp" as="image" type="image/webp">
 </head>
 
 <body>
@@ -63,9 +58,12 @@
       class="hero md:col-span-2 w-full flex flex-col items-start gap-6 text-left animate-fade-in-up overflow-hidden md:flex-row md:items-center md:gap-12 lg:gap-16">
       <div class="profile-card block shrink-0 animate-scale-in overflow-hidden rounded-[24px]"
         style="animation-delay: 0.4s">
-        <img src="/profile.png" alt="Luc TERRACHER" fetchpriority="high"
-          class="profile-image w-60 h-[220px] md:w-64 md:h-[240px] lg:w-72 lg:h-[260px] rounded-[24px] object-cover shadow-[var(--shadow-soft)] transition-all duration-300 hover:shadow-[var(--shadow-floating)]"
-          width="120" height="120">
+        <picture>
+          <source srcset="/profile.webp" type="image/webp">
+          <img src="/profile.png" alt="Luc TERRACHER" fetchpriority="high"
+            class="profile-image w-60 h-[220px] md:w-64 md:h-[240px] lg:w-72 lg:h-[260px] rounded-[24px] object-cover shadow-[var(--shadow-soft)] transition-all duration-300 hover:shadow-[var(--shadow-floating)]"
+            width="288" height="260">
+        </picture>
       </div>
 
       <div class="hero-content flex flex-col items-start gap-4 flex-1 min-w-0">
@@ -124,7 +122,30 @@
       <h2 class="section-title text-2xl font-bold text-text-primary mb-6 tracking-tight animate-fade-in-up"
         id="projects-title" style="animation-delay: 0.5s">Projets</h2>
       <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 w-full">
-        <!-- Rendered by ProjectsManager.js -->
+        <!-- First project inlined for LCP discovery -->
+        <a href="https://github.com/polymorphl/orcrux" target="_blank" rel="noopener noreferrer"
+          class="project-card group block overflow-hidden rounded-xl bg-surface border border-border shadow-[var(--shadow-soft)] transition-all duration-300 hover:shadow-[var(--shadow-floating)] hover:border-accent hover:-translate-y-0.5 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
+          aria-label="Orcrux" id="project-card-orcrux">
+          <div
+            class="project-card-image aspect-[4/3] relative overflow-hidden bg-gradient-to-br from-accent/20 to-primary/10 flex items-center justify-center">
+            <img src="/assets/projects/orcrux.webp" alt="Orcrux" fetchpriority="high"
+              class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105" width="400"
+              height="300">
+            <div
+              class="project-card-overlay absolute inset-0 bg-[#09090b]/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <span class="text-white font-semibold text-sm" data-l10n="view-project">Voir le projet</span>
+            </div>
+          </div>
+          <div class="p-4">
+            <h3 class="font-semibold text-text-primary" style="font-family: var(--font-display)"
+              data-l10n="project-orcrux-title">Orcrux</h3>
+            <p class="text-sm text-text-secondary mt-1" data-l10n="project-orcrux-stack">Go, Wails, TypeScript</p>
+            <p class="text-sm text-text-secondary mt-2 line-clamp-6" data-l10n="project-orcrux-desc">GUI desktop
+              multiplateforme avec Wails pour tester le partage de secret de Shamir — générer, diviser et restaurer des
+              secrets.</p>
+          </div>
+        </a>
+        <!-- Remaining projects rendered by ProjectsManager.js -->
       </div>
     </section>
 

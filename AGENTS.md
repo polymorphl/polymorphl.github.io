@@ -15,7 +15,6 @@ This is a personal portfolio website for Luc TERRACHER, a Full Stack Developer. 
   ```bash
   python3 scripts/generate_sprite.py
   ```
-
 ## Deployment (GitHub Pages)
 
 The site is deployed via GitHub Actions. On each push to `main`, the workflow (`.github/workflows/deploy.yml`) runs `npm run build` and deploys the `dist/` output to GitHub Pages. **Repository Settings > Pages** must use **Source: GitHub Actions** (not "Deploy from a branch"). The site is served at the root URL (`base: '/'` is correct for the `polymorphl.github.io` user site).
@@ -26,7 +25,7 @@ The site is deployed via GitHub Actions. On each push to `main`, the workflow (`
 
 ```
 ├── index.html              # Single-page application entry point
-├── vite.config.js          # Vite config with @tailwindcss/vite plugin
+├── vite.config.mjs         # Vite config with @tailwindcss/vite plugin
 ├── src/
 │   ├── js/
 │   │   ├── main.js         # Entry point - imports CSS and initializes managers
@@ -37,15 +36,18 @@ The site is deployed via GitHub Actions. On each push to `main`, the workflow (`
 │   └── styles/
 │       ├── main.css        # Tailwind entry - @import tailwindcss, @theme, imports
 │       ├── base/
-│       │   └── fonts.css   # Placeholder (fonts via HTML: Space Grotesk, DM Sans)
+│       │   └── fonts.css   # Archivo + Space Grotesk via @fontsource (local)
 │       └── complex.css     # Pseudo-elements, theme toggle, invert-dark, canvas
 ├── public/                 # Static assets served at root path
 │   ├── assets/
-│   │   ├── fonts/          # Geist Sans variable font
-│   │   └── icons/          # Individual SVGs + generated sprite.svg
+│   │   ├── fonts/          # (empty - fonts via @fontsource in node_modules)
+│   │   ├── icons/          # Individual SVGs + generated sprite.svg
+│   │   └── projects/       # Project thumbnails for Featured Work (orcrux.webp, go-kv.webp, my-open-claude.webp)
 │   ├── cv_luc_terracher.pdf
 │   ├── luc_Terracher_Resume.pdf
-│   ├── profile.png
+│   ├── profile.png         # Fallback for profile image
+│   ├── profile.webp        # LCP image (WebP, preloaded)
+│   ├── robots.txt
 │   └── favicon.svg
 └── scripts/
     └── generate_sprite.py  # Combines SVGs into sprite.svg for efficient loading
@@ -63,7 +65,7 @@ The CSS uses **Tailwind CSS v4** with the Vite plugin. Styling is utility-first 
 - Imports `fonts.css` and `complex.css`
 
 **base/fonts.css**:
-- Placeholder (fonts loaded via HTML link: Space Grotesk, DM Sans)
+- Archivo (headings) + Space Grotesk (body) via @fontsource, latin subset, weights 400–700
 
 **complex.css** (uniquement ce que Tailwind ne peut pas gérer):
 - Navbar centering, logo invert dark

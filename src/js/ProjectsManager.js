@@ -1,27 +1,26 @@
 /**
- * ProjectsManager - Données et rendu des projets Featured Work
+ * ProjectsManager - Featured Work project data and rendering
  *
- * Structure optimisée : champs communs (url, image) définis une seule fois,
- * traductions (title, stack) dans `translations` par langue.
- * Champ `image` : chemin local (/images/projet.png) ou URL absolue (https://...).
- * Pour GitHub : utiliser l'URL raw (raw.githubusercontent.com/...) et non blob.
+ * Optimized structure: common fields (url, image) defined once,
+ * translations (title, stack) in `translations` per language.
+ * `image` field: local path under /assets/projects/ (e.g. /assets/projects/orcrux.gif).
  */
 
 const projects = [
   {
     id: 'orcrux',
     url: 'https://github.com/polymorphl/orcrux',
-    image: 'https://raw.githubusercontent.com/polymorphl/orcrux/main/docs/demo.gif'
+    image: '/assets/projects/orcrux.webp'
   },
   {
     id: 'go-kv',
     url: 'https://github.com/polymorphl/go-kv',
-    image: 'https://raw.githubusercontent.com/polymorphl/go-kv/master/screenshot.png'
+    image: '/assets/projects/go-kv.webp'
   },
   {
     id: 'my-open-claude',
     url: 'https://github.com/polymorphl/my-open-claude',
-    image: 'https://raw.githubusercontent.com/polymorphl/my-open-claude/master/screenshots/welcome.png'
+    image: '/assets/projects/my-open-claude.webp'
   }
 ];
 
@@ -92,9 +91,19 @@ export class ProjectsManager {
     const titleEl = document.getElementById('projects-title');
     if (titleEl) titleEl.textContent = title;
 
-    const items = projects.map((p) => ({ ...p, ...t[p.id] }));
+    // Update first card (inlined in HTML for LCP) when language changes
+    this.updateFirstCard(t, viewLabel);
 
-    this.container.innerHTML = items.map((p) => `
+    // Render only projects 2+ (first is in HTML)
+    const remaining = projects.filter((p) => p.id !== 'orcrux');
+    const items = remaining.map((p) => ({ ...p, ...t[p.id] }));
+
+    // Remove previously rendered cards (keep first inlined card)
+    const existingCards = this.container.querySelectorAll('.project-card:not(#project-card-orcrux)');
+    existingCards.forEach((el) => el.remove());
+
+    const div = document.createElement('div');
+    div.innerHTML = items.map((p, i) => `
       <a href="${p.url}" target="_blank" rel="noopener noreferrer"
         class="project-card group block overflow-hidden rounded-xl bg-surface border border-border shadow-[var(--shadow-soft)] transition-all duration-300 hover:shadow-[var(--shadow-floating)] hover:border-accent hover:-translate-y-0.5 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
         aria-label="${p.title}">
@@ -111,5 +120,16 @@ export class ProjectsManager {
         </div>
       </a>
     `).join('');
+    while (div.firstChild) this.container.appendChild(div.firstChild);
+  }
+
+  updateFirstCard(t, viewLabel) {
+    const card = document.getElementById('project-card-orcrux');
+    if (!card) return;
+    const orc = t.orcrux || translations.fr.orcrux;
+    const viewEl = card.querySelector('[data-l10n="view-project"]');
+    const descEl = card.querySelector('[data-l10n="project-orcrux-desc"]');
+    if (viewEl) viewEl.textContent = viewLabel;
+    if (descEl) descEl.textContent = orc.description;
   }
 }
