@@ -1,4 +1,8 @@
+# macOS
 .DS_Store
+
+# Cursor
+.cursor/
 
 # Node.js
 node_modules/

@@ -1,21 +1,9 @@
-<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Background: Dark Circle -->
-  <circle cx="32" cy="32" r="32" fill="#111111"/>
-  
-  <!-- Letter L -->
-  <!-- Vertical bar -->
-  <rect x="16" y="18" width="6" height="28" rx="1" fill="white"/>
-  <!-- Horizontal bar -->
-  <rect x="16" y="40" width="17" height="6" rx="1" fill="white"/>
-  
-  <!-- Letter T -->
-  <!-- Top bar -->
-  <rect x="36" y="18" width="18" height="6" rx="1" fill="white"/>
-  <!-- Vertical bar -->
-  <rect x="42" y="18" width="6" height="28" rx="1" fill="white"/>
-  
-  <!-- Accent: Tech Cursor (Orange) -->
-  <rect x="51" y="40" width="6" height="6" rx="1" fill="#FF5533">
-    <animate attributeName="opacity" values="1;0;1" dur="1.5s" repeatCount="indefinite" />
-  </rect>
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Geometric LT monogram - minimal, scalable, works at 16px -->
+  <!-- L -->
+  <rect x="5" y="6" width="4" height="18" rx="1" fill="currentColor"/>
+  <rect x="5" y="20" width="10" height="4" rx="1" fill="currentColor"/>
+  <!-- T -->
+  <rect x="19" y="6" width="12" height="4" rx="1" fill="currentColor"/>
+  <rect x="23" y="10" width="4" height="16" rx="1" fill="currentColor"/>
 </svg>

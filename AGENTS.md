@@ -4,7 +4,7 @@ This file provides guidance to Qoder (qoder.com) when working with code in this 
 
 ## Project Overview
 
-This is a personal portfolio website for Luc TERRACHER, a Full Stack Developer. It is a single-page application built with Vite, using vanilla HTML, CSS, and JavaScript.
+This is a personal portfolio website for Luc TERRACHER, a Full Stack Developer. It is a single-page application built with Vite, using vanilla HTML, Tailwind CSS, and JavaScript.
 
 ## Development Commands
 
@@ -15,7 +15,6 @@ This is a personal portfolio website for Luc TERRACHER, a Full Stack Developer. 
   ```bash
   python3 scripts/generate_sprite.py
   ```
-
 ## Deployment (GitHub Pages)
 
 The site is deployed via GitHub Actions. On each push to `main`, the workflow (`.github/workflows/deploy.yml`) runs `npm run build` and deploys the `dist/` output to GitHub Pages. **Repository Settings > Pages** must use **Source: GitHub Actions** (not "Deploy from a branch"). The site is served at the root URL (`base: '/'` is correct for the `polymorphl.github.io` user site).
@@ -26,24 +25,29 @@ The site is deployed via GitHub Actions. On each push to `main`, the workflow (`
 
 ```
 ├── index.html              # Single-page application entry point
+├── vite.config.mjs         # Vite config with @tailwindcss/vite plugin
 ├── src/
 │   ├── js/
 │   │   ├── main.js         # Entry point - imports CSS and initializes managers
 │   │   ├── ThemeManager.js # Handles dark/light theme toggle with localStorage persistence
 │   │   ├── LanguageManager.js # Handles FR/EN language switching with localStorage persistence
+│   │   ├── ProjectsManager.js # Featured Work section - projects grid with i18n
 │   │   └── FluidAurora.js  # Canvas-based animated background with theme-aware colors
 │   └── styles/
-│       ├── main.css        # CSS entry point - imports all modules
-│       ├── base/           # Variables, fonts, reset, animations
-│       ├── components/     # Reusable UI components (buttons, tech-item, etc.)
-│       └── layout/         # Page sections (navbar, hero, about, tech-stack)
+│       ├── main.css        # Tailwind entry - @import tailwindcss, @theme, imports
+│       ├── base/
+│       │   └── fonts.css   # Archivo + Space Grotesk via @fontsource (local)
+│       └── complex.css     # Pseudo-elements, theme toggle, invert-dark, canvas
 ├── public/                 # Static assets served at root path
 │   ├── assets/
-│   │   ├── fonts/          # Geist Sans variable font
-│   │   └── icons/          # Individual SVGs + generated sprite.svg
+│   │   ├── fonts/          # (empty - fonts via @fontsource in node_modules)
+│   │   ├── icons/          # Individual SVGs + generated sprite.svg
+│   │   └── projects/       # Project thumbnails for Featured Work (orcrux.webp, go-kv.webp, my-open-claude.webp)
 │   ├── cv_luc_terracher.pdf
 │   ├── luc_Terracher_Resume.pdf
-│   ├── profile.png
+│   ├── profile.png         # Fallback for profile image
+│   ├── profile.webp        # LCP image (WebP, preloaded)
+│   ├── robots.txt
 │   └── favicon.svg
 └── scripts/
     └── generate_sprite.py  # Combines SVGs into sprite.svg for efficient loading
@@ -51,37 +55,41 @@ The site is deployed via GitHub Actions. On each push to `main`, the workflow (`
 
 ### CSS Architecture
 
-The CSS is organized following a modular approach:
+The CSS uses **Tailwind CSS v4** with the Vite plugin. Styling is utility-first in HTML, with a small `complex.css` for cases Tailwind cannot handle.
 
-**Base** (`src/styles/base/`):
-- `variables.css` - CSS custom properties for theming, spacing, typography
-- `fonts.css` - @font-face declarations
-- `reset.css` - CSS reset and base styles
-- `animations.css` - Keyframe animations and utility classes
+**main.css**:
+- `@import "tailwindcss"` - Tailwind base, components, utilities
+- `@custom-variant dark` - Dark mode via `[data-theme="dark"]` on `<html>`
+- `@theme` - Design tokens: colors, shadows, radius, font, custom animations
+- `@layer base` - html, body, dark theme variable overrides
+- Imports `fonts.css` and `complex.css`
 
-**Components** (`src/styles/components/`):
-- `buttons.css` - Primary button styles
-- `social-links.css` - Social link icons
-- `tech-item.css` - Technology grid items with hover effects
+**base/fonts.css**:
+- Archivo (headings) + Space Grotesk (body) via @fontsource, latin subset, weights 400–700
 
-**Layout** (`src/styles/layout/`):
-- `container.css` - Main layout grid and footer
-- `navbar.css` - Fixed navigation with theme toggle and language selector
-- `hero.css` - Hero section with profile image
-- `about.css` - About section with bullet points
-- `tech-stack.css` - Tech stack grid with categories
+**complex.css** (uniquement ce que Tailwind ne peut pas gérer):
+- Navbar centering, logo invert dark
+- Theme toggle moon/sun visibility
+- Language selector `::before` (slider animé), `.lang-btn`
+- About `.about-item::before` (flèche)
+- Tech icons `.invert-dark` et Vercel dark mode
+- Background canvas `.background-pattern`
+- Tech item stagger (animation-delay nth-child)
+- Reduced motion, responsive body
 
 ### Key Patterns
 
-**CSS Variables**:
-- Theming via `data-theme` attribute on `<html>` (dark/light)
-- All colors, shadows, spacing use CSS custom properties
-- Transition timings defined as variables for consistency
+**Tailwind Utilities**:
+- Utility classes in HTML (e.g. `bg-primary`, `text-text-secondary`, `animate-fade-in-up`)
+- Custom theme colors in `@theme` (primary, secondary, accent, background, surface, text-primary, text-secondary, border)
+- Theming via `data-theme` attribute on `<html>` (dark/light) — variables overridden in complex.css
 
-**BEM Naming**:
-- Block: `.navbar`, `.hero`, `.tech-item`
-- Element: `.navbar-content`, `.hero-title`, `.tech-item__label`
-- Modifier: `.lang-btn.active`, `.tech-icon.invert-dark`
+**Legacy Classes** (in complex.css):
+- `.theme-toggle`, `.theme-icon`, `.moon-icon`, `.sun-icon` — theme toggle
+- `.language-selector`, `.lang-btn` — language switcher with pseudo-element slider
+- `.project-card`, `.project-card-overlay` — Featured Work cards with hover overlay
+- `.tech-item`, `.tech-icon`, `.invert-dark` — tech stack items
+- `.about-item` — about list with `::before` arrow
 
 **JavaScript**:
 - ES6 modules with class-based managers
@@ -96,6 +104,8 @@ The CSS is organized following a modular approach:
 
 **Internationalization**:
 - Content defined in `LanguageManager.js` as `content` object with `fr` and `en` keys
+- Projects in `ProjectsManager.js` with `projects.fr` and `projects.en`
+- `languagechange` custom event for syncing ProjectsManager when language switches
 - HTML elements have IDs mapping to content keys (e.g., `hero-subtitle` → `subtitle`)
 - `data-lang` attribute on `<html>` drives content updates and CSS selectors
 

@@ -7,8 +7,8 @@ def create_sprite():
     # Project root is one level up
     project_root = os.path.dirname(script_dir)
     
-    icons_dir = os.path.join(project_root, 'assets', 'icons')
-    output_file = os.path.join(project_root, 'assets', 'icons', 'sprite.svg')
+    icons_dir = os.path.join(project_root, 'public', 'assets', 'icons')
+    output_file = os.path.join(project_root, 'public', 'assets', 'icons', 'sprite.svg')
     
     # Ensure output directory exists
     os.makedirs(os.path.dirname(output_file), exist_ok=True)
