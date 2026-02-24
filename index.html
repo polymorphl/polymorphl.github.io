@@ -243,34 +243,34 @@
           </div>
         </div>
 
-        <!-- Runtime -->
-        <div class="tech-category flex flex-col gap-2 md:gap-3">
-          <h3 class="tech-category-title text-[10px] md:text-xs font-semibold uppercase tracking-widest text-text-secondary opacity-90"
-            id="tech-runtime">Runtime</h3>
-          <div class="tech-items flex flex-wrap gap-2 md:gap-3">
-            <div
-              class="tech-item tech-pill inline-flex items-center gap-2 md:gap-2.5 px-3 py-2 md:px-4 md:py-2.5 rounded-full bg-surface border border-border shadow-[var(--shadow-soft)] transition-all duration-200 hover:border-accent hover:shadow-[var(--shadow-floating)] hover:-translate-y-0.5 cursor-pointer text-text-primary"
-              aria-label="Node.js">
-              <svg class="tech-icon w-4 h-4 md:w-5 md:h-5 shrink-0 [fill:currentColor]">
-                <use href="/assets/icons/sprite.svg#nodejs" />
-              </svg>
-              <span class="tech-label text-xs md:text-sm font-medium text-text-primary">Node.js</span>
+        <!-- Runtime + Base de données (groupés pour éviter l'espace vide sur desktop) -->
+        <div class="tech-category-group md:col-span-2 flex flex-col md:flex-row md:flex-wrap md:gap-x-10 md:gap-y-0 gap-5 w-full">
+          <div class="tech-category flex flex-col gap-2 md:gap-3">
+            <h3 class="tech-category-title text-[10px] md:text-xs font-semibold uppercase tracking-widest text-text-secondary opacity-90"
+              id="tech-runtime">Runtime</h3>
+            <div class="tech-items flex flex-wrap gap-2 md:gap-3">
+              <div
+                class="tech-item tech-pill inline-flex items-center gap-2 md:gap-2.5 px-3 py-2 md:px-4 md:py-2.5 rounded-full bg-surface border border-border shadow-[var(--shadow-soft)] transition-all duration-200 hover:border-accent hover:shadow-[var(--shadow-floating)] hover:-translate-y-0.5 cursor-pointer text-text-primary"
+                aria-label="Node.js">
+                <svg class="tech-icon w-4 h-4 md:w-5 md:h-5 shrink-0 [fill:currentColor]">
+                  <use href="/assets/icons/sprite.svg#nodejs" />
+                </svg>
+                <span class="tech-label text-xs md:text-sm font-medium text-text-primary">Node.js</span>
+              </div>
             </div>
           </div>
-        </div>
-
-        <!-- Base de données -->
-        <div class="tech-category flex flex-col gap-2 md:gap-3">
-          <h3 class="tech-category-title text-[10px] md:text-xs font-semibold uppercase tracking-widest text-text-secondary opacity-90"
-            id="tech-database">Base de données</h3>
-          <div class="tech-items flex flex-wrap gap-2 md:gap-3">
-            <div
-              class="tech-item tech-pill inline-flex items-center gap-2 md:gap-2.5 px-3 py-2 md:px-4 md:py-2.5 rounded-full bg-surface border border-border shadow-[var(--shadow-soft)] transition-all duration-200 hover:border-accent hover:shadow-[var(--shadow-floating)] hover:-translate-y-0.5 cursor-pointer text-text-primary"
-              aria-label="PostgreSQL">
-              <svg class="tech-icon w-4 h-4 md:w-5 md:h-5 shrink-0 [fill:currentColor]">
-                <use href="/assets/icons/sprite.svg#postgresql" />
-              </svg>
-              <span class="tech-label text-xs md:text-sm font-medium text-text-primary">PostgreSQL</span>
+          <div class="tech-category flex flex-col gap-2 md:gap-3">
+            <h3 class="tech-category-title text-[10px] md:text-xs font-semibold uppercase tracking-widest text-text-secondary opacity-90"
+              id="tech-database">Base de données</h3>
+            <div class="tech-items flex flex-wrap gap-2 md:gap-3">
+              <div
+                class="tech-item tech-pill inline-flex items-center gap-2 md:gap-2.5 px-3 py-2 md:px-4 md:py-2.5 rounded-full bg-surface border border-border shadow-[var(--shadow-soft)] transition-all duration-200 hover:border-accent hover:shadow-[var(--shadow-floating)] hover:-translate-y-0.5 cursor-pointer text-text-primary"
+                aria-label="PostgreSQL">
+                <svg class="tech-icon w-4 h-4 md:w-5 md:h-5 shrink-0 [fill:currentColor]">
+                  <use href="/assets/icons/sprite.svg#postgresql" />
+                </svg>
+                <span class="tech-label text-xs md:text-sm font-medium text-text-primary">PostgreSQL</span>
+              </div>
             </div>
           </div>
         </div>
