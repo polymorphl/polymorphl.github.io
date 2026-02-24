@@ -27,8 +27,12 @@ The site is deployed via GitHub Actions. On each push to `main`, the workflow (`
 ├── index.html              # Single-page application entry point
 ├── vite.config.mjs         # Vite config with @tailwindcss/vite plugin
 ├── src/
+│   ├── locales/
+│   │   ├── fr.json         # French translations
+│   │   └── en.json         # English translations
 │   ├── js/
 │   │   ├── main.js         # Entry point - imports CSS and initializes managers
+│   │   ├── i18n.js         # i18next init, exports t, tObject, changeLanguage
 │   │   ├── ThemeManager.js # Handles dark/light theme toggle with localStorage persistence
 │   │   ├── LanguageManager.js # Handles FR/EN language switching with localStorage persistence
 │   │   ├── ProjectsManager.js # Featured Work section - projects grid with i18n
@@ -102,11 +106,12 @@ The CSS uses **Tailwind CSS v4** with the Vite plugin. Styling is utility-first 
 - Icons referenced via `<use href="/assets/icons/sprite.svg#icon-id" />`
 - Icons needing dark mode inversion have `.invert-dark` class
 
-**Internationalization**:
-- Content defined in `LanguageManager.js` as `content` object with `fr` and `en` keys
-- Projects in `ProjectsManager.js` with `projects.fr` and `projects.en`
+**Internationalization** (i18next):
+- Translations in `src/locales/fr.json` and `en.json` (nested keys: hero.subtitle, projects.orcrux.title, etc.)
+- `i18n.js` initializes i18next, exports `t(key)`, `tObject(key)`, `changeLanguage(lng)`
+- `LanguageManager` uses `t()` and updates elements with `data-i18n` attribute
+- `ProjectsManager` uses `t()` for project titles, stack, descriptions
 - `languagechange` custom event for syncing ProjectsManager when language switches
-- HTML elements have IDs mapping to content keys (e.g., `hero-subtitle` → `subtitle`)
 - `data-lang` attribute on `<html>` drives content updates and CSS selectors
 
 ### State Management

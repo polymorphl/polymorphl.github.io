@@ -1,0 +1,58 @@
+{
+  "hero": {
+    "subtitle": "Full Stack Developer",
+    "tagline": "I design and build performant web products — React, Node.js, TypeScript.",
+    "status": "Available for new opportunities"
+  },
+  "nav": {
+    "projects": "Projects",
+    "about": "About",
+    "tech": "Stack"
+  },
+  "sections": {
+    "about": "About me",
+    "tech": "Tech stack",
+    "projects": "Featured Work"
+  },
+  "tech": {
+    "frameworks": "Frameworks",
+    "languages": "Languages",
+    "runtime": "Runtime",
+    "database": "Database",
+    "devops": "DevOps & Cloud"
+  },
+  "about": {
+    "cards": [
+      { "label": "Experience", "text": "10 years of experience in Fullstack JS development" },
+      { "label": "Expertise", "text": "Expert in React, Node.js, and TypeScript" },
+      { "label": "Languages", "text": "Proficient in Go (~2 years)" },
+      { "label": "Approach", "text": "Strong UX/UI sensibility and product culture" }
+    ]
+  },
+  "resume": {
+    "text": "Download my Resume",
+    "file": "/luc_Terracher_Resume.pdf"
+  },
+  "footer": {
+    "text": "Based in France"
+  },
+  "projects": {
+    "title": "Featured Work",
+    "viewProject": "View project",
+    "orcrux": {
+      "title": "Orcrux",
+      "stack": "Go, Wails, TypeScript",
+      "description": "Cross-platform desktop GUI with Wails to test Shamir's Secret Sharing — generate, split, and recover secrets."
+    },
+    "go-kv": {
+      "title": "Go-kv",
+      "stack": "Go",
+      "description": "A high-performance Redis-compatible server implementation in Go (no external dependencies)."
+    },
+    "my-open-claude": {
+      "title": "My Open Claude",
+      "stack": "Rust",
+      "description": "LLM coding assistant in Rust. TUI chat & single-shot CLI. Tools: Read, Write, Edit, Grep, ListDir, Glob, Bash. OpenRouter, streaming, history, slash cmds."
+    }
+  }
+}
