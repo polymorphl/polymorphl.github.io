@@ -24,13 +24,13 @@
         <div class="nav-links flex flex-1 justify-center sm:justify-center items-center gap-0.5 sm:gap-1">
           <a href="#projects"
             class="nav-link px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium text-text-secondary hover:text-text-primary hover:bg-background/50 transition-colors duration-200 cursor-pointer shrink-0"
-            id="nav-projects">Projets</a>
+            id="nav-projects" data-i18n="nav.projects">Projets</a>
           <a href="#about"
             class="nav-link px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium text-text-secondary hover:text-text-primary hover:bg-background/50 transition-colors duration-200 cursor-pointer shrink-0"
-            id="nav-about">À propos</a>
+            id="nav-about" data-i18n="nav.about">À propos</a>
           <a href="#tech"
             class="nav-link px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium text-text-secondary hover:text-text-primary hover:bg-background/50 transition-colors duration-200 cursor-pointer shrink-0"
-            id="nav-tech">Stack</a>
+            id="nav-tech" data-i18n="nav.tech">Stack</a>
         </div>
       </div>
       <div class="flex gap-2 md:gap-4 items-center shrink-0">
@@ -78,13 +78,13 @@
           </span>
         </h1>
         <p class="hero-subtitle text-lg lg:text-xl font-medium text-text-secondary animate-fade-in-up"
-          id="hero-subtitle" style="animation-delay: 0.6s">Développeur Full Stack</p>
+          id="hero-subtitle" data-i18n="hero.subtitle" style="animation-delay: 0.6s">Développeur Full Stack</p>
         <p class="hero-tagline text-base lg:text-lg text-text-secondary/90 w-full lg:max-w-[480px] leading-relaxed animate-fade-in-up"
-          id="hero-tagline" style="animation-delay: 0.62s">Je conçois et construis des produits web performants — React,
+          id="hero-tagline" data-i18n="hero.tagline" style="animation-delay: 0.62s">Je conçois et construis des produits web performants — React,
           Node.js, TypeScript.</p>
         <div class="hero-status flex items-center justify-center md:justify-start gap-2 animate-fade-in-up" style="animation-delay: 0.65s">
           <span class="status-dot w-2 h-2 rounded-full bg-emerald-500 animate-pulse" aria-hidden="true"></span>
-          <span class="text-sm font-medium text-text-secondary" id="hero-status">Disponible pour de nouvelles
+          <span class="text-sm font-medium text-text-secondary" id="hero-status" data-i18n="hero.status">Disponible pour de nouvelles
             opportunités</span>
         </div>
 
@@ -94,7 +94,7 @@
           <a href="/cv_luc_terracher.pdf"
             class="btn-primary inline-flex items-center justify-center bg-accent text-white px-6 py-3 rounded-full font-medium text-sm no-underline shadow-[var(--shadow-button)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow-floating)] hover:opacity-90 active:translate-y-0 shrink-0 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
             id="resume-btn" download>
-            <span id="resume-text">Télécharger mon CV</span>
+            <span id="resume-text" data-i18n="resume.text">Télécharger mon CV</span>
           </a>
           <div class="social-links flex gap-3">
             <a href="https://www.linkedin.com/in/lucterracher/"
@@ -122,7 +122,7 @@
     <section id="projects"
       class="projects-section md:col-span-2 w-full max-w-full min-w-0 self-start text-left scroll-mt-28">
       <h2 class="section-title text-xl md:text-2xl font-bold text-text-primary mb-4 md:mb-6 tracking-tight animate-fade-in-up"
-        id="projects-title" style="animation-delay: 0.5s">Projets</h2>
+        id="projects-title" data-i18n="projects.title" style="animation-delay: 0.5s">Projets</h2>
       <div id="projects-grid" class="flex flex-col md:grid md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-6 w-full">
         <!-- First project inlined for LCP discovery -->
         <a href="https://github.com/polymorphl/orcrux" target="_blank" rel="noopener noreferrer"
@@ -135,14 +135,14 @@
               height="300">
             <div
               class="project-card-overlay absolute inset-0 bg-[#09090b]/90 hidden md:flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <span class="text-white font-semibold text-sm" data-l10n="view-project">Voir le projet</span>
+              <span class="text-white font-semibold text-sm" data-i18n="projects.viewProject">Voir le projet</span>
             </div>
           </div>
           <div class="flex flex-col justify-center min-w-0 flex-1 p-3 md:p-4">
             <h3 class="font-semibold text-text-primary text-sm md:text-lg truncate" style="font-family: var(--font-display)"
-              data-l10n="project-orcrux-title">Orcrux</h3>
-            <p class="text-xs text-text-secondary mt-0.5 md:mt-1" data-l10n="project-orcrux-stack">Go, Wails, TypeScript</p>
-            <p class="text-xs md:text-sm text-text-secondary mt-1.5 md:mt-2 line-clamp-4 md:line-clamp-6 hidden md:block" data-l10n="project-orcrux-desc">GUI desktop
+              data-i18n="projects.orcrux.title">Orcrux</h3>
+            <p class="text-xs text-text-secondary mt-0.5 md:mt-1" data-i18n="projects.orcrux.stack">Go, Wails, TypeScript</p>
+            <p class="text-xs md:text-sm text-text-secondary mt-1.5 md:mt-2 line-clamp-4 md:line-clamp-6 hidden md:block" data-i18n="projects.orcrux.description">GUI desktop
               multiplateforme avec Wails pour tester le partage de secret de Shamir — générer, diviser et restaurer des
               secrets.</p>
           </div>
@@ -157,7 +157,7 @@
     <!-- About Me Section -->
     <section id="about" class="about-section md:col-span-2 w-full text-left animate-fade-in-up scroll-mt-28"
       style="animation-delay: 0.9s">
-      <h2 class="section-title text-xl md:text-2xl font-bold text-text-primary mb-4 md:mb-6 tracking-tight" id="section-title">À propos
+      <h2 class="section-title text-xl md:text-2xl font-bold text-text-primary mb-4 md:mb-6 tracking-tight" id="section-title" data-i18n="sections.about">À propos
       </h2>
       <div id="about-grid" class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6 w-full">
         <!-- Rendered by LanguageManager.js -->
@@ -167,14 +167,14 @@
     <!-- Tech Stack Section -->
     <section id="tech"
       class="tech-section md:col-span-2 w-full max-w-full min-w-0 self-start text-left animate-fade-in-up scroll-mt-28">
-      <h2 class="section-title text-xl md:text-2xl font-bold text-text-primary mb-4 md:mb-6 tracking-tight" id="tech-title">Stack Technique
+      <h2 class="section-title text-xl md:text-2xl font-bold text-text-primary mb-4 md:mb-6 tracking-tight" id="tech-title" data-i18n="sections.tech">Stack Technique
       </h2>
 
       <div class="tech-categories-wrapper grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-10 w-full">
         <!-- Frameworks -->
         <div class="tech-category flex flex-col gap-2 md:gap-3 md:col-span-2">
           <h3 class="tech-category-title text-[10px] md:text-xs font-semibold uppercase tracking-widest text-text-secondary opacity-90"
-            id="tech-frameworks">Frameworks</h3>
+            id="tech-frameworks" data-i18n="tech.frameworks">Frameworks</h3>
           <div class="tech-items flex flex-wrap gap-2 md:gap-3">
             <div
               class="tech-item tech-pill inline-flex items-center gap-2 md:gap-2.5 px-3 py-2 md:px-4 md:py-2.5 rounded-full bg-surface border border-border shadow-[var(--shadow-soft)] transition-all duration-200 hover:border-accent hover:shadow-[var(--shadow-floating)] hover:-translate-y-0.5 cursor-pointer text-text-primary"
@@ -206,7 +206,7 @@
         <!-- Langages -->
         <div class="tech-category flex flex-col gap-2 md:gap-3 md:col-span-2">
           <h3 class="tech-category-title text-[10px] md:text-xs font-semibold uppercase tracking-widest text-text-secondary opacity-90"
-            id="tech-languages">Langages</h3>
+            id="tech-languages" data-i18n="tech.languages">Langages</h3>
           <div class="tech-items flex flex-wrap gap-2 md:gap-3">
             <div
               class="tech-item tech-pill inline-flex items-center gap-2 md:gap-2.5 px-3 py-2 md:px-4 md:py-2.5 rounded-full bg-surface border border-border shadow-[var(--shadow-soft)] transition-all duration-200 hover:border-accent hover:shadow-[var(--shadow-floating)] hover:-translate-y-0.5 cursor-pointer text-text-primary"
@@ -247,7 +247,7 @@
         <div class="tech-category-group md:col-span-2 flex flex-col md:flex-row md:flex-wrap md:gap-x-10 md:gap-y-0 gap-5 w-full">
           <div class="tech-category flex flex-col gap-2 md:gap-3">
             <h3 class="tech-category-title text-[10px] md:text-xs font-semibold uppercase tracking-widest text-text-secondary opacity-90"
-              id="tech-runtime">Runtime</h3>
+              id="tech-runtime" data-i18n="tech.runtime">Runtime</h3>
             <div class="tech-items flex flex-wrap gap-2 md:gap-3">
               <div
                 class="tech-item tech-pill inline-flex items-center gap-2 md:gap-2.5 px-3 py-2 md:px-4 md:py-2.5 rounded-full bg-surface border border-border shadow-[var(--shadow-soft)] transition-all duration-200 hover:border-accent hover:shadow-[var(--shadow-floating)] hover:-translate-y-0.5 cursor-pointer text-text-primary"
@@ -261,7 +261,7 @@
           </div>
           <div class="tech-category flex flex-col gap-2 md:gap-3">
             <h3 class="tech-category-title text-[10px] md:text-xs font-semibold uppercase tracking-widest text-text-secondary opacity-90"
-              id="tech-database">Base de données</h3>
+              id="tech-database" data-i18n="tech.database">Base de données</h3>
             <div class="tech-items flex flex-wrap gap-2 md:gap-3">
               <div
                 class="tech-item tech-pill inline-flex items-center gap-2 md:gap-2.5 px-3 py-2 md:px-4 md:py-2.5 rounded-full bg-surface border border-border shadow-[var(--shadow-soft)] transition-all duration-200 hover:border-accent hover:shadow-[var(--shadow-floating)] hover:-translate-y-0.5 cursor-pointer text-text-primary"
@@ -278,7 +278,7 @@
         <!-- DevOps & Cloud -->
         <div class="tech-category flex flex-col gap-2 md:gap-3 md:col-span-2">
           <h3 class="tech-category-title text-[10px] md:text-xs font-semibold uppercase tracking-widest text-text-secondary opacity-90"
-            id="tech-devops">DevOps & Cloud</h3>
+            id="tech-devops" data-i18n="tech.devops">DevOps & Cloud</h3>
           <div class="tech-items flex flex-wrap gap-2 md:gap-3">
             <div
               class="tech-item tech-pill inline-flex items-center gap-2 md:gap-2.5 px-3 py-2 md:px-4 md:py-2.5 rounded-full bg-surface border border-border shadow-[var(--shadow-soft)] transition-all duration-200 hover:border-accent hover:shadow-[var(--shadow-floating)] hover:-translate-y-0.5 cursor-pointer text-text-primary"
@@ -319,7 +319,7 @@
   </main>
 
   <footer class="site-footer text-center py-4 px-8 w-full shrink-0">
-    <p class="m-0 text-sm text-text-secondary" id="footer-text">Basé en France</p>
+    <p class="m-0 text-sm text-text-secondary" id="footer-text" data-i18n="footer.text">Basé en France</p>
   </footer>
 
   <!-- Background Pattern -->

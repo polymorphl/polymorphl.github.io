@@ -1,0 +1,58 @@
+{
+  "hero": {
+    "subtitle": "Développeur Full Stack",
+    "tagline": "Je conçois et construis des produits web performants — React, Node.js, TypeScript.",
+    "status": "Disponible pour de nouvelles opportunités"
+  },
+  "nav": {
+    "projects": "Projets",
+    "about": "À propos",
+    "tech": "Stack"
+  },
+  "sections": {
+    "about": "À propos",
+    "tech": "Stack technique",
+    "projects": "Projets"
+  },
+  "tech": {
+    "frameworks": "Frameworks",
+    "languages": "Langages",
+    "runtime": "Runtime",
+    "database": "Base de données",
+    "devops": "DevOps & Cloud"
+  },
+  "about": {
+    "cards": [
+      { "label": "Expérience", "text": "10 ans d'expérience en développement Fullstack JS" },
+      { "label": "Expertise", "text": "Expert React, Node.js et TypeScript" },
+      { "label": "Langages", "text": "Compétences en Go (~2 ans)" },
+      { "label": "Approche", "text": "Forte sensibilité UX/UI et culture produit" }
+    ]
+  },
+  "resume": {
+    "text": "Télécharger mon CV",
+    "file": "/cv_luc_terracher.pdf"
+  },
+  "footer": {
+    "text": "Basé en France"
+  },
+  "projects": {
+    "title": "Projets",
+    "viewProject": "Voir le projet",
+    "orcrux": {
+      "title": "Orcrux",
+      "stack": "Go, Wails, TypeScript",
+      "description": "GUI desktop multiplateforme avec Wails pour tester le partage de secret de Shamir — générer, diviser et restaurer des secrets."
+    },
+    "go-kv": {
+      "title": "Go-kv",
+      "stack": "Go",
+      "description": "Une implémentation de serveur compatible Redis en Go, haute performance (sans dépendances externes)."
+    },
+    "my-open-claude": {
+      "title": "My Open Claude",
+      "stack": "Rust",
+      "description": "Assistant de code LLM en Rust. Chat TUI & CLI mono-prompt. Outils : Read, Write, Edit, Grep, ListDir, Glob, Bash. OpenRouter, streaming, historique, commandes slash."
+    }
+  }
+}
