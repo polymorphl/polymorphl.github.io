@@ -1,7 +1,0 @@
-/* ==========================================================================
-   FONTS - Archivo Variable + Space Grotesk Variable
-   Variable fonts: 1 file per family instead of 4 weights each → fewer requests
-   ========================================================================== */
-
-@import "@fontsource-variable/archivo/wght.css";
-@import "@fontsource-variable/space-grotesk/wght.css";

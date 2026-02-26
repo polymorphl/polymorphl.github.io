@@ -1,0 +1,347 @@
+@import "tailwindcss";
+
+/* Custom dark mode: data-theme="dark" on html */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* ========================================================================== */
+/* FONTS - Archivo Variable + Space Grotesk Variable */
+/* Variable fonts: 1 file per family instead of 4 weights each → fewer requests */
+/* ========================================================================== */
+
+@import "@fontsource-variable/archivo/wght.css";
+@import "@fontsource-variable/space-grotesk/wght.css";
+
+/* ========================================================================== */
+/* BASE OVERRIDES (body, html, dark theme) */
+/* ========================================================================== */
+
+@layer base {
+  html {
+    height: 100%;
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    min-height: 100vh;
+    font-family: var(--font-sans);
+    background-color: var(--color-background);
+    color: var(--color-text-primary);
+    line-height: 1.5;
+    overflow-x: clip;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  h1, h2, h3, .hero-title, .section-title, .tech-category-title {
+    font-family: var(--font-display);
+  }
+
+  [data-theme="dark"] {
+    --color-primary: #fafafa;
+    --color-secondary: #a1a1aa;
+    --color-accent: #2563eb; /* blue-600: 4.5:1 contrast with white for WCAG AA */
+    --color-accent-on-surface: #60a5fa; /* blue-400: sufficient contrast on dark surface for WCAG AA */
+    --color-background: #09090b;
+    --color-surface: #18181b;
+    --color-text-primary: #fafafa;
+    --color-text-secondary: #a1a1aa;
+    --color-border: #27272a;
+    --color-on-primary: #09090b;
+    --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.4);
+    --shadow-floating: 0 10px 40px rgba(0, 0, 0, 0.5);
+    --shadow-button: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* ========================================================================== */
+/* DESIGN SYSTEM: Colors, Shadows, Spacing, Typography, Animations */
+/* ========================================================================== */
+
+@theme {
+  /* Colors - Design system (light) */
+  --color-primary: #18181b;
+  --color-secondary: #3f3f46;
+  --color-accent: #2563eb;
+  --color-accent-on-surface: #2563eb; /* same as accent on light surface */
+  --color-background: #fafafa;
+  --color-surface: #ffffff;
+  --color-text-primary: #09090b;
+  --color-text-secondary: #52525b;
+  --color-border: #e4e4e7;
+  --color-on-primary: #ffffff;
+
+  /* Shadows */
+  --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.05);
+  --shadow-floating: 0 10px 40px rgba(0, 0, 0, 0.08);
+  --shadow-button: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  /* Radius */
+  --radius-lg: 24px;
+  --radius-pill: 9999px;
+
+  /* Spacing (for complex styles) */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 0.75rem;
+  --spacing-base: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+  --font-size-sm: 0.875rem;
+  --transition-smooth: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  --z-background: -1;
+  --z-navbar: 1000;
+
+  /* Font */
+  --font-sans: "Space Grotesk Variable", system-ui, sans-serif;
+  --font-display: "Archivo Variable", system-ui, sans-serif;
+
+  /* Animations */
+  --animate-slide-down: slide-down 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-slide-down-mobile: slide-down-mobile 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-fade-in-up: fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-scale-in: scale-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-rotate-in-up: rotate-in-up 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-rotate: rotate 0.3s ease-out;
+
+  @keyframes slide-down {
+    from {
+      opacity: 0;
+      transform: translateX(-50%) translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  }
+
+  @keyframes slide-down-mobile {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes scale-in {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes rotate-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px) rotateY(-360deg) scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) rotateY(0deg) scale(1);
+    }
+  }
+
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+/* ========================================================================== */
+/* COMPLEX.CSS - Pseudo-elements, theme-specific logic, canvas */
+/* What cannot be expressed with Tailwind utilities */
+/* ========================================================================== */
+
+/* --- Navbar --- */
+nav.navbar {
+  /* Mobile: left-4 right-4 - full width within margins, no centering transform */
+  animation: var(--animate-slide-down-mobile);
+}
+
+@media (min-width: 768px) {
+  nav.navbar {
+    left: 50%;
+    transform: translateX(-50%);
+    animation: var(--animate-slide-down);
+  }
+}
+
+/* --- Theme toggle (moon/sun) --- */
+.theme-icon {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  transition: all 0.3s ease;
+}
+
+.moon-icon {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+  filter: brightness(0) saturate(100%);
+}
+
+.sun-icon {
+  opacity: 0;
+  transform: rotate(180deg) scale(0);
+  filter: brightness(0) saturate(100%);
+}
+
+[data-theme="dark"] .moon-icon {
+  opacity: 0;
+  transform: rotate(-180deg) scale(0);
+  filter: brightness(0) saturate(100%) invert(100%);
+}
+
+[data-theme="dark"] .sun-icon {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+  filter: brightness(0) saturate(100%) invert(100%);
+}
+
+/* --- Language selector (slider ::before) --- */
+.language-selector::before {
+  content: '';
+  position: absolute;
+  top: var(--spacing-xs);
+  left: var(--spacing-xs);
+  width: calc(50% - var(--spacing-sm));
+  height: calc(100% - var(--spacing-sm));
+  background-color: var(--color-primary);
+  border-radius: var(--radius-pill);
+  transition: transform var(--transition-smooth);
+  box-shadow: var(--shadow-button);
+  z-index: 0;
+}
+
+.language-selector:has(.lang-btn[data-lang="en"].active)::before {
+  transform: translateX(calc(100% + var(--spacing-sm)));
+}
+
+.lang-btn {
+  background: transparent;
+  border: none;
+  padding: 0.5rem 1.25rem;
+  border-radius: var(--radius-pill);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-smooth);
+  font-family: inherit;
+  position: relative;
+  z-index: 1;
+}
+
+.lang-btn:hover { color: var(--color-text-primary); }
+.lang-btn.active { color: var(--color-on-primary); }
+.lang-btn:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* --- Focus visible (ring for all focusables) --- */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* --- Tech stack pills --- */
+.tech-pill:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* --- Tech icons (dark mode) --- */
+[data-theme="dark"] .tech-icon.invert-dark {
+  filter: invert(1);
+  opacity: 0.9;
+}
+
+[data-theme="dark"] .tech-pill:hover .tech-icon.invert-dark {
+  filter: invert(1);
+  opacity: 1;
+}
+
+[data-theme="dark"] .tech-pill[aria-label="Vercel"] .tech-icon,
+[data-theme="dark"] .tech-pill[aria-label="Vercel"]:hover .tech-icon {
+  filter: brightness(0) invert(1);
+  opacity: 1;
+}
+
+/* Rust icon: force orange fill (path has fill="#CE422B" but [fill:currentColor] overrides it) */
+.tech-icon-rust,
+.tech-pill[aria-label="Rust"] .tech-icon {
+  fill: #CE422B !important;
+}
+
+/* --- Background canvas --- */
+.background-pattern {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: var(--z-background);
+  pointer-events: none;
+  filter: blur(30px) contrast(110%);
+  opacity: 0.9;
+  transform: scale(1.1);
+}
+
+/* --- Reduced motion --- */
+@media (prefers-reduced-motion: reduce) {
+  .status-dot {
+    animation: none !important;
+  }
+
+  .about-card:hover {
+    transform: none !important;
+  }
+
+  .tech-pill:hover {
+    transform: none !important;
+  }
+
+  .project-card:hover {
+    transform: none !important;
+  }
+
+  .project-card img {
+    transition: none !important;
+  }
+}
+
+/* --- Responsive --- */
+@media (max-height: 700px) and (min-width: 769px) {
+  body { height: auto; min-height: 100vh; overflow-y: auto; display: block; }
+  main { padding-top: 6rem; padding-bottom: 2rem; }
+}
+
+@media (max-width: 768px) {
+  body { height: auto; overflow-y: auto; overflow-x: clip; display: block; }
+}
