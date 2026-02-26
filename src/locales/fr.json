@@ -7,7 +7,8 @@
   "nav": {
     "projects": "Projets",
     "about": "À propos",
-    "tech": "Stack"
+    "tech": "Stack",
+    "blog": "Blog"
   },
   "sections": {
     "about": "À propos",
@@ -34,24 +35,26 @@
     "file": "/cv_luc_terracher.pdf"
   },
   "footer": {
-    "text": "Basé en France"
+    "text": "Basé en France",
+    "copyright": "© {year} Luc Terracher. Tous droits réservés.",
+    "socials": {
+      "linkedin": "LinkedIn",
+      "github": "GitHub"
+    }
+  },
+  "blog": {
+    "noPosts": "Aucun article pour le moment."
   },
   "projects": {
     "title": "Projets",
     "viewProject": "Voir le projet",
     "orcrux": {
-      "title": "Orcrux",
-      "stack": "Go, Wails, TypeScript",
       "description": "GUI desktop multiplateforme avec Wails pour tester le partage de secret de Shamir — générer, diviser et restaurer des secrets."
     },
     "go-kv": {
-      "title": "Go-kv",
-      "stack": "Go",
       "description": "Une implémentation de serveur compatible Redis en Go, haute performance (sans dépendances externes)."
     },
     "my-open-claude": {
-      "title": "My Open Claude",
-      "stack": "Rust",
       "description": "Assistant de code LLM en Rust. Chat TUI & CLI mono-prompt. Outils : Read, Write, Edit, Grep, ListDir, Glob, Bash. OpenRouter, streaming, historique, commandes slash."
     }
   }
