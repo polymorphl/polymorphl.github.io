@@ -1,28 +1,22 @@
 import { Link } from 'react-router-dom';
 import { useLanguage } from '@hooks/useLanguage';
 import type { BlogPostMeta } from '@domain/blog';
-import type { Lang } from '@domain/i18n';
 import type { MDXModule } from '@api/responses';
 
 const blogModules = import.meta.glob<MDXModule>('/content/blog/**/*.mdx', { eager: true });
 
-/** Parse path like content/blog/2025-02/mon-premier-post.fr.mdx → { fileBase, lang } */
-function parseBlogPath(path: string): { fileBase: string; lang: Lang } | null {
-  const match = path.match(/\/([^/]+)\.(fr|en)\.mdx$/);
-  if (!match) return null;
-  return { fileBase: match[1], lang: match[2] as Lang };
-}
-
 function buildPosts(): BlogPostMeta[] {
   return Object.entries(blogModules)
     .map(([path, mod]) => {
-      const parsed = parseBlogPath(path);
-      if (!parsed) return null;
+      const match = path.match(/\/([^/]+)\.(fr|en)\.mdx$/);
+      if (!match) return null;
+      const fileBase = match[1];
+      const lang = match[2] as 'fr' | 'en';
       const frontmatter = mod.frontmatter ?? {};
-      const slug = frontmatter.slug ?? parsed.fileBase;
+      const slug = frontmatter.slug ?? fileBase;
       return {
         slug,
-        lang: parsed.lang,
+        lang,
         title: frontmatter.title ?? 'Untitled',
         date: frontmatter.date ?? '',
         excerpt: frontmatter.excerpt ?? '',
