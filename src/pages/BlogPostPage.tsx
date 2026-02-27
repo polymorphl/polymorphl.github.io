@@ -3,6 +3,7 @@ import { useParams, Navigate } from 'react-router-dom';
 import { MDXProvider } from '@mdx-js/react';
 import { usePostHog } from 'posthog-js/react';
 import { useLanguage } from '@hooks/useLanguage';
+import { useLanguageNavigation } from '@hooks/useLanguageNavigation';
 import { useArticleTracking } from '@hooks/useArticleTracking';
 import MDXComponents from '@components/blog/MDXComponents';
 import ReadingProgressBar from '@components/blog/ReadingProgressBar';
@@ -26,6 +27,10 @@ export default function BlogPostPage() {
   const posthog = usePostHog();
   const { slug } = useParams<{ slug: string }>();
   const { lang, t } = useLanguage();
+
+  // Update URL when language changes
+  useLanguageNavigation(lang);
+
   let post = slug ? postsMap[`${slug}__${lang}`] : null;
 
   useEffect(() => {

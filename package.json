@@ -5,11 +5,12 @@
   "main": "index.js",
   "scripts": {
     "dev": "vite",
-    "build": "npm run scrape:links && vite build && cp dist/index.html dist/404.html",
+    "build": "npm run scrape:links && vite build && npm run og:pages && cp dist/index.html dist/404.html",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "scrape:links": "tsx scripts/scrapeLinks.ts"
+    "scrape:links": "tsx scripts/scrapeLinks.ts",
+    "og:pages": "tsx scripts/generateOpenGraphPages.ts"
   },
   "repository": {
     "type": "git",
@@ -25,9 +26,11 @@
   "homepage": "https://github.com/polymorphl/polymorphl.github.io#readme",
   "devDependencies": {
     "@types/mdx": "^2.0.13",
+    "@types/node-fetch": "^2.6.13",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "cheerio": "^1.2.0",
+    "gray-matter": "^4.0.3",
     "node-fetch": "^2.7.0",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",

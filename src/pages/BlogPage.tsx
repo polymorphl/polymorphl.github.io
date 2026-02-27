@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useLanguage } from '@hooks/useLanguage';
+import { useLanguageNavigation } from '@hooks/useLanguageNavigation';
 import type { BlogPostMeta } from '@domain/blog';
 import type { MDXModule } from '@api/responses';
 
@@ -32,6 +33,10 @@ const allPosts = buildPosts();
 
 export default function BlogPage() {
   const { lang, t } = useLanguage();
+
+  // Update URL when language changes
+  useLanguageNavigation(lang);
+
   const posts = allPosts.filter((p) => p.lang === lang);
 
   return (
@@ -44,7 +49,7 @@ export default function BlogPage() {
           posts.map((post) => (
             <Link
               key={`${post.slug}-${post.lang}`}
-              to={`/blog/${post.slug}`}
+              to={`/${lang}/blog/${post.slug}`}
               className="project-card group flex flex-col overflow-hidden rounded-lg md:rounded-xl bg-surface border border-border shadow-[var(--shadow-soft)] transition-all duration-300 hover:shadow-[var(--shadow-floating)] hover:border-accent hover:-translate-y-0.5 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
             >
               <div className="p-4 md:p-5 flex flex-col gap-2">
