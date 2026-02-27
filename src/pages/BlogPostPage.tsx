@@ -1,5 +1,7 @@
+import { useEffect } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import { MDXProvider } from '@mdx-js/react';
+import { usePostHog } from 'posthog-js/react';
 import { useLanguage } from '@hooks/useLanguage';
 import MDXComponents from '@components/blog/MDXComponents';
 import { getBlogData } from '@lib/blog';
@@ -19,9 +21,26 @@ function formatDate(dateStr: string): string {
 }
 
 export default function BlogPostPage() {
+  const posthog = usePostHog();
   const { slug } = useParams<{ slug: string }>();
   const { lang } = useLanguage();
   let post = slug ? postsMap[`${slug}__${lang}`] : null;
+
+  useEffect(() => {
+    if (post?.frontmatter) {
+      const { title, tags, readingTime, date } = post.frontmatter;
+      posthog?.capture('blog_post_viewed', {
+        slug,
+        title,
+        lang,
+        tags,
+        reading_time: readingTime,
+        date,
+      });
+    }
+  // Capture once per slug+lang combination
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [slug, lang, post]);
 
   if (!post && slug) {
     const slugInCurrentLang = slugToSlugInLang(slug, lang);
