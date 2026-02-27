@@ -1,5 +1,6 @@
 import type { MDXComponents } from 'mdx/types';
 import type { TimelineItem, ArticleImageProps } from '@ui/components';
+import LinkPreview from './LinkPreview';
 
 const headingClasses: Record<string, string> = {
   h1: 'text-2xl md:text-3xl font-bold text-text-primary mt-8 mb-4',
@@ -118,7 +119,8 @@ const mdxComponents: MDXComponents = {
   Callout,
   PullQuote,
   Timeline,
-  ArticleImage
+  ArticleImage,
+  LinkPreview,
 };
 
 export default mdxComponents;
