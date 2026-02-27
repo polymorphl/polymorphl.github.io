@@ -8,7 +8,9 @@
     "projects": "Projects",
     "about": "About",
     "tech": "Stack",
-    "blog": "Blog"
+    "blog": "Blog",
+    "menu": "Menu",
+    "close": "Close"
   },
   "sections": {
     "about": "About me",
