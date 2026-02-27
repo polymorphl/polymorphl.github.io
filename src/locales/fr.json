@@ -45,7 +45,8 @@
     }
   },
   "blog": {
-    "noPosts": "Aucun article pour le moment."
+    "noPosts": "Aucun article pour le moment.",
+    "readingTime": "min de lecture"
   },
   "projects": {
     "title": "Projets",

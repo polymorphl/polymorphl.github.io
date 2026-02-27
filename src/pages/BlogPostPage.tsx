@@ -3,7 +3,9 @@ import { useParams, Navigate } from 'react-router-dom';
 import { MDXProvider } from '@mdx-js/react';
 import { usePostHog } from 'posthog-js/react';
 import { useLanguage } from '@hooks/useLanguage';
+import { useArticleTracking } from '@hooks/useArticleTracking';
 import MDXComponents from '@components/blog/MDXComponents';
+import ReadingProgressBar from '@components/blog/ReadingProgressBar';
 import { getBlogData } from '@lib/blog';
 
 const { postsMap, slugToSlugInLang } = getBlogData();
@@ -23,7 +25,7 @@ function formatDate(dateStr: string): string {
 export default function BlogPostPage() {
   const posthog = usePostHog();
   const { slug } = useParams<{ slug: string }>();
-  const { lang } = useLanguage();
+  const { lang, t } = useLanguage();
   let post = slug ? postsMap[`${slug}__${lang}`] : null;
 
   useEffect(() => {
@@ -42,6 +44,14 @@ export default function BlogPostPage() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slug, lang, post]);
 
+  // Track article reading time and scroll depth
+  useArticleTracking({
+    slug: slug || '',
+    title: post?.frontmatter?.title || '',
+    lang,
+    readingTime: post?.frontmatter?.readingTime,
+  });
+
   if (!post && slug) {
     const slugInCurrentLang = slugToSlugInLang(slug, lang);
     if (slugInCurrentLang) {
@@ -57,7 +67,9 @@ export default function BlogPostPage() {
   const { title, date, summary, tags, cover, readingTime } = post.frontmatter ?? {};
 
   return (
-    <article className="md:col-span-2 w-full max-w-3xl mx-auto">
+    <>
+      <ReadingProgressBar />
+      <article className="md:col-span-2 w-full max-w-3xl mx-auto">
       {/* Hero: only rendered when a cover image is provided */}
       {cover && (
         <div
@@ -97,7 +109,7 @@ export default function BlogPostPage() {
               <time dateTime={date}>{formatDate(date)}</time>
             )}
             {date && readingTime && <span aria-hidden>·</span>}
-            {readingTime && <span>{readingTime} min de lecture</span>}
+            {readingTime && <span>{readingTime} {t('blog.readingTime')}</span>}
           </div>
           <hr className="border-border mt-6" />
         </header>
@@ -110,5 +122,6 @@ export default function BlogPostPage() {
         </div>
       </div>
     </article>
+    </>
   );
 }

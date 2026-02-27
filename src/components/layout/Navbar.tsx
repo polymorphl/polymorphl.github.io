@@ -31,9 +31,38 @@ export default function Navbar() {
       <nav className="navbar fixed top-4 left-4 right-4 z-[1000] md:left-1/2 md:right-auto md:max-w-[1000px] md:w-[calc(100%-2rem)] md:top-4">
         <div className="flex justify-between items-center w-full min-w-0 bg-surface/90 backdrop-blur-md rounded-full px-4 sm:px-5 md:px-7 py-3.5 shadow-[var(--shadow-floating)] ring-1 ring-border/50 gap-2 md:gap-4">
           <div className="flex items-center gap-1 sm:gap-2 flex-1 min-w-0">
+            {/* Hamburger button — mobile only, positioned on left */}
+            <button
+              type="button"
+              className="md:hidden relative w-10 h-10 bg-background rounded-full cursor-pointer flex flex-col items-center justify-center gap-[5px] border-none ring-1 ring-border/50 hover:ring-accent/50 hover:bg-border/30 transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2 shrink-0"
+              onClick={() => setIsMenuOpen((prev) => !prev)}
+              aria-expanded={isMenuOpen}
+              aria-label={isMenuOpen ? t('nav.close') : t('nav.menu')}
+            >
+              <span
+                className={`hamburger-line text-text-primary ${
+                  isMenuOpen
+                    ? 'translate-y-[7px] rotate-45'
+                    : ''
+                }`}
+              />
+              <span
+                className={`hamburger-line text-text-primary ${
+                  isMenuOpen ? 'opacity-0 scale-x-0' : ''
+                }`}
+              />
+              <span
+                className={`hamburger-line text-text-primary ${
+                  isMenuOpen
+                    ? '-translate-y-[7px] -rotate-45'
+                    : ''
+                }`}
+              />
+            </button>
+
             <Link
               to="/"
-              className="nav-home hidden sm:inline-flex text-sm font-bold tracking-wider text-text-primary hover:text-accent transition-colors duration-200 cursor-pointer shrink-0"
+              className="nav-home inline-flex text-sm font-bold tracking-wider text-text-primary hover:text-accent transition-colors duration-200 cursor-pointer shrink-0"
               aria-label="Accueil"
             >
               LT
@@ -68,35 +97,6 @@ export default function Navbar() {
           </div>
 
           <div className="flex gap-2 md:gap-4 items-center shrink-0">
-            {/* Hamburger button — mobile only */}
-            <button
-              type="button"
-              className="md:hidden relative w-10 h-10 bg-background rounded-full cursor-pointer flex flex-col items-center justify-center gap-[5px] border-none ring-1 ring-border/50 hover:ring-accent/50 hover:bg-border/30 transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
-              onClick={() => setIsMenuOpen((prev) => !prev)}
-              aria-expanded={isMenuOpen}
-              aria-label={isMenuOpen ? t('nav.close') : t('nav.menu')}
-            >
-              <span
-                className={`hamburger-line text-text-primary ${
-                  isMenuOpen
-                    ? 'translate-y-[7px] rotate-45'
-                    : ''
-                }`}
-              />
-              <span
-                className={`hamburger-line text-text-primary ${
-                  isMenuOpen ? 'opacity-0 scale-x-0' : ''
-                }`}
-              />
-              <span
-                className={`hamburger-line text-text-primary ${
-                  isMenuOpen
-                    ? '-translate-y-[7px] -rotate-45'
-                    : ''
-                }`}
-              />
-            </button>
-
             {/* Theme toggle — always visible */}
             <button
               type="button"
