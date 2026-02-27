@@ -14,4 +14,6 @@ export const STORAGE_KEYS = {
 
 export const EVENTS = {
   LANGUAGE_CHANGE: 'languagechange',
+  BLOG_POST_VIEWED: 'blog_post_viewed',
+  BLOG_POST_READ: 'blog_post_read',
 } as const;

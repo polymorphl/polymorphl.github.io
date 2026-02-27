@@ -8,7 +8,9 @@
     "projects": "Projets",
     "about": "À propos",
     "tech": "Stack",
-    "blog": "Blog"
+    "blog": "Blog",
+    "menu": "Menu",
+    "close": "Fermer"
   },
   "sections": {
     "about": "À propos",
@@ -43,7 +45,8 @@
     }
   },
   "blog": {
-    "noPosts": "Aucun article pour le moment."
+    "noPosts": "Aucun article pour le moment.",
+    "readingTime": "min de lecture"
   },
   "projects": {
     "title": "Projets",
