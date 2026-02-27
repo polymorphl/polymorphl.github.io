@@ -45,6 +45,16 @@ export default defineConfig({
     outDir: 'dist',
     assetsDir: 'assets',
     minify: true,
-    cssMinify: true
+    cssMinify: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+          'vendor-posthog': ['posthog-js', '@posthog/react'],
+          'vendor-i18n': ['i18next'],
+          'vendor-mdx': ['@mdx-js/react']
+        }
+      }
+    }
   }
 });

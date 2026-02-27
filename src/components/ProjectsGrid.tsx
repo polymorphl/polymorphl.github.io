@@ -1,3 +1,4 @@
+import { usePostHog } from 'posthog-js/react';
 import { useLanguage } from '@hooks/useLanguage';
 import TechPill from '@components/TechPill';
 import type { TechItem } from '@domain/tech';
@@ -40,6 +41,7 @@ const projects: ReadonlyArray<{
 ] as const;
 
 export default function ProjectsGrid() {
+  const posthog = usePostHog();
   const { t } = useLanguage();
 
   return (
@@ -52,6 +54,7 @@ export default function ProjectsGrid() {
           rel="noopener noreferrer"
           className="project-card group flex flex-row md:flex-col overflow-hidden rounded-lg md:rounded-xl bg-surface border border-border shadow-[var(--shadow-soft)] transition-all duration-300 hover:shadow-[var(--shadow-floating)] hover:border-accent hover:-translate-y-0.5 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
           aria-label={p.title}
+          onClick={() => posthog?.capture('project_clicked', { project_id: p.id, project_title: p.title, project_url: p.url })}
         >
           <div className="project-card-image w-20 h-20 md:w-full md:h-auto shrink-0 rounded-l-lg md:rounded-none md:rounded-t-xl aspect-square md:aspect-[4/3] relative overflow-hidden bg-gradient-to-br from-accent/20 to-primary/10 flex items-center justify-center">
             {p.image && <img src={p.image} alt={t(`projects.${p.id}.title`)} fetchPriority={p.id === 'orcrux' ? 'high' : undefined} className="w-full h-full object-cover md:object-contain transition-transform duration-300 group-hover:scale-105" loading={p.id === 'orcrux' ? undefined : 'lazy'} width={400} height={300} />}

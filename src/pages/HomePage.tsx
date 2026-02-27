@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { usePostHog } from 'posthog-js/react';
 import { useLanguage } from '@hooks/useLanguage';
 import { useInViewAnimation } from '@hooks/useInViewAnimation';
 import ProjectsGrid from '@components/ProjectsGrid';
@@ -8,6 +9,7 @@ import type { AboutCard } from '@domain/blog';
 
 export default function HomePage() {
   const location = useLocation();
+  const posthog = usePostHog();
   const { ref: projectsRef, isInView: projectsInView } = useInViewAnimation();
   const { ref: aboutRef, isInView: aboutInView } = useInViewAnimation();
 
@@ -61,16 +63,31 @@ export default function HomePage() {
               href={t('resume.file')}
               className="btn-primary inline-flex items-center justify-center bg-accent text-white px-6 py-3 rounded-full font-medium text-sm no-underline shadow-[var(--shadow-button)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow-floating)] hover:opacity-90 active:translate-y-0 shrink-0 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
               download
+              onClick={() => posthog?.capture('resume_downloaded', { source: 'hero' })}
             >
               {t('resume.text')}
             </a>
             <div className="social-links flex gap-3">
-              <a href="https://www.linkedin.com/in/lucterracher/" className="social-link flex items-center justify-center w-11 h-11 bg-surface border border-border rounded-full transition-all duration-200 shadow-[var(--shadow-soft)] text-text-primary hover:-translate-y-0.5 hover:shadow-[var(--shadow-button)] hover:border-accent no-underline cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile">
+              <a
+                href="https://www.linkedin.com/in/lucterracher/"
+                className="social-link flex items-center justify-center w-11 h-11 bg-surface border border-border rounded-full transition-all duration-200 shadow-[var(--shadow-soft)] text-text-primary hover:-translate-y-0.5 hover:shadow-[var(--shadow-button)] hover:border-accent no-underline cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn profile"
+                onClick={() => posthog?.capture('social_link_clicked', { platform: 'linkedin', source: 'hero' })}
+              >
                 <svg className="social-icon w-5 h-5 text-text-primary transition-transform duration-200 [fill:currentColor]" width="20" height="20" viewBox="0 0 24 24">
                   <use href="/assets/icons/sprite.svg#linkedin" />
                 </svg>
               </a>
-              <a href="https://github.com/polymorphl" className="social-link flex items-center justify-center w-11 h-11 bg-surface border border-border rounded-full transition-all duration-200 shadow-[var(--shadow-soft)] text-text-primary hover:-translate-y-0.5 hover:shadow-[var(--shadow-button)] hover:border-accent no-underline cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile">
+              <a
+                href="https://github.com/polymorphl"
+                className="social-link flex items-center justify-center w-11 h-11 bg-surface border border-border rounded-full transition-all duration-200 shadow-[var(--shadow-soft)] text-text-primary hover:-translate-y-0.5 hover:shadow-[var(--shadow-button)] hover:border-accent no-underline cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub profile"
+                onClick={() => posthog?.capture('social_link_clicked', { platform: 'github', source: 'hero' })}
+              >
                 <svg className="social-icon w-5 h-5 text-text-primary transition-transform duration-200 [fill:currentColor]" width="20" height="20" viewBox="0 0 24 24">
                   <use href="/assets/icons/sprite.svg#github" />
                 </svg>
