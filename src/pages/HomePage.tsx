@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useInViewAnimation } from '@hooks/useInViewAnimation';
 import { useLanguage } from '@hooks/useLanguage';
@@ -9,10 +9,20 @@ import TechStack from '@components/TechStack';
 
 export default function HomePage() {
   const location = useLocation();
+  const isFirstRenderRef = useRef(true);
   const { ref: projectsRef, isInView: projectsInView } = useInViewAnimation();
   const { t } = useLanguage();
 
   useEffect(() => {
+    // Cancel browser's automatic scroll to anchor on page reload
+    if (isFirstRenderRef.current) {
+      isFirstRenderRef.current = false;
+      // Small delay ensures browser scroll happens first, then we override it
+      setTimeout(() => window.scrollTo(0, 0), 0);
+      return;
+    }
+
+    // Only scroll when hash changes during navigation (user clicks a link)
     if (location.hash) {
       const id = location.hash.slice(1);
       const el = document.getElementById(id);
