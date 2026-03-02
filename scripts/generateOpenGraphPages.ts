@@ -63,7 +63,10 @@ function generateHtmlFile(meta: OpenGraphMeta, outputPath: string): void {
   <!-- Redirect to main app after meta tags are read -->
   <script>
     // Give crawlers time to read meta tags before redirecting
-    window.location.replace('${escapeHtml(meta.url)}');
+    // Redirect to root so React Router can handle the navigation
+    if (window.location.pathname !== '/') {
+      window.location.replace('/');
+    }
   </script>
   <!-- Fallback link for users with JS disabled -->
   <noscript>
