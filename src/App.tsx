@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { useLanguage } from '@hooks/useLanguage';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
@@ -9,6 +9,21 @@ import type { Lang } from '@domain/i18n';
 const HomePage = lazy(() => import('./pages/HomePage'));
 const BlogPage = lazy(() => import('./pages/BlogPage'));
 const BlogPostPage = lazy(() => import('./pages/BlogPostPage'));
+
+// Restore target path from session storage (set by generated OG pages)
+function PathRestorer() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const targetPath = sessionStorage.getItem('__targetPath');
+    if (targetPath) {
+      sessionStorage.removeItem('__targetPath');
+      navigate(targetPath, { replace: true });
+    }
+  }, [navigate]);
+
+  return null;
+}
 
 // Detect and sync language from URL path
 function LanguageSyncProvider() {
@@ -32,6 +47,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
+        <PathRestorer />
         <LanguageSyncProvider />
         <Navbar />
         <main className="max-w-[1000px] mx-auto flex-1 flex flex-col md:grid md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 min-h-full pt-24 md:pt-28 pb-12 px-4 md:px-6 lg:px-8 text-left w-full md:items-start">

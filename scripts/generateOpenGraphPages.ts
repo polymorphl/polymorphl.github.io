@@ -60,11 +60,11 @@ function generateHtmlFile(meta: OpenGraphMeta, outputPath: string): void {
   <meta name="description" content="${escapeHtml(meta.description)}">
   ${generateOpenGraphTags(meta)}
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <!-- Redirect to main app after meta tags are read -->
+  <!-- Preserve path for React Router and redirect to root -->
   <script>
-    // Give crawlers time to read meta tags before redirecting
-    // Redirect to root so React Router can handle the navigation
+    // Store the original path in session storage for React Router to navigate to
     if (window.location.pathname !== '/') {
+      sessionStorage.setItem('__targetPath', window.location.pathname);
       window.location.replace('/');
     }
   </script>
