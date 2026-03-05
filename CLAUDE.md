@@ -17,6 +17,8 @@ npm run typecheck    # Run TypeScript type checking (no emit)
 
 ## Architecture & Key Concepts
 
+This project is a client-side SPA (Vite/React). Do not suggest server-side packages or approaches unless specifically asked. Always prefer browser/client-side SDKs.
+
 ### Type System (No Barrel Files)
 
 **ALL types and interfaces MUST be in `src/types/`** - never define them in component or page files.
