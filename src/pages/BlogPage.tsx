@@ -43,7 +43,7 @@ export default function BlogPage() {
               </div>
 
               {/* Content card */}
-              <div className="flex-1 min-w-0 rounded-xl border border-border bg-surface/60 dark:bg-surface/40 p-4 md:p-5 border-l-4 border-l-accent transition-all duration-300 ease-out hover:shadow-[var(--shadow-soft)] hover:-translate-y-0.5 hover:border-accent/30">
+              <div className="flex-1 min-w-0 rounded-xl border border-border bg-surface/60 dark:bg-surface/70 backdrop-blur-md p-4 md:p-5 border-l-4 border-l-accent transition-all duration-300 ease-out hover:shadow-[var(--shadow-soft)] hover:-translate-y-0.5 hover:border-accent/30">
                 <h2 className="font-semibold text-text-primary text-lg mb-2 group-hover:text-accent transition-colors">
                   {post.title}
                 </h2>
