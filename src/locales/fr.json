@@ -29,8 +29,8 @@
     "visitWebsite": "Visiter le site",
     "entries": [
       {
-        "role": "Lead Software Engineer",
-        "location": "Remote",
+        "role": "Ingénieur logiciel lead",
+        "location": "À distance",
         "highlights": [
           "Fondation du département Data et définition de sa vision technique et architecture",
           "Gestion d'une squad de 4–5 développeurs (API NestJS et applications Next.js)",
@@ -39,16 +39,16 @@
         ]
       },
       {
-        "role": "Full Stack Software Engineer",
-        "location": "Remote",
+        "role": "Ingénieur logiciel full stack",
+        "location": "À distance",
         "highlights": [
           "Développement d'applications sur blockchain publique/privée (Ethereum)",
           "Réalisation de plusieurs PoC pour valider la stratégie produit"
         ]
       },
       {
-        "role": "Full Stack Software Engineer",
-        "location": "Hybrid",
+        "role": "Ingénieur logiciel full stack",
+        "location": "Hybride",
         "highlights": [
           "Migration d'un monolithe PHP vers NestJS (DDD, CQRS) et Vue.js 2",
           "Gestion d'une squad de 2 développeurs",
@@ -58,7 +58,7 @@
         ]
       },
       {
-        "role": "Full Stack Software Engineer",
+        "role": "Ingénieur logiciel full stack",
         "location": "Bordeaux, France",
         "highlights": [
           "1er salarié technique — mise en place des fondations de l'ingénierie",
@@ -66,7 +66,7 @@
         ]
       },
       {
-        "role": "Full Stack Software Developer",
+        "role": "Développeur full stack",
         "location": "Bordeaux, France",
         "highlights": [
           "Migration d'applications Angular 1 vers Angular 2, développement d'une application mobile native",
