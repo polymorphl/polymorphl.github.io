@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import { MDXProvider } from '@mdx-js/react';
 import { usePostHog } from 'posthog-js/react';
@@ -7,9 +7,11 @@ import { useLanguageNavigation } from '@hooks/useLanguageNavigation';
 import { useArticleTracking } from '@hooks/useArticleTracking';
 import MDXComponents from '@components/blog/MDXComponents';
 import ReadingProgressBar from '@components/blog/ReadingProgressBar';
-import { getBlogData } from '@lib/blog';
+import TableOfContents from '@components/blog/TableOfContents';
+import { getBlogData, getPostMeta, loadPost } from '@lib/blog';
+import type { MDXModule } from '@api/responses';
 
-const { postsMap, slugToSlugInLang } = getBlogData();
+const { slugToSlugInLang } = getBlogData();
 
 function formatDate(dateStr: string): string {
   try {
@@ -23,20 +25,56 @@ function formatDate(dateStr: string): string {
   }
 }
 
+function BlogPostSkeleton() {
+  return (
+    <div className="md:col-span-2 w-full lg:grid lg:grid-cols-[1fr_200px] lg:gap-12 lg:items-start animate-pulse">
+      <article className="w-full max-w-3xl mx-auto lg:mx-0">
+        <div className="rounded-xl overflow-hidden mb-8 h-40 md:h-56 bg-surface" />
+        <div className="backdrop-blur-md bg-background/80 rounded-2xl ring-1 ring-border/40 shadow-floating px-6 md:px-10 py-8">
+          <div className="mb-10">
+            <div className="h-4 w-24 rounded bg-surface mb-4" />
+            <div className="h-10 w-3/4 rounded bg-surface mb-3" />
+            <div className="h-5 w-full rounded bg-surface/60 mb-4" />
+            <div className="h-4 w-32 rounded bg-surface/60" />
+          </div>
+          <div className="space-y-3">
+            <div className="h-4 w-full rounded bg-surface/40" />
+            <div className="h-4 w-full rounded bg-surface/40" />
+            <div className="h-4 w-2/3 rounded bg-surface/40" />
+          </div>
+        </div>
+      </article>
+    </div>
+  );
+}
+
 export default function BlogPostPage() {
   const posthog = usePostHog();
   const { slug } = useParams<{ slug: string }>();
   const { lang, t } = useLanguage();
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [module, setModule] = useState<MDXModule | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  // Update URL when language changes
   useLanguageNavigation(lang);
 
-  let post = slug ? postsMap[`${slug}__${lang}`] : null;
+  const meta = slug ? getPostMeta(slug, lang) : null;
 
   useEffect(() => {
-    if (post?.frontmatter) {
-      const { title, tags, readingTime, date } = post.frontmatter;
-      posthog?.capture('blog_post_viewed', {
+    if (!slug || !meta) {
+      setLoading(false);
+      return;
+    }
+    setLoading(true);
+    loadPost(slug, lang)
+      .then((mod) => setModule(mod))
+      .finally(() => setLoading(false));
+  }, [slug, lang, meta]);
+
+  useEffect(() => {
+    if (meta && posthog) {
+      const { title, tags, readingTime, date } = meta;
+      posthog.capture('blog_post_viewed', {
         slug,
         title,
         lang,
@@ -45,88 +83,100 @@ export default function BlogPostPage() {
         date,
       });
     }
-  // Capture once per slug+lang combination
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [slug, lang, post]);
+  }, [slug, lang, meta, posthog]);
 
-  // Track article reading time and scroll depth
   useArticleTracking({
     slug: slug || '',
-    title: post?.frontmatter?.title || '',
+    title: meta?.title || '',
     lang,
-    readingTime: post?.frontmatter?.readingTime,
+    readingTime: meta?.readingTime,
   });
 
-  if (!post && slug) {
+  if (!meta && slug) {
     const slugInCurrentLang = slugToSlugInLang(slug, lang);
     if (slugInCurrentLang) {
-      return <Navigate to={`/blog/${slugInCurrentLang}`} replace />;
+      return <Navigate to={`/${lang}/blog/${slugInCurrentLang}`} replace />;
     }
   }
 
-  if (!post) {
+  if (!meta) {
     return <Navigate to="/blog" replace />;
   }
 
-  const Content = post.default;
-  const { title, date, summary, tags, cover, readingTime } = post.frontmatter ?? {};
+  if (loading || !module) {
+    return (
+      <>
+        <ReadingProgressBar />
+        <BlogPostSkeleton />
+      </>
+    );
+  }
+
+  const Content = module.default;
+  const { title, date, summary, tags, cover, readingTime } = meta;
 
   return (
     <>
       <ReadingProgressBar />
-      <article className="md:col-span-2 w-full max-w-3xl mx-auto">
-      {/* Hero: only rendered when a cover image is provided */}
-      {cover && (
-        <div
-          className="rounded-xl overflow-hidden mb-8 h-40 md:h-56"
-          style={{
-            background: `linear-gradient(to bottom, transparent 30%, var(--color-bg) 100%), url(${cover}) center/cover no-repeat`
-          }}
-        />
-      )}
-
-      {/* Frosted glass card: header + prose */}
-      <div className="backdrop-blur-md bg-background/80 rounded-2xl ring-1 ring-border/40 shadow-floating px-6 md:px-10 py-8">
-        {/* Header */}
-        <header className="mb-10">
-          {tags && tags.length > 0 && (
-            <div className="flex flex-wrap gap-2 mb-4">
-              {tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="px-2 py-0.5 rounded-full text-xs font-medium bg-accent/20 text-accent border border-accent/30"
-                >
-                  {tag}
-                </span>
-              ))}
+      <div className="md:col-span-2 w-full lg:grid lg:grid-cols-[1fr_200px] lg:gap-12 lg:items-start">
+        <article className="w-full max-w-3xl mx-auto lg:mx-0">
+          {cover && (
+            <div className="relative rounded-xl overflow-hidden mb-8 h-40 md:h-56">
+              <img
+                src={cover}
+                alt=""
+                loading="lazy"
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+              <div
+                className="absolute inset-0"
+                style={{ background: 'linear-gradient(to bottom, transparent 30%, var(--color-bg) 100%)' }}
+                aria-hidden
+              />
             </div>
           )}
-          {title && (
-            <h1 className="text-2xl md:text-4xl font-bold text-text-primary mb-3 leading-tight">
-              {title}
-            </h1>
-          )}
-          {summary && (
-            <p className="text-base md:text-lg text-text-secondary leading-relaxed mb-4">{summary}</p>
-          )}
-          <div className="flex items-center gap-3 text-xs text-text-secondary">
-            {date && (
-              <time dateTime={date}>{formatDate(date)}</time>
-            )}
-            {date && readingTime && <span aria-hidden>·</span>}
-            {readingTime && <span>{readingTime} {t('blog.readingTime')}</span>}
-          </div>
-          <hr className="border-border mt-6" />
-        </header>
 
-        {/* Content */}
-        <div className="prose-blog">
-          <MDXProvider components={MDXComponents}>
-            <Content />
-          </MDXProvider>
-        </div>
+          <div className="backdrop-blur-md bg-background/80 rounded-2xl ring-1 ring-border/40 shadow-floating px-6 md:px-10 py-8">
+            <header className="mb-10">
+              {tags && tags.length > 0 && (
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="px-2 py-0.5 rounded-full text-xs font-medium bg-accent/20 text-accent border border-accent/30"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+              {title && (
+                <h1 className="text-2xl md:text-4xl font-bold text-text-primary mb-3 leading-tight">
+                  {title}
+                </h1>
+              )}
+              {summary && (
+                <p className="text-base md:text-lg text-text-secondary leading-relaxed mb-4">{summary}</p>
+              )}
+              <div className="flex items-center gap-3 text-xs text-text-secondary">
+                {date && (
+                  <time dateTime={date}>{formatDate(date)}</time>
+                )}
+                {date && readingTime && <span aria-hidden>·</span>}
+                {readingTime && <span>{readingTime} {t('blog.readingTime')}</span>}
+              </div>
+              <hr className="border-border mt-6" />
+            </header>
+
+            <div ref={contentRef} className="prose-blog">
+              <MDXProvider components={MDXComponents}>
+                <Content />
+              </MDXProvider>
+            </div>
+          </div>
+        </article>
+        <TableOfContents contentRef={contentRef} slug={slug} lang={lang} />
       </div>
-    </article>
     </>
   );
 }

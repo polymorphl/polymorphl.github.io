@@ -4,12 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "vite",
-    "build": "npm run scrape:links && vite build && npm run og:pages && cp dist/index.html dist/404.html",
+    "dev": "npm run generate:blog-metadata && vite",
+    "build": "npm run scrape:links && npm run generate:blog-metadata && vite build && npm run og:pages && cp dist/index.html dist/404.html",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "test": "echo \"Error: no test specified\" && exit 1",
     "scrape:links": "tsx scripts/scrapeLinks.ts",
+    "generate:blog-metadata": "tsx scripts/generateBlogMetadata.ts",
     "og:pages": "tsx scripts/generateOpenGraphPages.ts"
   },
   "repository": {
@@ -44,11 +45,14 @@
     "@posthog/react": "^1.8.1",
     "@tailwindcss/vite": "^4.2.1",
     "@vitejs/plugin-react": "^5.1.4",
+    "highlight.js": "^11.11.1",
     "i18next": "^25.8.13",
     "posthog-js": "^1.356.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
+    "react-markdown": "^10.1.0",
     "react-router-dom": "^7.13.1",
+    "rehype-highlight": "^7.0.2",
     "remark-frontmatter": "^5.0.0",
     "remark-mdx-frontmatter": "^5.2.0",
     "tailwindcss": "^4.2.1"

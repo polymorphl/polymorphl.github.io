@@ -6,5 +6,8 @@ node_modules/
 dist/
 .env
 
+# Generated
+src/generated/
+
 # Claude Code
 .claude/

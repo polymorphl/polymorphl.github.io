@@ -1,6 +1,27 @@
 import type { MDXComponents } from 'mdx/types';
-import type { TimelineItem, ArticleImageProps } from '@ui/components';
+import type { ReactNode } from 'react';
+import type { TimelineItem, ArticleImageProps, StepBlockProps } from '@ui/components';
 import LinkPreview from './LinkPreview';
+import MarkdownBlock from './MarkdownBlock';
+
+function slugify(text: string): string {
+  return text
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+function getHeadingText(children: ReactNode): string {
+  if (!children) return '';
+  if (typeof children === 'string') return children;
+  if (Array.isArray(children)) return children.map(getHeadingText).join('');
+  if (typeof children === 'object' && children !== null && 'props' in children) {
+    return getHeadingText((children as { props: { children?: ReactNode } }).props.children);
+  }
+  return String(children);
+}
 
 const headingClasses: Record<string, string> = {
   h1: 'text-2xl md:text-3xl font-bold text-text-primary mt-8 mb-4',
@@ -9,20 +30,21 @@ const headingClasses: Record<string, string> = {
 };
 
 const calloutConfigs = {
-  info:    { icon: 'ℹ',  wrapClass: 'border-accent/30 bg-accent/5',         glow: '0 0 20px rgba(37,99,235,0.10)'   },
-  warning: { icon: '⚠',  wrapClass: 'border-amber-500/30 bg-amber-500/5',   glow: '0 0 20px rgba(245,158,11,0.10)'  },
-  tip:     { icon: '💡', wrapClass: 'border-emerald-500/30 bg-emerald-500/5',glow: '0 0 20px rgba(16,185,129,0.10)' },
+  info: { icon: 'ℹ️', wrapClass: 'border-accent/30 bg-accent/5', glow: '0 0 20px rgba(37,99,235,0.10)' },
+  warning: { icon: '⚠️', wrapClass: 'border-amber-500/30 bg-amber-500/5', glow: '0 0 20px rgba(245,158,11,0.10)' },
+  tip: { icon: '💡', wrapClass: 'border-emerald-500/30 bg-emerald-500/5', glow: '0 0 20px rgba(16,185,129,0.10)' },
+  money: { icon: '💰', wrapClass: 'border-green-500/30 bg-green-500/5', glow: '0 0 20px rgba(23,230,105,0.10)' },
 } as const;
 
 function Callout({ type = 'info', children }: { type?: 'info' | 'warning' | 'tip'; children?: React.ReactNode }) {
   const c = calloutConfigs[type] ?? calloutConfigs.info;
   return (
     <div
-      className={`rounded-xl border ${c.wrapClass} my-6 flex gap-3 px-4 py-4`}
+      className={`rounded-xl border ${c.wrapClass} my-6 flex gap-3 p-4`}
       style={{ boxShadow: c.glow }}
     >
       <span className="text-base shrink-0 mt-0.5">{c.icon}</span>
-      <div className="text-text-secondary">{children}</div>
+      <div className="text-text-secondary flex-1 min-w-0 [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">{children}</div>
     </div>
   );
 }
@@ -63,6 +85,19 @@ function Timeline({ items }: { items: TimelineItem[] }) {
   );
 }
 
+function StepBlock({ step, children }: StepBlockProps) {
+  return (
+    <div className="flex gap-4 md:gap-6 my-8 first:mt-6 last:mb-4">
+      <div className="shrink-0">
+        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-accent/20 text-accent font-semibold text-sm ring-2 ring-accent/30">
+          {step}
+        </span>
+      </div>
+      <div className="flex-1 min-w-0 pt-0.5 [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">{children}</div>
+    </div>
+  );
+}
+
 function ArticleImage({ src, alt, caption }: ArticleImageProps) {
   return (
     <figure className="my-8">
@@ -70,6 +105,7 @@ function ArticleImage({ src, alt, caption }: ArticleImageProps) {
         <img
           src={src}
           alt={alt}
+          loading="lazy"
           className="rounded-xl w-full object-cover border border-border shadow-[var(--shadow-soft)]"
         />
       ) : (
@@ -90,8 +126,14 @@ function ArticleImage({ src, alt, caption }: ArticleImageProps) {
 
 const mdxComponents: MDXComponents = {
   h1: (props) => <h1 className={headingClasses.h1} {...props} />,
-  h2: (props) => <h2 className={headingClasses.h2} {...props} />,
-  h3: (props) => <h3 className={headingClasses.h3} {...props} />,
+  h2: (props) => {
+    const id = slugify(getHeadingText(props.children)) || undefined;
+    return <h2 {...props} id={id} className={`${headingClasses.h2} scroll-mt-28`} />;
+  },
+  h3: (props) => {
+    const id = slugify(getHeadingText(props.children)) || undefined;
+    return <h3 {...props} id={id} className={`${headingClasses.h3} scroll-mt-28`} />;
+  },
   p: (props) => <p className="text-text-secondary leading-relaxed mb-4" {...props} />,
   a: (props) => <a className="text-accent hover:underline" {...props} />,
   ul: (props) => <ul className="list-disc list-inside text-text-secondary mb-4 space-y-1" {...props} />,
@@ -119,8 +161,10 @@ const mdxComponents: MDXComponents = {
   Callout,
   PullQuote,
   Timeline,
+  StepBlock,
   ArticleImage,
   LinkPreview,
+  MarkdownBlock,
 };
 
 export default mdxComponents;

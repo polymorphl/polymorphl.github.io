@@ -1,0 +1,152 @@
+---
+title: "Claude Code Agent Teams: orchestrating an agent squad with tmux"
+slug: "claude-code-agent-teams-tmux"
+date: "2026-03-09"
+tags: ["AI", "Claude Code", "tmux", "agents", "development", "Agent Teams", "slash command"]
+summary: "Claude Code Agent Teams: run multiple instances in parallel via tmux. Setup, /swarm command, and multi-agent workflow (backend, frontend, QA, doc)."
+readingTime: 6
+---
+
+I kept repeating the same pattern: backend first, then frontend, then tests and QA to make sure everything held up. Sequential, predictable, and not very time-efficient. I needed a different approach.
+
+If you're new to this, I'd recommend reading [From GitHub Copilot to Claude Code](/en/blog/from-copilot-to-claude) first for context.
+
+## The concept: an agent team
+
+**Agent Teams** in Claude Code let multiple instances work together, each with its own context and role. A "lead" agent coordinates everything. In practice: you can have one agent on backend, another on frontend, one on QA, one on docs. They work in parallel instead of chaining steps. Token-heavy, but worth it.
+
+You can ask Claude to create a team in plain language: "Create a team to refactor this module: one agent on architecture, one on tests, one as devil's advocate."
+
+## Enabling Agent Teams
+
+The feature is [experimental](https://code.claude.com/docs/en/agent-teams) and disabled by default.
+Add an environment variable to your Claude Code `settings.json`:
+
+```json
+{
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
+  "teammateMode": "tmux"
+}
+```
+
+Once enabled, you can launch Claude and ask it to create a team.
+
+## tmux: making the team visible
+
+Claude Code runs in any terminal. But with multiple agents running in parallel, you need to see them. That's where tmux becomes useful: each "teammate" can have its own pane, and you watch everyone work at once. A proper command center.
+
+<ArticleImage src="/assets/blog/claude-code-agent-teams-tmux/swarm.png" alt="Agents at work in tmux" caption="Agents at work in tmux" />
+
+Sometimes Claude chooses to launch agents "in-process" (in the background) rather than in separate tmux panes. Here, on another project, four agents are running in parallel:
+
+<ArticleImage src="/assets/blog/claude-code-agent-teams-tmux/in-process-agents.png" alt="In-process agents in the background" caption="Agents running in the background" />
+
+Here's my tmux config, which you can download and adapt to your needs:
+
+<MarkdownBlock
+  contentFile="/assets/blog/claude-code-agent-teams-tmux/tmux.conf"
+  language="bash"
+  variant="accordion"
+  accordionLabel="View my tmux config"
+  downloadUrl="/assets/blog/claude-code-agent-teams-tmux/tmux.conf"
+  downloadLabel="Download tmux.conf"
+/>
+
+**Installation:**
+
+1. Download the file above
+2. Copy it to your home: `cp tmux.conf ~/.tmux.conf`
+3. Or create a symlink: `ln -s /path/to/tmux.conf ~/.tmux.conf`
+4. Reload tmux: `tmux source ~/.tmux.conf`
+
+<Callout type="info">
+I recommend [this link](https://tmuxcheatsheet.com/) if you're new to tmux.
+</Callout>
+
+## Custom command
+
+Claude Code lets you add custom slash commands via Markdown files. Here's my `/swarm` command that I crafted to orchestrate an agent team (PM, backend, frontend, QA, doc):
+
+<MarkdownBlock
+  contentFile="/assets/blog/claude-code-agent-teams-tmux/swarm.md"
+  language="markdown"
+  variant="accordion"
+  accordionLabel="View the full custom command"
+  downloadUrl="/assets/blog/claude-code-agent-teams-tmux/swarm.md"
+  downloadLabel="Download swarm.md"
+/>
+
+**Command summary:**
+
+1. Initializes a `.swarm` folder to work with (plans, contracts, status, reviews).
+2. Orchestrates a multi-agent team (backend, frontend, QA, doc) via Claude Code's teammate mode.
+3. A PM agent analyzes the task, drafts a plan with scope per agent, and waits for your validation before launching.
+4. Each agent receives targeted instructions in `.swarm/status/` and only reads the listed files.
+5. Sequential workflow: backend → frontend/doc (contract) → QA → review report.
+6. If QA reports errors, only the concerned agent is relaunched.
+
+<Callout type="money">
+Each spawned agent receives an explicit list of files to process, with no exploratory reading. That keeps token usage from exploding.
+</Callout>
+
+**Installation:**
+
+1. Download the [swarm.md](/assets/blog/claude-code-agent-teams-tmux/swarm.md) file above
+2. Create the commands folder:
+   - `mkdir -p .claude/commands` (at project root)
+   - `mkdir -p ~/.claude/commands` (global)
+3. Place the file: `mv swarm.md .claude/commands/swarm.md`
+4. The `/swarm` command will be available in Claude Code
+
+Once installed, simply type `/swarm` followed by your task. Example:
+
+```bash
+/swarm (task or @path/to/plan.md)
+```
+
+## Example in practice
+
+<StepBlock step={1}>
+In my case, I used my custom command to implement `@file` support in my [my-open-claude](https://github.com/polymorphl/my-open-claude) project. I simply typed `/swarm @file-support-plan.md`:
+
+<MarkdownBlock
+  contentFile="/assets/blog/claude-code-agent-teams-tmux/file-support-plan.md"
+  language="markdown"
+  variant="accordion"
+  accordionLabel="View the full task plan"
+/>
+
+</StepBlock>
+
+<StepBlock step={2}>
+Once the command processed the plan, a swarm-plan was created:
+
+<ArticleImage src="/assets/blog/claude-code-agent-teams-tmux/swarm-ready.png" alt="The master has finalized the work distribution" caption="The master has finalized the work distribution" />
+
+</StepBlock>
+
+<StepBlock step={3}>
+Once the plan was validated, the command created status files for each agent:
+
+<ArticleImage src="/assets/blog/claude-code-agent-teams-tmux/status-of-agents.png" alt="Agent status from .swarm/status/ folder" caption="Agent status from .swarm/status/ folder" />
+
+</StepBlock>
+
+<StepBlock step={4}>
+At the end of the session, each agent had finished its work and updated its status file. Here's the QA review:
+
+<ArticleImage src="/assets/blog/claude-code-agent-teams-tmux/qa-review.png" alt="QA review" caption="QA review" />
+
+</StepBlock>
+
+## Conclusion
+
+<PullQuote>You go from "collaborating with an agent" to "orchestrating a team"</PullQuote>
+
+The magic moment is when you see the agents working in parallel. Backend, frontend, QA, doc: each focused on its own lane, with a clear vision of what it needs to do. Parallelization only works under one condition: having a vision, and slicing it into chunks that each agent can handle without stepping on each other's toes.
+
+Where did it go wrong? Token consumption. It's extremely hungry. I'm constantly learning to optimize: scoping files, limiting context, avoiding exploratory reads. That's the real challenge right now. 
+
+Experimental, token-hungry, imperfect. Worth it.
