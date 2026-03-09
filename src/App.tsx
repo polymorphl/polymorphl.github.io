@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { useLanguage } from '@hooks/useLanguage';
+import { ThemeProvider } from '@components/ThemeProvider';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import FluidAurora from './components/FluidAurora';
@@ -45,7 +46,7 @@ function LanguageSyncProvider() {
 
 function App() {
   return (
-    <>
+    <ThemeProvider>
       <BrowserRouter>
         <PathRestorer />
         <LanguageSyncProvider />
@@ -65,7 +66,7 @@ function App() {
         <Footer />
       </BrowserRouter>
       <FluidAurora />
-    </>
+    </ThemeProvider>
   );
 }
 

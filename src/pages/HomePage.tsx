@@ -4,8 +4,8 @@ import { useInViewAnimation } from '@hooks/useInViewAnimation';
 import { useLanguage } from '@hooks/useLanguage';
 import ProjectsGrid from '@components/ProjectsGrid';
 import HeroSection from '@components/HeroSection';
-import AboutSection from '@components/AboutSection';
 import TechStack from '@components/TechStack';
+import CareerTimeline from '@components/CareerTimeline';
 
 export default function HomePage() {
   const location = useLocation();
@@ -39,7 +39,7 @@ export default function HomePage() {
         <ProjectsGrid />
       </section>
 
-      <AboutSection />
+      <CareerTimeline />
 
       <TechStack />
     </>

@@ -93,7 +93,7 @@ t('footer.copyright').replace('{year}', new Date().getFullYear().toString())
 - **`src/pages/`** - Full page components (HomePage, BlogPage, BlogPostPage)
   - Routing handled in `src/App.tsx` with React Router
 
-- **`src/hooks/`** - Custom hooks (useLanguage, useTheme)
+- **`src/hooks/`** - Custom hooks (useLanguage)
   - Both manage state via localStorage with events for cross-tab sync
 
 ### Styling
@@ -128,7 +128,7 @@ readingTime: 5
 
 ### Theme & Language
 
-- **Theme**: `useTheme()` hook manages light/dark via `data-theme` attribute on `<html>`
+- **Theme**: `useTheme()` from ThemeProvider manages light/dark via `data-theme` attribute on `<html>`
 - **Language**: `useLanguage()` hook manages language via `data-lang` attribute, synced across tabs via CustomEvent
 - **Storage keys**: Use `STORAGE_KEYS` from config (LANGUAGE, THEME)
 - **Events**: Use `EVENTS.LANGUAGE_CHANGE` constant for custom events

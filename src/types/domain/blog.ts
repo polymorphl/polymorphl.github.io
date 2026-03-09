@@ -22,11 +22,6 @@ export interface BlogPost extends BlogPostMeta {
   content: string;
 }
 
-export interface AboutCard {
-  label: string;
-  text: string;
-}
-
 export interface BlogData {
   postsMap: Record<string, MDXModule>;
   slugToSlugInLang: (slug: string, targetLang: Lang) => string | null;

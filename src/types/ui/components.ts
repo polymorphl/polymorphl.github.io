@@ -3,6 +3,7 @@
  */
 
 import type { ReactNode } from 'react';
+import type { TechIconConfig } from '@config/techIcons';
 
 export interface LayoutProps {
   children?: ReactNode;
@@ -21,11 +22,15 @@ export interface LanguageContextType {
 
 export interface TechPillProps {
   name: string;
-  icon: string;
+  icon?: string;
   viewBox?: string;
   invert?: boolean;
   iconClass?: string;
   mini?: boolean;
+  /** Compact style for inline use (e.g. career timeline) */
+  compact?: boolean;
+  /** Pre-resolved config from batch lookup; null = looked up, no icon. Omit = fallback to per-pill lookup */
+  iconConfig?: TechIconConfig | null;
 }
 
 export interface TimelineItem {
@@ -34,8 +39,18 @@ export interface TimelineItem {
   desc: string;
 }
 
+export interface CareerTimelineProps {
+  // Reserved for future external props
+}
+
 export interface ArticleImageProps {
   src?: string;
   alt: string;
   caption?: string;
+}
+
+export interface MarkdownBlockProps {
+  content: string;
+  title?: string;
+  variant?: 'default' | 'card';
 }

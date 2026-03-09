@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { useTheme } from '@hooks/useTheme';
+import { useTheme } from '@components/ThemeProvider';
 import { useLanguage } from '@hooks/useLanguage';
 
 export default function Navbar() {
@@ -76,10 +76,10 @@ export default function Navbar() {
                 {t('nav.projects')}
               </Link>
               <Link
-                to="/#about"
+                to="/#career"
                 className="nav-link px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium text-text-secondary hover:text-text-primary hover:bg-border/40 transition-all duration-200 cursor-pointer shrink-0"
               >
-                {t('nav.about')}
+                {t('nav.career')}
               </Link>
               <Link
                 to="/#tech"
@@ -163,11 +163,11 @@ export default function Navbar() {
                 {t('nav.projects')}
               </Link>
               <Link
-                to="/#about"
+                to="/#career"
                 onClick={closeMenu}
                 className="flex items-center min-h-[48px] px-4 rounded-xl text-base font-medium text-text-secondary hover:text-text-primary hover:bg-border/40 transition-all duration-200"
               >
-                {t('nav.about')}
+                {t('nav.career')}
               </Link>
               <Link
                 to="/#tech"
