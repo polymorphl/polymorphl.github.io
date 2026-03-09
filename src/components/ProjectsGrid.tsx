@@ -11,13 +11,12 @@ const projects: ReadonlyArray<{
   techs: TechItem[];
 }> = [
   {
-    id: 'orcrux',
-    title: 'Orcrux',
-    url: 'https://github.com/polymorphl/orcrux',
-    image: '/assets/projects/orcrux.webp',
+    id: 'my-open-claude',
+    title: 'My Open Claude',
+    url: 'https://github.com/polymorphl/my-open-claude',
+    image: '/assets/projects/my-open-claude.webp',
     techs: [
-      { name: 'Go', icon: 'go' },
-      { name: 'TypeScript', icon: 'typescript' },
+      { name: 'Rust', icon: 'rust', viewBox: '0 0 32 32', iconClass: 'tech-icon-rust' },
     ],
   },
   {
@@ -30,14 +29,15 @@ const projects: ReadonlyArray<{
     ],
   },
   {
-    id: 'my-open-claude',
-    title: 'My Open Claude',
-    url: 'https://github.com/polymorphl/my-open-claude',
-    image: '/assets/projects/my-open-claude.webp',
+    id: 'orcrux',
+    title: 'Orcrux',
+    url: 'https://github.com/polymorphl/orcrux',
+    image: '/assets/projects/orcrux.webp',
     techs: [
-      { name: 'Rust', icon: 'rust', viewBox: '0 0 32 32', iconClass: 'tech-icon-rust' },
+      { name: 'Go', icon: 'go' },
+      { name: 'TypeScript', icon: 'typescript' },
     ],
-  },
+  }
 ] as const;
 
 export default function ProjectsGrid() {

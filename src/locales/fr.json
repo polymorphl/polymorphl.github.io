@@ -6,14 +6,14 @@
   },
   "nav": {
     "projects": "Projets",
-    "about": "À propos",
+    "career": "Carrière",
     "tech": "Stack",
     "blog": "Blog",
     "menu": "Menu",
     "close": "Fermer"
   },
   "sections": {
-    "about": "À propos",
+    "career": "Parcours",
     "tech": "Stack technique",
     "projects": "Projets"
   },
@@ -22,14 +22,64 @@
     "languages": "Langages",
     "runtime": "Runtime",
     "database": "Base de données",
+    "integrations": "Intégrations",
     "devops": "DevOps & Cloud"
   },
-  "about": {
-    "cards": [
-      { "label": "Expérience", "text": "10 ans d'expérience en développement Fullstack JS" },
-      { "label": "Expertise", "text": "Expert React, Node.js et TypeScript" },
-      { "label": "Langages", "text": "Compétences en Go (~2 ans)" },
-      { "label": "Approche", "text": "Forte sensibilité UX/UI et culture produit" }
+  "career": {
+    "visitWebsite": "Visiter le site",
+    "entries": [
+      {
+        "role": "Ingénieur logiciel lead",
+        "location": "À distance",
+        "highlights": [
+          "Fondation du département Data et définition de sa vision technique et architecture",
+          "Gestion d'une squad de 4–5 développeurs (API NestJS et applications Next.js)",
+          "Migration d'une infrastructure no-code vers du code, réduisant les frictions inter-départements",
+          "Intégration de [Chargebee](https://chargebee.com) et mise en place d'un SSO via [Clerk](https://clerk.com)"
+        ]
+      },
+      {
+        "role": "Ingénieur logiciel full stack",
+        "location": "À distance",
+        "highlights": [
+          "Développement d'applications sur blockchain publique/privée (Ethereum)",
+          "Réalisation de plusieurs PoC pour valider la stratégie produit"
+        ]
+      },
+      {
+        "role": "Ingénieur logiciel full stack",
+        "location": "Hybride",
+        "highlights": [
+          "Migration d'un monolithe PHP vers NestJS (DDD, CQRS) et Vue.js 2",
+          "Gestion d'une squad de 2 développeurs",
+          "Création d'un Design System et d'une extension navigateur",
+          "Migration du système de paiement vers Stripe",
+          "Implémentation de Keycloak pour le SSO"
+        ]
+      },
+      {
+        "role": "Ingénieur logiciel full stack",
+        "location": "Bordeaux, France",
+        "highlights": [
+          "1er salarié technique — mise en place des fondations de l'ingénierie",
+          "Conception d'un système de gestion du consentement (RGPD) gérant ~3 000 RPS"
+        ]
+      },
+      {
+        "role": "Développeur full stack",
+        "location": "Bordeaux, France",
+        "highlights": [
+          "Migration d'applications Angular 1 vers Angular 2, développement d'une application mobile native",
+          "Création d'une plateforme e-commerce avec API et modules temps réel"
+        ]
+      },
+      {
+        "role": "Développeur / Intégrateur",
+        "location": "Bordeaux, France",
+        "highlights": [
+          "Références: [GRETA Aquitaine](https://greta-cfa-aquitaine.fr/), [Oscar Kiwi](https://www.oscar.kiwi/)"
+        ]
+      }
     ]
   },
   "resume": {

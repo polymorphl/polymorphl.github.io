@@ -6,14 +6,14 @@
   },
   "nav": {
     "projects": "Projects",
-    "about": "About",
+    "career": "Career",
     "tech": "Stack",
     "blog": "Blog",
     "menu": "Menu",
     "close": "Close"
   },
   "sections": {
-    "about": "About me",
+    "career": "Career",
     "tech": "Tech stack",
     "projects": "Featured Work"
   },
@@ -22,14 +22,64 @@
     "languages": "Languages",
     "runtime": "Runtime",
     "database": "Database",
+    "integrations": "Integrations",
     "devops": "DevOps & Cloud"
   },
-  "about": {
-    "cards": [
-      { "label": "Experience", "text": "10 years of experience in Fullstack JS development" },
-      { "label": "Expertise", "text": "Expert in React, Node.js, and TypeScript" },
-      { "label": "Languages", "text": "Proficient in Go (~2 years)" },
-      { "label": "Approach", "text": "Strong UX/UI sensibility and product culture" }
+  "career": {
+    "visitWebsite": "Visit website",
+    "entries": [
+      {
+        "role": "Lead Software Engineer",
+        "location": "Remote",
+        "highlights": [
+          "Founded the Data Department and defined its technical vision and architecture",
+          "Led a squad of 4–5 engineers on a NestJS API and multiple Next.js applications",
+          "Migrated no-code infrastructure to fully coded solutions, reducing friction across departments",
+          "Integrated [Chargebee](https://chargebee.com) for billing automation and implemented SSO via [Clerk](https://clerk.com)"
+        ]
+      },
+      {
+        "role": "Full Stack Software Engineer",
+        "location": "Remote",
+        "highlights": [
+          "Developed blockchain-based applications on public/private Ethereum networks",
+          "Built multiple PoCs to validate product strategy"
+        ]
+      },
+      {
+        "role": "Full Stack Software Engineer",
+        "location": "Hybrid",
+        "highlights": [
+          "Migrated a PHP monolith to NestJS (DDD, CQRS) and Vue.js 2",
+          "Led a squad of 2 engineers",
+          "Built a Design System and a browser extension",
+          "Upgraded the payment system to Stripe",
+          "Implemented Keycloak for SSO"
+        ]
+      },
+      {
+        "role": "Full Stack Software Engineer",
+        "location": "Bordeaux, France",
+        "highlights": [
+          "1st technical hire — laid the engineering foundations of the company",
+          "Designed a GDPR consent management system handling ~3,000 RPS"
+        ]
+      },
+      {
+        "role": "Full Stack Software Developer",
+        "location": "Bordeaux, France",
+        "highlights": [
+          "Migrated Angular 1 apps to Angular 2 and built a native mobile application",
+          "Created an e-commerce platform with REST API and real-time modules"
+        ]
+      },
+      {
+        "role": "Developer / Integrator",
+        "location": "Bordeaux, France",
+        "highlights": [
+          "References: [GRETA Aquitaine](https://greta-cfa-aquitaine.fr/), [Oscar Kiwi](https://www.oscar.kiwi/)"
+        ]
+      }
     ]
   },
   "resume": {

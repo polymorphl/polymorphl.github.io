@@ -10,6 +10,9 @@ const CATEGORIES: TechCategoryData[] = [
       { name: 'React', icon: 'react' },
       { name: 'Next.js', icon: 'nextjs', invert: true },
       { name: 'NestJS', icon: 'nestjs' },
+      { name: 'Vue.js', icon: 'vuejs' },
+      { name: 'Angular', icon: 'angular' },
+      { name: 'jQuery', icon: 'jquery' },
     ],
   },
   {
@@ -17,6 +20,7 @@ const CATEGORIES: TechCategoryData[] = [
     items: [
       { name: 'TypeScript', icon: 'typescript' },
       { name: 'JavaScript', icon: 'javascript' },
+      { name: 'PHP', icon: 'php' },
       { name: 'Go', icon: 'go' },
       { name: 'Rust', icon: 'rust', viewBox: '0 0 32 32', iconClass: 'tech-icon-rust' },
     ],
@@ -30,7 +34,11 @@ const RUNTIME_ITEMS: TechCategoryData = {
 
 const DATABASE_ITEMS: TechCategoryData = {
   labelKey: 'tech.database',
-  items: [{ name: 'PostgreSQL', icon: 'postgresql' }],
+  items: [
+    { name: 'PostgreSQL', icon: 'postgresql' },
+    { name: 'MySQL', icon: 'mysql' },
+    { name: 'Aerospike', icon: 'aerospike' },
+  ],
 };
 
 const DEVOPS_ITEMS: TechCategoryData = {
@@ -40,6 +48,19 @@ const DEVOPS_ITEMS: TechCategoryData = {
     { name: 'Vercel', icon: 'vercel', invert: true },
     { name: 'GCP', icon: 'googlecloud' },
     { name: 'AWS', icon: 'aws' },
+    { name: 'Ansible', icon: 'ansible' },
+    { name: 'Nginx', icon: 'nginx' },
+  ],
+};
+
+const INTEGRATIONS_ITEMS: TechCategoryData = {
+  labelKey: 'tech.integrations',
+  items: [
+    { name: 'Stripe', icon: 'stripe' },
+    { name: 'Chargebee', icon: 'chargebee' },
+    { name: 'Keycloak', icon: 'keycloak' },
+    { name: 'Clerk', icon: 'clerk' },
+    { name: 'Ethereum', icon: 'ethereum' },
   ],
 };
 
@@ -115,7 +136,10 @@ export default function TechStack() {
           </div>
         </div>
 
-        {/* DevOps: Full-width */}
+        {/* Integrations */}
+        {renderCategory(INTEGRATIONS_ITEMS)}
+
+        {/* DevOps */}
         {renderCategory(DEVOPS_ITEMS)}
       </div>
     </section>
