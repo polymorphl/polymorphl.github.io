@@ -1,4 +1,6 @@
 import type { MDXComponents } from 'mdx/types';
+import { useState, useCallback, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import type { ReactNode } from 'react';
 import type { TimelineItem, ArticleImageProps, StepBlockProps } from '@ui/components';
 import LinkPreview from './LinkPreview';
@@ -99,15 +101,39 @@ function StepBlock({ step, children }: StepBlockProps) {
 }
 
 function ArticleImage({ src, alt, caption }: ArticleImageProps) {
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+
+  const closePreview = useCallback(() => setIsPreviewOpen(false), []);
+
+  useEffect(() => {
+    if (!isPreviewOpen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closePreview();
+    };
+    document.addEventListener('keydown', onKeyDown);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      document.body.style.overflow = '';
+    };
+  }, [isPreviewOpen, closePreview]);
+
   return (
     <figure className="my-8">
       {src ? (
-        <img
-          src={src}
-          alt={alt}
-          loading="lazy"
-          className="rounded-xl w-full object-cover border border-border shadow-[var(--shadow-soft)]"
-        />
+        <button
+          type="button"
+          onClick={() => setIsPreviewOpen(true)}
+          className="block w-full text-left rounded-xl overflow-hidden border border-border shadow-[var(--shadow-soft)] cursor-zoom-in hover:ring-2 hover:ring-accent/40 transition-shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          aria-label={alt}
+        >
+          <img
+            src={src}
+            alt={alt}
+            loading="lazy"
+            className="w-full object-cover"
+          />
+        </button>
       ) : (
         <div
           className="rounded-xl w-full flex items-center justify-center border border-border bg-surface text-text-secondary text-sm font-mono"
@@ -120,6 +146,43 @@ function ArticleImage({ src, alt, caption }: ArticleImageProps) {
       {caption && (
         <figcaption className="text-center text-xs text-text-secondary italic mt-3">{caption}</figcaption>
       )}
+
+      {isPreviewOpen &&
+        src &&
+        createPortal(
+          <>
+            <div
+              className="fixed inset-0 z-[1100] backdrop-blur-lg"
+              onClick={closePreview}
+              aria-hidden="true"
+            />
+            <div
+              className="fixed inset-0 z-[1101] flex flex-col items-center justify-center p-4 cursor-zoom-out"
+              role="dialog"
+              aria-modal="true"
+              aria-label={alt}
+              onClick={closePreview}
+            >
+              <button
+                type="button"
+                onClick={closePreview}
+                className="absolute top-4 right-4 p-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-border/50 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                aria-label="Close preview"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M18 6 6 18" /><path d="m6 6 12 12" />
+                </svg>
+              </button>
+              <img
+                src={src}
+                alt={alt}
+                className="max-w-[88vw] max-h-[82vh] object-contain shadow-[var(--shadow-floating)]"
+                onClick={(e) => e.stopPropagation()}
+              />
+            </div>
+          </>,
+          document.body
+        )}
     </figure>
   );
 }
