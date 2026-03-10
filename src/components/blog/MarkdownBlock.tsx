@@ -27,7 +27,7 @@ const components: Components = {
   ),
   pre: (props) => (
     <pre
-      className="p-3 rounded-lg bg-surface border border-border overflow-x-auto text-sm mb-3 hljs-code-block"
+      className="p-3 rounded-lg bg-surface border border-border overflow-x-auto text-sm mb-3 hljs-code-block min-w-0 max-w-full"
       {...props}
     />
   ),
@@ -81,7 +81,7 @@ function MarkdownBlock({
     : 'my-6';
 
   const contentBlock = (
-    <div className="prose-inline [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
+    <div className="prose-inline min-w-0 [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
       {fetchError && (
         <p className="text-red-500 text-sm mb-3">{fetchError}</p>
       )}
@@ -99,8 +99,8 @@ function MarkdownBlock({
 
   if (isAccordion) {
     return (
-      <div className={baseWrapperClass}>
-        <div className="flex items-center gap-3 w-full">
+      <div className={`${baseWrapperClass} min-w-0`}>
+        <div className="flex items-center gap-3 w-full min-w-0">
           <button
             type="button"
             onClick={() => setAccordionOpen((o) => !o)}
@@ -128,8 +128,8 @@ function MarkdownBlock({
           )}
         </div>
         {accordionOpen && (
-          <div className="mt-4 pt-4 border-t border-border">
-            <div className="max-h-[60vh] overflow-y-auto pr-2">
+          <div className="mt-4 pt-4 border-t border-border min-w-0">
+            <div className="max-h-[60vh] overflow-y-auto overflow-x-auto min-w-0 pr-2">
               {contentBlock}
             </div>
             {downloadUrl && (

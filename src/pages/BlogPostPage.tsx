@@ -118,8 +118,8 @@ export default function BlogPostPage() {
   return (
     <>
       <ReadingProgressBar />
-      <div className="md:col-span-2 w-full lg:grid lg:grid-cols-[1fr_200px] lg:gap-12 lg:items-start">
-        <article className="w-full max-w-3xl mx-auto lg:mx-0">
+      <div className="md:col-span-2 w-full min-w-0 lg:grid lg:grid-cols-[1fr_200px] lg:gap-12 lg:items-start">
+        <article className="w-full min-w-0 max-w-3xl mx-auto lg:mx-0">
           {cover && (
             <div className="relative rounded-xl overflow-hidden mb-8 h-40 md:h-56">
               <img
@@ -168,7 +168,7 @@ export default function BlogPostPage() {
               <hr className="border-border mt-6" />
             </header>
 
-            <div ref={contentRef} className="prose-blog">
+            <div ref={contentRef} className="prose-blog min-w-0 overflow-x-hidden">
               <MDXProvider components={MDXComponents}>
                 <Content />
               </MDXProvider>
