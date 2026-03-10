@@ -1,44 +1,7 @@
 import { usePostHog } from 'posthog-js/react';
 import { useLanguage } from '@hooks/useLanguage';
 import TechPill from '@components/TechPill';
-import type { TechItem } from '@domain/tech';
-
-const projects: ReadonlyArray<{
-  id: string;
-  title: string;
-  url: string;
-  image: string;
-  techs: TechItem[];
-}> = [
-  {
-    id: 'my-open-claude',
-    title: 'My Open Claude',
-    url: 'https://github.com/polymorphl/my-open-claude',
-    image: '/assets/projects/my-open-claude.webp',
-    techs: [
-      { name: 'Rust', icon: 'rust', viewBox: '0 0 32 32', iconClass: 'tech-icon-rust' },
-    ],
-  },
-  {
-    id: 'go-kv',
-    title: 'Go-kv',
-    url: 'https://github.com/polymorphl/go-kv',
-    image: '/assets/projects/go-kv.webp',
-    techs: [
-      { name: 'Go', icon: 'go' },
-    ],
-  },
-  {
-    id: 'orcrux',
-    title: 'Orcrux',
-    url: 'https://github.com/polymorphl/orcrux',
-    image: '/assets/projects/orcrux.webp',
-    techs: [
-      { name: 'Go', icon: 'go' },
-      { name: 'TypeScript', icon: 'typescript' },
-    ],
-  }
-] as const;
+import { PROJECTS } from '@config/projects';
 
 export default function ProjectsGrid() {
   const posthog = usePostHog();
@@ -46,7 +9,7 @@ export default function ProjectsGrid() {
 
   return (
     <div className="flex flex-col md:grid md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-6 w-full">
-      {projects.map((p) => (
+      {PROJECTS.map((p) => (
         <a
           key={p.id}
           href={p.url}
@@ -57,7 +20,7 @@ export default function ProjectsGrid() {
           onClick={() => posthog?.capture('project_clicked', { project_id: p.id, project_title: p.title, project_url: p.url })}
         >
           <div className="project-card-image w-20 h-20 md:w-full md:h-auto shrink-0 rounded-l-lg md:rounded-none md:rounded-t-xl aspect-square md:aspect-[4/3] relative overflow-hidden bg-gradient-to-br from-accent/20 to-primary/10 flex items-center justify-center">
-            {p.image && <img src={p.image} alt={t(`projects.${p.id}.title`)} fetchPriority={p.id === 'orcrux' ? 'high' : undefined} className="w-full h-full object-cover md:object-contain transition-transform duration-300 group-hover:scale-105" loading={p.id === 'orcrux' ? undefined : 'lazy'} width={400} height={300} />}
+            {p.image && <img src={p.image} alt={p.title} fetchPriority={p.id === 'orcrux' ? 'high' : undefined} className="w-full h-full object-cover md:object-contain transition-transform duration-300 group-hover:scale-105" loading={p.id === 'orcrux' ? undefined : 'lazy'} width={400} height={300} />}
             <div className="project-card-overlay absolute inset-0 bg-[#09090b]/90 hidden md:flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               <span className="text-white font-semibold text-sm">{t('projects.viewProject')}</span>
             </div>

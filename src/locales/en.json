@@ -22,11 +22,22 @@
     "languages": "Languages",
     "runtime": "Runtime",
     "database": "Database",
+    "cacheBrokers": "Cache & Brokers",
     "integrations": "Integrations",
-    "devops": "DevOps & Cloud"
+    "devops": "DevOps & Cloud",
+    "popoverLabel": "{{tech}} experience details",
+    "experienceYears_one": "1 year experience",
+    "experienceYears_other": "{{count}} years experience",
+    "experienceMoreThanYears_one": "More than 1 year",
+    "experienceMoreThanYears_other": "More than {{count}} years",
+    "experienceLessThanOneYear": "Less than 1 year",
+    "career": "Career",
+    "projects": "Projects",
+    "noDetails": "No details available"
   },
   "career": {
     "visitWebsite": "Visit website",
+    "periodPresent": "present",
     "entries": [
       {
         "role": "Lead Software Engineer",
@@ -69,8 +80,9 @@
         "role": "Full Stack Software Developer",
         "location": "Bordeaux, France",
         "highlights": [
-          "Migrated Angular 1 apps to Angular 2 and built a native mobile application",
-          "Created an e-commerce platform with REST API and real-time modules"
+          "Migrated Angular 1 apps to Angular 2",
+          "Built a native mobile application",
+          "Created an e-commerce platform with REST API and real-time modules (websocket)"
         ]
       },
       {

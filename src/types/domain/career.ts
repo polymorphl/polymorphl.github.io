@@ -1,7 +1,11 @@
+/** Period as [start, end] in MM/YYYY format. End can be "present" for ongoing. */
+export type CareerPeriod = [string, string];
+
 /** Shared data (company, period, stack, logo, website) — from config. */
 export interface CareerEntryBase {
   company: string;
-  period: string;
+  /** [start, end] in MM/YYYY format. End can be "present" for ongoing. */
+  period: CareerPeriod;
   stack: string[];
   /** Sprite symbol ID for company logo (e.g. paradox-institute) */
   logoId?: string;

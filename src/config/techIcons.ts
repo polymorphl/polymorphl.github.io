@@ -40,6 +40,9 @@ const TECH_ICON_MAP: Record<string, TechIconConfig> = {
   php: { icon: 'php' },
   mysql: { icon: 'mysql' },
   jquery: { icon: 'jquery' },
+  mongodb: { icon: 'mongodb' },
+  redis: { icon: 'redis' },
+  zeromq: { icon: 'zeromq' },
 };
 
 export function getTechIconConfig(techName: string): TechIconConfig | undefined {

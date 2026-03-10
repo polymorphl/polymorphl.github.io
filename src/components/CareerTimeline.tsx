@@ -4,6 +4,8 @@ import { useInViewAnimation } from '@hooks/useInViewAnimation';
 import TechPill from '@components/TechPill';
 import { CAREER_ENTRIES_BASE } from '@config/career';
 import { getTechIconConfigs } from '@config/techIcons';
+import { getPeriodDurationInYears } from '@lib/computeTechExperience';
+import { formatPeriodForDisplay, formatExperienceDuration } from '@lib/formatPeriod';
 import { parseTextWithLinks } from '@lib/parseLinks';
 import type { CareerEntry, CareerEntryI18n } from '@domain/career';
 
@@ -31,7 +33,7 @@ export default function CareerTimeline() {
       <div className="relative flex flex-col gap-6 md:gap-8">
         {entries.map((entry, index) => (
           <div
-            key={`${entry.company}-${entry.period}`}
+            key={`${entry.company}-${entry.period.join('-')}`}
             className={`group relative flex gap-4 md:gap-6 career-entry ${isInView ? 'in-view' : 'in-view-hidden'}`}
             style={{ animationDelay: isInView ? `${index * 100}ms` : undefined }}
           >
@@ -91,10 +93,12 @@ export default function CareerTimeline() {
             <div className="career-card flex-1 min-w-0 rounded-xl border border-border bg-surface/60 dark:bg-surface/40 pl-4 md:pl-5 pr-4 md:pr-5 py-4 md:py-5 border-l-4 border-l-accent transition-all duration-300 ease-out hover:shadow-soft hover:-translate-y-1 hover:border-accent/30">
               {/* Header: period + role */}
               <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3 mb-2">
-                <span className="text-xs font-mono text-accent-on-surface shrink-0 tabular-nums">{entry.period}</span>
+                <span className="text-xs font-mono text-accent-on-surface shrink-0 tabular-nums">
+                  {formatPeriodForDisplay(entry.period, t('career.periodPresent'))}
+                </span>
                 <h3 className="text-base md:text-lg font-bold text-text-primary leading-snug">{entry.role}</h3>
               </div>
-              {/* Company + location */}
+              {/* Company + location + duration */}
               <p className="text-sm text-text-secondary mb-3 flex items-center gap-2 flex-wrap">
                 {entry.website ? (
                   <a
@@ -110,6 +114,8 @@ export default function CareerTimeline() {
                 )}
                 <span className="text-border mx-1">·</span>
                 <span>{entry.location}</span>
+                <span className="text-border mx-1">·</span>
+                <span>{formatExperienceDuration(getPeriodDurationInYears(entry.period), t)}</span>
               </p>
 
               {/* Stack pills */}

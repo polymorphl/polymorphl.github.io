@@ -22,11 +22,22 @@
     "languages": "Langages",
     "runtime": "Runtime",
     "database": "Base de données",
+    "cacheBrokers": "Cache & Brokers",
     "integrations": "Intégrations",
-    "devops": "DevOps & Cloud"
+    "devops": "DevOps & Cloud",
+    "popoverLabel": "Détails d'expérience {{tech}}",
+    "experienceYears_one": "1 an d'expérience",
+    "experienceYears_other": "{{count}} ans d'expérience",
+    "experienceMoreThanYears_one": "Plus de 1 an",
+    "experienceMoreThanYears_other": "Plus de {{count}} ans",
+    "experienceLessThanOneYear": "Moins d'un an",
+    "career": "Carrière",
+    "projects": "Projets",
+    "noDetails": "Aucun détail disponible"
   },
   "career": {
     "visitWebsite": "Visiter le site",
+    "periodPresent": "présent",
     "entries": [
       {
         "role": "Ingénieur logiciel lead",
@@ -69,8 +80,9 @@
         "role": "Développeur full stack",
         "location": "Bordeaux, France",
         "highlights": [
-          "Migration d'applications Angular 1 vers Angular 2, développement d'une application mobile native",
-          "Création d'une plateforme e-commerce avec API et modules temps réel"
+          "Migration d'applications Angular 1 vers Angular 2",
+          "Développement d'une application mobile native",
+          "Création d'une plateforme e-commerce avec API et modules temps réel (websocket)"
         ]
       },
       {

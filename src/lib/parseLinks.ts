@@ -31,7 +31,7 @@ export function parseTextWithLinks(text: string): ReactNode[] {
           key: `${match.index}-${linkText}`,
           href: url,
           ...(isExternal && { target: '_blank', rel: 'noopener noreferrer' }),
-          className: 'text-accent hover:underline',
+          className: 'text-[var(--color-accent-on-surface)] hover:underline focus:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-on-surface)] focus-visible:ring-offset-2 rounded',
         },
         linkText
       )

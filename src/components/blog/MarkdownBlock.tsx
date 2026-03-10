@@ -15,7 +15,7 @@ const components: Components = {
   h2: (props) => <h2 className={headingClasses.h2} {...props} />,
   h3: (props) => <h3 className={headingClasses.h3} {...props} />,
   p: (props) => <p className="text-text-secondary leading-relaxed mb-3" {...props} />,
-  a: (props) => <a className="text-accent hover:underline" {...props} />,
+  a: (props) => <a className="text-[var(--color-accent-on-surface)] hover:underline" {...props} />,
   ul: (props) => <ul className="list-disc list-inside text-text-secondary mb-3 space-y-1" {...props} />,
   ol: (props) => <ol className="list-decimal list-inside text-text-secondary mb-3 space-y-1" {...props} />,
   li: (props) => <li className="ml-2" {...props} />,

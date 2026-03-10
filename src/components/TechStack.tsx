@@ -1,7 +1,11 @@
+import { useMemo } from 'react';
 import { useLanguage } from '@hooks/useLanguage';
 import { useInViewAnimation } from '@hooks/useInViewAnimation';
-import TechPill from '@components/TechPill';
+import TechStackPill from '@components/TechStackPill';
 import type { TechCategoryData } from '@domain/tech';
+import { CAREER_ENTRIES_BASE } from '@config/career';
+import { PROJECTS } from '@config/projects';
+import { computeTechExperience } from '@lib/computeTechExperience';
 
 const CATEGORIES: TechCategoryData[] = [
   {
@@ -37,7 +41,16 @@ const DATABASE_ITEMS: TechCategoryData = {
   items: [
     { name: 'PostgreSQL', icon: 'postgresql' },
     { name: 'MySQL', icon: 'mysql' },
+    { name: 'MongoDB', icon: 'mongodb' },
     { name: 'Aerospike', icon: 'aerospike' },
+  ],
+};
+
+const CACHE_BROKERS_ITEMS: TechCategoryData = {
+  labelKey: 'tech.cacheBrokers',
+  items: [
+    { name: 'Redis', icon: 'redis' },
+    { name: 'ZeroMQ', icon: 'zeromq' },
   ],
 };
 
@@ -64,9 +77,17 @@ const INTEGRATIONS_ITEMS: TechCategoryData = {
   ],
 };
 
+function normalizeTech(name: string): string {
+  return name.trim().toLowerCase();
+}
+
 export default function TechStack() {
   const { t } = useLanguage();
   const { ref: techRef, isInView: techInView } = useInViewAnimation();
+  const experienceMap = useMemo(
+    () => computeTechExperience(CAREER_ENTRIES_BASE, PROJECTS),
+    []
+  );
 
   const renderCategory = (category: TechCategoryData) => (
     <div key={category.labelKey} className="tech-category flex flex-col gap-2 md:gap-3 md:col-span-2">
@@ -75,13 +96,14 @@ export default function TechStack() {
       </h3>
       <div className="tech-items flex flex-wrap gap-2 md:gap-3">
         {category.items.map((item) => (
-          <TechPill
+          <TechStackPill
             key={item.name}
             name={item.name}
             icon={item.icon}
             viewBox={item.viewBox}
             invert={item.invert}
             iconClass={item.iconClass}
+            experience={experienceMap.get(normalizeTech(item.name))}
           />
         ))}
       </div>
@@ -106,13 +128,14 @@ export default function TechStack() {
             </h3>
             <div className="tech-items flex flex-wrap gap-2 md:gap-3">
               {RUNTIME_ITEMS.items.map((item) => (
-                <TechPill
+                <TechStackPill
                   key={item.name}
                   name={item.name}
                   icon={item.icon}
                   viewBox={item.viewBox}
                   invert={item.invert}
                   iconClass={item.iconClass}
+                  experience={experienceMap.get(normalizeTech(item.name))}
                 />
               ))}
             </div>
@@ -123,18 +146,22 @@ export default function TechStack() {
             </h3>
             <div className="tech-items flex flex-wrap gap-2 md:gap-3">
               {DATABASE_ITEMS.items.map((item) => (
-                <TechPill
+                <TechStackPill
                   key={item.name}
                   name={item.name}
                   icon={item.icon}
                   viewBox={item.viewBox}
                   invert={item.invert}
                   iconClass={item.iconClass}
+                  experience={experienceMap.get(normalizeTech(item.name))}
                 />
               ))}
             </div>
           </div>
         </div>
+
+        {/* Cache & Brokers */}
+        {renderCategory(CACHE_BROKERS_ITEMS)}
 
         {/* Integrations */}
         {renderCategory(INTEGRATIONS_ITEMS)}
