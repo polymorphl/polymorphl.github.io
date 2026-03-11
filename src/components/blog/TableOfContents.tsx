@@ -39,7 +39,7 @@ export default function TableOfContents({ contentRef, slug, lang }: TableOfConte
 
     if (list.length === 0) return;
 
-    const THRESHOLD = 80; // aligné avec rootMargin
+    const THRESHOLD = 80; // aligned with rootMargin
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -54,8 +54,8 @@ export default function TableOfContents({ contentRef, slug, lang }: TableOfConte
 
         let active = list.find((h) => visibleRef.current.has(h.id))?.id ?? null;
 
-        // Entre deux sections : la section au-dessus du viewport (la plus proche)
-        // → scroll vers le haut : avant-dernière section active ; scroll vers le bas : section quittée
+        // Between two sections: the section above the viewport (closest one)
+        // → scroll up: second-to-last section active; scroll down: section left
         if (active === null) {
           let bestId: string | null = null;
           let bestBottom = -Infinity;
@@ -69,7 +69,7 @@ export default function TableOfContents({ contentRef, slug, lang }: TableOfConte
             }
           });
           active = bestId;
-          // En haut de page (au-dessus de la 1re section) : activer la 1re section
+          // At top of page (above first section): activate first section
           if (active === null && list[0] && elements[0]) {
             const firstRect = (elements[0] as HTMLElement).getBoundingClientRect();
             if (firstRect.top > THRESHOLD) active = list[0].id;
@@ -89,7 +89,7 @@ export default function TableOfContents({ contentRef, slug, lang }: TableOfConte
 
   return (
     <nav
-      aria-label="Table des matières"
+      aria-label="Table of contents"
       className="hidden lg:block sticky top-28 self-start w-[200px] shrink-0"
     >
       <ul className="space-y-2 text-sm">
