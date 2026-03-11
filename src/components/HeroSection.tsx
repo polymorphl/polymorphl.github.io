@@ -6,7 +6,7 @@ export default function HeroSection() {
   const { t } = useLanguage();
 
   return (
-    <section className="hero md:col-span-2 w-full flex flex-col items-center md:items-stretch gap-6 text-center md:text-left animate-fade-in-up overflow-hidden md:flex-row md:items-center md:gap-12 lg:gap-16">
+    <section className="hero md:col-span-2 w-full flex flex-col items-center md:items-stretch gap-6 text-center md:text-left animate-fade-in-up md:flex-row md:items-center md:gap-12 lg:gap-16">
       <div className="profile-card flex justify-center shrink-0 animate-scale-in overflow-hidden rounded-[24px]" style={{ animationDelay: '0.05s' }}>
         <picture>
           <source srcSet="/profile.webp" type="image/webp" />

@@ -34,8 +34,8 @@ export default function HomePage() {
     <>
       <HeroSection />
 
-      <section ref={projectsRef} id="projects" className={`md:col-span-2 w-full max-w-full min-w-0 self-start text-left scroll-mt-28 ${projectsInView ? 'in-view' : 'in-view-hidden'}`}>
-        <h2 className={`section-title text-xl md:text-2xl font-bold text-text-primary mb-4 md:mb-6 tracking-tight ${projectsInView ? 'in-view' : 'in-view-hidden'}`}>{t('projects.title')}</h2>
+      <section ref={projectsRef} id="projects" className={`md:col-span-2 w-full max-w-full min-w-0 self-start text-left scroll-mt-28 ${projectsInView ? 'animate-[in-view-fade-up_0.6s_cubic-bezier(0.16,1,0.3,1)_forwards]' : 'opacity-0 translate-y-[30px] will-change-[opacity,transform]'}`}>
+        <h2 className={`section-title text-xl md:text-2xl font-bold text-text-primary mb-4 md:mb-6 tracking-tight ${projectsInView ? 'animate-[in-view-fade-up_0.6s_cubic-bezier(0.16,1,0.3,1)_forwards]' : 'opacity-0 translate-y-[30px] will-change-[opacity,transform]'}`}>{t('projects.title')}</h2>
         <ProjectsGrid />
       </section>
 
