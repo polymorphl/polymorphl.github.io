@@ -6,7 +6,7 @@
   },
   "nav": {
     "projects": "Projets",
-    "career": "Carrière",
+    "career": "Parcours",
     "tech": "Stack",
     "blog": "Blog",
     "menu": "Menu",
@@ -15,7 +15,7 @@
   "sections": {
     "career": "Parcours",
     "tech": "Stack technique",
-    "projects": "Projets"
+    "projects": "Projets open-source"
   },
   "tech": {
     "frameworks": "Frameworks",
@@ -111,7 +111,7 @@
     "readingTime": "min de lecture"
   },
   "projects": {
-    "title": "Projets",
+    "title": "Projets open-source",
     "viewProject": "Voir le projet",
     "orcrux": {
       "description": "GUI desktop multiplateforme avec Wails pour tester le partage de secret de Shamir — générer, diviser et restaurer des secrets."

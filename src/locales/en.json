@@ -15,7 +15,7 @@
   "sections": {
     "career": "Career",
     "tech": "Tech stack",
-    "projects": "Featured Work"
+    "projects": "Open-source projects"
   },
   "tech": {
     "frameworks": "Frameworks",
@@ -111,7 +111,7 @@
     "readingTime": "min read"
   },
   "projects": {
-    "title": "Featured Work",
+    "title": "Open-source projects",
     "viewProject": "View project",
     "orcrux": {
       "description": "Cross-platform desktop GUI with Wails to test Shamir's Secret Sharing — generate, split, and recover secrets."
