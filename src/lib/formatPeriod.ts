@@ -6,7 +6,7 @@ export function isPresent(value: string): boolean {
   return PRESENT_VARIANTS.includes(value.trim().toLowerCase());
 }
 
-/** Format [start, end] for display, e.g. "01/2015 – 09/2016" or "01/2015 – présent". */
+/** Format [start, end] for display, e.g. "01/2015 – 09/2016" or "01/2015 – present". */
 export function formatPeriodForDisplay(period: CareerPeriod, presentLabel: string): string {
   const [start, end] = period;
   const endDisplay = isPresent(end) ? presentLabel : end;

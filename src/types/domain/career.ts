@@ -1,12 +1,15 @@
 /** Period as [start, end] in MM/YYYY format. End can be "present" for ongoing. */
 export type CareerPeriod = [string, string];
 
+import type { TechId } from '@config/techs';
+
 /** Shared data (company, period, stack, logo, website) — from config. */
 export interface CareerEntryBase {
   company: string;
   /** [start, end] in MM/YYYY format. End can be "present" for ongoing. */
   period: CareerPeriod;
-  stack: string[];
+  /** Tech IDs from TECH_REGISTRY (e.g. 'react', 'nodejs') */
+  stack: TechId[];
   /** Sprite symbol ID for company logo (e.g. paradox-institute) */
   logoId?: string;
   /** When true, logo is light/white and needs dark background for contrast */

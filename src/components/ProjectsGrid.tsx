@@ -2,6 +2,7 @@ import { usePostHog } from 'posthog-js/react';
 import { useLanguage } from '@hooks/useLanguage';
 import TechPill from '@components/TechPill';
 import { PROJECTS } from '@config/projects';
+import { getTech } from '@config/techs';
 
 export default function ProjectsGrid() {
   const posthog = usePostHog();
@@ -30,9 +31,21 @@ export default function ProjectsGrid() {
             <div className="flex items-center gap-2 min-w-0">
               <h3 className="font-semibold text-text-primary text-sm md:text-lg truncate" style={{ fontFamily: 'var(--font-display)' }}>{p.title}</h3>
               <div className="flex items-center gap-1 shrink-0">
-                {p.techs.map((tech) => (
-                  <TechPill key={tech.name} {...tech} mini />
-                ))}
+                {p.techIds.map((techId) => {
+                  const tech = getTech(techId);
+                  if (!tech) return null;
+                  return (
+                    <TechPill
+                      key={techId}
+                      name={tech.displayName}
+                      icon={tech.icon}
+                      viewBox={tech.viewBox}
+                      invert={tech.invert}
+                      iconClass={tech.iconClass}
+                      mini
+                    />
+                  );
+                })}
               </div>
             </div>
             <p className="text-xs md:text-sm text-text-secondary mt-1.5 md:mt-2 line-clamp-4 md:line-clamp-6 hidden md:block">{t(`projects.${p.id}.description`)}</p>

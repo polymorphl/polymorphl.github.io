@@ -3,7 +3,7 @@ import { useLanguage } from '@hooks/useLanguage';
 import { useInViewAnimation } from '@hooks/useInViewAnimation';
 import TechPill from '@components/TechPill';
 import { CAREER_ENTRIES_BASE } from '@config/career';
-import { getTechIconConfigs } from '@config/techIcons';
+import { getTech, toIconConfig } from '@config/techs';
 import { getPeriodDurationInYears } from '@lib/computeTechExperience';
 import { formatPeriodForDisplay, formatExperienceDuration } from '@lib/formatPeriod';
 import { parseTextWithLinks } from '@lib/parseLinks';
@@ -22,11 +22,10 @@ export default function CareerTimeline() {
   const { t, tObject } = useLanguage();
   const i18nEntries = (tObject<CareerEntryI18n[]>('career.entries') ?? []) as CareerEntryI18n[];
   const entries = mergeCareerEntries(CAREER_ENTRIES_BASE, i18nEntries);
-  const techConfigCache = getTechIconConfigs(entries.flatMap((e) => e.stack));
 
   return (
-    <section ref={ref} id="career" className={`md:col-span-2 w-full text-left scroll-mt-28 ${isInView ? 'in-view' : 'in-view-hidden'}`}>
-      <h2 className={`section-title text-xl md:text-2xl font-bold text-text-primary mb-6 md:mb-8 tracking-tight ${isInView ? 'in-view' : 'in-view-hidden'}`}>
+    <section ref={ref} id="career" className={`md:col-span-2 w-full text-left scroll-mt-28 ${isInView ? 'animate-[in-view-fade-up_0.6s_cubic-bezier(0.16,1,0.3,1)_forwards]' : 'opacity-0 translate-y-[30px] will-change-[opacity,transform]'}`}>
+      <h2 className={`section-title text-xl md:text-2xl font-bold text-text-primary mb-6 md:mb-8 tracking-tight ${isInView ? 'animate-[in-view-fade-up_0.6s_cubic-bezier(0.16,1,0.3,1)_forwards]' : 'opacity-0 translate-y-[30px] will-change-[opacity,transform]'}`}>
         {t('sections.career')}
       </h2>
 
@@ -34,7 +33,7 @@ export default function CareerTimeline() {
         {entries.map((entry, index) => (
           <div
             key={`${entry.company}-${entry.period.join('-')}`}
-            className={`group relative flex gap-4 md:gap-6 career-entry ${isInView ? 'in-view' : 'in-view-hidden'}`}
+            className={`group relative flex gap-4 md:gap-6 career-entry ${isInView ? 'animate-[in-view-fade-up_0.6s_cubic-bezier(0.16,1,0.3,1)_forwards]' : 'opacity-0 translate-y-[30px] will-change-[opacity,transform]'}`}
             style={{ animationDelay: isInView ? `${index * 100}ms` : undefined }}
           >
             {/* Left column: logo + timeline */}
@@ -55,7 +54,8 @@ export default function CareerTimeline() {
                   }
                   className={`career-logo shrink-0 w-20 h-20 md:w-24 md:h-24 rounded-xl overflow-hidden p-1.5 flex items-center justify-center border border-border shadow-[var(--shadow-soft)] transition-all duration-300 hover:scale-105 hover:shadow-[var(--shadow-floating)] cursor-pointer block ${
                     entry.logoLight ? 'bg-zinc-800 dark:bg-zinc-700' : 'bg-white dark:bg-zinc-200'
-                  }`}
+                  } ${isInView ? 'animate-[career-logo-in_0.5s_cubic-bezier(0.16,1,0.3,1)_forwards]' : ''}`}
+                style={isInView ? { animationDelay: `${index * 100}ms` } : undefined}
                 >
                   {entry.logoId ? (
                     <svg className="w-full h-full object-contain" preserveAspectRatio="xMidYMid meet" aria-hidden>
@@ -69,7 +69,8 @@ export default function CareerTimeline() {
                 <div
                   className={`career-logo shrink-0 w-20 h-20 md:w-24 md:h-24 rounded-xl overflow-hidden p-1.5 flex items-center justify-center border border-border shadow-[var(--shadow-soft)] transition-all duration-300 hover:scale-105 hover:shadow-[var(--shadow-floating)] ${
                     entry.logoLight ? 'bg-zinc-800 dark:bg-zinc-700' : 'bg-white dark:bg-zinc-200'
-                  }`}
+                  } ${isInView ? 'animate-[career-logo-in_0.5s_cubic-bezier(0.16,1,0.3,1)_forwards]' : ''}`}
+                style={isInView ? { animationDelay: `${index * 100}ms` } : undefined}
                 >
                   {entry.logoId ? (
                     <svg className="w-full h-full object-contain" preserveAspectRatio="xMidYMid meet" aria-hidden>
@@ -120,14 +121,17 @@ export default function CareerTimeline() {
 
               {/* Stack pills */}
               <div className="flex flex-wrap gap-1.5 mb-3">
-                {entry.stack.map((tech) => (
-                  <TechPill
-                    key={tech}
-                    name={tech}
-                    compact
-                    iconConfig={techConfigCache.get(tech.trim().toLowerCase()) ?? null}
-                  />
-                ))}
+                {entry.stack.map((techId) => {
+                  const tech = getTech(techId);
+                  return (
+                    <TechPill
+                      key={techId}
+                      name={tech?.displayName ?? techId}
+                      compact
+                      iconConfig={tech ? toIconConfig(tech) : null}
+                    />
+                  );
+                })}
               </div>
 
               {/* Highlights */}

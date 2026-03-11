@@ -1,4 +1,3 @@
-import { getTechIconConfig } from '@config/techIcons';
 import type { TechPillProps } from '@ui/components';
 
 export default function TechPill({
@@ -11,12 +10,7 @@ export default function TechPill({
   compact,
   iconConfig: iconConfigProp,
 }: TechPillProps) {
-  const config =
-    iconConfigProp !== undefined
-      ? iconConfigProp
-      : !iconProp && name
-        ? getTechIconConfig(name)
-        : undefined;
+  const config = iconConfigProp !== undefined ? iconConfigProp : undefined;
   const icon = iconProp ?? config?.icon;
   const viewBox = config?.viewBox ?? viewBoxProp;
   const invert = invertProp ?? config?.invert;
