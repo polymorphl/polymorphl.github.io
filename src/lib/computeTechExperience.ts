@@ -77,5 +77,26 @@ export function computeTechExperience(
     }
   }
 
+  // Merge vanillajs experience into javascript (Vanilla JS is JavaScript)
+  const vanillajs = map.get('vanillajs');
+  if (vanillajs) {
+    const js = map.get('javascript');
+    if (js) {
+      js.years += vanillajs.years;
+      for (const c of vanillajs.companies) {
+        if (!js.companies.some((x) => x.name === c.name)) js.companies.push(c);
+      }
+      for (const pid of vanillajs.projectIds) {
+        if (!js.projectIds.includes(pid)) js.projectIds.push(pid);
+      }
+    } else {
+      map.set('javascript', {
+        years: vanillajs.years,
+        companies: [...vanillajs.companies],
+        projectIds: [...vanillajs.projectIds],
+      });
+    }
+  }
+
   return map;
 }

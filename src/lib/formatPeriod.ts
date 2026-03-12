@@ -15,9 +15,12 @@ export function formatPeriodForDisplay(period: CareerPeriod, presentLabel: strin
 
 type TranslateFn = (key: string, options?: Record<string, unknown>) => string;
 
-/** Format experience duration for display (e.g. "Plus de 2 ans", "1 an", "Moins d'un an"). */
+/** Format experience duration for display (e.g. "2 ans et demi", "Plus de 2 ans", "1 an", "Moins d'un an"). */
 export function formatExperienceDuration(years: number, t: TranslateFn): string {
   if (years < 1) return t('tech.experienceLessThanOneYear');
-  if (years % 1 >= 0.1) return t('tech.experienceMoreThanYears', { count: Math.floor(years) });
+  const floor = Math.floor(years);
+  const frac = years % 1;
+  if (frac >= 0.4 && frac <= 0.6) return t('tech.experienceYearsAndHalf', { count: floor });
+  if (frac >= 0.1) return t('tech.experienceMoreThanYears', { count: floor });
   return t('tech.experienceYears', { count: Math.round(years) });
 }

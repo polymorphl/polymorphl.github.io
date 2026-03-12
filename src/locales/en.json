@@ -28,6 +28,8 @@
     "popoverLabel": "{{tech}} experience details",
     "experienceYears_one": "1 year experience",
     "experienceYears_other": "{{count}} years experience",
+    "experienceYearsAndHalf_one": "1 year and a half",
+    "experienceYearsAndHalf_other": "{{count}} years and a half",
     "experienceMoreThanYears_one": "More than 1 year",
     "experienceMoreThanYears_other": "More than {{count}} years",
     "experienceLessThanOneYear": "Less than 1 year",
