@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 
 export default function ReadingProgressBar() {
   const [progress, setProgress] = useState(0);
@@ -20,7 +21,7 @@ export default function ReadingProgressBar() {
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (progress / 100) * circumference;
 
-  return (
+  return createPortal(
     <div
       className="hidden md:flex fixed z-[500] items-center justify-center transition-transform duration-500"
       style={{
@@ -86,6 +87,7 @@ export default function ReadingProgressBar() {
           </g>
         )}
       </svg>
-    </div>
+    </div>,
+    document.body
   );
 }
