@@ -181,14 +181,9 @@
     }
   }
 
-  @keyframes page-in {
-    from {
-      opacity: 0;
-      transform: translateY(8px);
-    }
+  @keyframes profile-border-rotate {
     to {
-      opacity: 1;
-      transform: translateY(0);
+      transform: rotate(360deg);
     }
   }
 
@@ -214,36 +209,6 @@
     }
   }
 
-  @keyframes in-view-fade-up {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  --animate-in-view-fade-up: in-view-fade-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-
-  @keyframes career-logo-in {
-    from {
-      opacity: 0;
-      transform: scale(0.8) translateX(-8px);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1) translateX(0);
-    }
-  }
-  --animate-career-logo-in: career-logo-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  --animate-page-in: page-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-/* --- Page transition (route changes) --- */
-.page-transition {
-  animation: var(--animate-page-in);
 }
 
 /* ========================================================================== */
@@ -318,6 +283,45 @@ button:focus-visible {
 [data-theme="dark"] .hljs-code-block .hljs-template-variable { color: #22d3ee; }
 [data-theme="dark"] .hljs-code-block .hljs-meta { color: #94a3b8; }
 
+/* --- Profile photo animated border --- */
+/* Wrapper has explicit dimensions (PROFILE_PHOTO_SIZE); ring overlays 2px outside */
+.profile-border-wrapper {
+  position: relative;
+}
+
+.profile-border-wrapper .profile-border-ring {
+  position: absolute;
+  inset: -2px;
+  border-radius: 26px;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.profile-border-wrapper .profile-border-ring::before {
+  content: "";
+  position: absolute;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    color-mix(in oklch, var(--color-accent) 60%, transparent) 25deg,
+    transparent 50deg,
+    transparent 180deg,
+    color-mix(in oklch, var(--color-accent) 60%, transparent) 205deg,
+    transparent 230deg
+  );
+  animation: profile-border-rotate 10s linear infinite;
+}
+
+.profile-photo-picture {
+  display: block;
+  line-height: 0;
+  font-size: 0;
+}
+
 /* --- Reduced motion --- */
 @media (prefers-reduced-motion: reduce) {
 
@@ -354,8 +358,12 @@ button:focus-visible {
     transition: none !important;
   }
 
-  .page-transition {
-    animation: none !important;
+  .profile-border-wrapper .profile-border-ring {
+    display: none;
+  }
+
+  .profile-border-wrapper {
+    border: 2px solid color-mix(in oklch, var(--color-accent) 40%, transparent);
   }
 }
 

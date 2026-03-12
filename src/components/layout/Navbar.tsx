@@ -1,14 +1,30 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '@components/ThemeProvider';
 import { useLanguage } from '@hooks/useLanguage';
+
+const SECTION_IDS = ['projects', 'career', 'tech'] as const;
 
 export default function Navbar() {
   const { toggleTheme } = useTheme();
   const { lang, setLanguage, t } = useLanguage();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const closeMenu = useCallback(() => setIsMenuOpen(false), []);
+
+  const scrollToSection = useCallback(
+    (sectionId: (typeof SECTION_IDS)[number]) => {
+      closeMenu();
+      if (location.pathname !== '/') {
+        navigate('/', { state: { scrollTo: sectionId } });
+      } else {
+        document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    },
+    [closeMenu, location.pathname, navigate]
+  );
 
   // ESC key closes the drawer
   useEffect(() => {
@@ -70,24 +86,27 @@ export default function Navbar() {
             </Link>
             {/* Desktop nav links — hidden on mobile */}
             <div className="nav-links hidden md:flex flex-1 justify-center items-center gap-0.5 sm:gap-1">
-              <Link
-                to="/#projects"
+              <button
+                type="button"
+                onClick={() => scrollToSection('projects')}
                 className="nav-link px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium text-text-secondary hover:text-text-primary hover:bg-border/40 transition-all duration-200 cursor-pointer shrink-0"
               >
                 {t('nav.projects')}
-              </Link>
-              <Link
-                to="/#career"
+              </button>
+              <button
+                type="button"
+                onClick={() => scrollToSection('career')}
                 className="nav-link px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium text-text-secondary hover:text-text-primary hover:bg-border/40 transition-all duration-200 cursor-pointer shrink-0"
               >
                 {t('nav.career')}
-              </Link>
-              <Link
-                to="/#tech"
+              </button>
+              <button
+                type="button"
+                onClick={() => scrollToSection('tech')}
                 className="nav-link px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium text-text-secondary hover:text-text-primary hover:bg-border/40 transition-all duration-200 cursor-pointer shrink-0"
               >
                 {t('nav.tech')}
-              </Link>
+              </button>
               <Link
                 to="/blog"
                 className="nav-link px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium text-text-secondary hover:text-text-primary hover:bg-border/40 transition-all duration-200 cursor-pointer shrink-0"
@@ -159,27 +178,27 @@ export default function Navbar() {
             aria-label={t('nav.menu')}
           >
             <nav className="flex flex-col gap-1">
-              <Link
-                to="/#projects"
-                onClick={closeMenu}
-                className="flex items-center min-h-[48px] px-4 rounded-xl text-base font-medium text-text-secondary hover:text-text-primary hover:bg-border/40 transition-all duration-200"
+              <button
+                type="button"
+                onClick={() => scrollToSection('projects')}
+                className="flex items-center min-h-[48px] px-4 rounded-xl text-base font-medium text-text-secondary hover:text-text-primary hover:bg-border/40 transition-all duration-200 text-left w-full"
               >
                 {t('nav.projects')}
-              </Link>
-              <Link
-                to="/#career"
-                onClick={closeMenu}
-                className="flex items-center min-h-[48px] px-4 rounded-xl text-base font-medium text-text-secondary hover:text-text-primary hover:bg-border/40 transition-all duration-200"
+              </button>
+              <button
+                type="button"
+                onClick={() => scrollToSection('career')}
+                className="flex items-center min-h-[48px] px-4 rounded-xl text-base font-medium text-text-secondary hover:text-text-primary hover:bg-border/40 transition-all duration-200 text-left w-full"
               >
                 {t('nav.career')}
-              </Link>
-              <Link
-                to="/#tech"
-                onClick={closeMenu}
-                className="flex items-center min-h-[48px] px-4 rounded-xl text-base font-medium text-text-secondary hover:text-text-primary hover:bg-border/40 transition-all duration-200"
+              </button>
+              <button
+                type="button"
+                onClick={() => scrollToSection('tech')}
+                className="flex items-center min-h-[48px] px-4 rounded-xl text-base font-medium text-text-secondary hover:text-text-primary hover:bg-border/40 transition-all duration-200 text-left w-full"
               >
                 {t('nav.tech')}
-              </Link>
+              </button>
               <Link
                 to="/blog"
                 onClick={closeMenu}

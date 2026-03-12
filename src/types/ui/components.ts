@@ -6,13 +6,14 @@ import type { ReactNode } from 'react';
 import type { TechIconConfig } from '@config/techs';
 import type { TechExperience } from '@lib/computeTechExperience';
 import type { ProjectConfig } from '@config/projects';
+import type { CareerEntry } from '@domain/career';
+import type { useLogoTransition } from '@hooks/useMotionTransition';
+
+/** Transition config for logo entrance animations (e.g. CareerLogo) */
+export type LogoTransition = ReturnType<typeof useLogoTransition>;
 
 export interface LayoutProps {
   children?: ReactNode;
-}
-
-export interface PageTransitionProps {
-  children: ReactNode;
 }
 
 export interface ThemeContextType {
@@ -49,6 +50,12 @@ export interface CareerTimelineProps {
   // Reserved for future external props
 }
 
+export interface CareerLogoProps {
+  entry: CareerEntry;
+  transition: LogoTransition;
+  visitWebsiteLabel: string;
+}
+
 export interface ArticleImageProps {
   src?: string;
   alt: string;
@@ -80,6 +87,20 @@ export interface TechDetailBottomSheetProps {
   closeLabel: string;
   onClose: () => void;
   children: ReactNode;
+}
+
+export interface TechCategoryItem {
+  techId: string;
+  name: string;
+  icon: string;
+  viewBox?: string;
+  invert?: boolean;
+  iconClass?: string;
+}
+
+export interface TechCategoryWithIds {
+  labelKey: string;
+  items: TechCategoryItem[];
 }
 
 export interface MarkdownBlockProps {

@@ -1,5 +1,8 @@
+import * as m from 'motion/react-m';
 import { usePostHog } from 'posthog-js/react';
 import { useLanguage } from '@hooks/useLanguage';
+import { useCardTransition } from '@hooks/useMotionTransition';
+import { containerStagger08, cardScaleIn } from '@config/motion';
 import TechPill from '@components/TechPill';
 import { PROJECTS } from '@config/projects';
 import { getTech } from '@config/techs';
@@ -7,17 +10,26 @@ import { getTech } from '@config/techs';
 export default function ProjectsGrid() {
   const posthog = usePostHog();
   const { t } = useLanguage();
+  const transition = useCardTransition();
 
   return (
-    <div className="flex flex-col md:grid md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-6 w-full">
+    <m.div
+      className="flex flex-col md:grid md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-6 w-full"
+      variants={containerStagger08}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: '0px 0px -50px 0px' }}
+    >
       {PROJECTS.map((p) => (
-        <a
+        <m.a
           key={p.id}
           href={p.url}
           target="_blank"
           rel="noopener noreferrer"
           className="project-card group flex flex-row md:flex-col overflow-hidden rounded-lg md:rounded-xl bg-surface border border-border shadow-[var(--shadow-soft)] transition-all duration-300 hover:shadow-[var(--shadow-floating)] hover:border-accent hover:-translate-y-0.5 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
           aria-label={p.title}
+          variants={cardScaleIn}
+          transition={transition}
           onClick={() => posthog?.capture('project_clicked', { project_id: p.id, project_title: p.title, project_url: p.url })}
         >
           <div className="project-card-image w-20 h-20 md:w-full md:h-auto shrink-0 rounded-l-lg md:rounded-none md:rounded-t-xl aspect-square md:aspect-[4/3] relative overflow-hidden bg-gradient-to-br from-accent/20 to-primary/10 flex items-center justify-center">
@@ -27,7 +39,6 @@ export default function ProjectsGrid() {
             </div>
           </div>
           <div className="flex flex-col justify-center min-w-0 flex-1 p-3 md:p-4">
-            {/* Titre + techs inline */}
             <div className="flex items-center gap-2 min-w-0">
               <h3 className="font-semibold text-text-primary text-sm md:text-lg truncate" style={{ fontFamily: 'var(--font-display)' }}>{p.title}</h3>
               <div className="flex items-center gap-1 shrink-0">
@@ -53,8 +64,8 @@ export default function ProjectsGrid() {
           <span className="self-center mr-3 md:hidden text-text-secondary/60 shrink-0" aria-hidden="true">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
           </span>
-        </a>
+        </m.a>
       ))}
-    </div>
+    </m.div>
   );
 }

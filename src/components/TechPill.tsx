@@ -10,7 +10,7 @@ export default function TechPill({
   compact,
   iconConfig: iconConfigProp,
 }: TechPillProps) {
-  const config = iconConfigProp !== undefined ? iconConfigProp : undefined;
+  const config = iconConfigProp;
   const icon = iconProp ?? config?.icon;
   const viewBox = config?.viewBox ?? viewBoxProp;
   const invert = invertProp ?? config?.invert;

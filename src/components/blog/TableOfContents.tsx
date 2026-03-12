@@ -1,4 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
+import * as m from 'motion/react-m';
+import { useMotionTransition } from '@hooks/useMotionTransition';
 
 interface Heading {
   id: string;
@@ -18,6 +20,7 @@ export default function TableOfContents({ contentRef, slug, lang }: TableOfConte
   const [headings, setHeadings] = useState<Heading[]>([]);
   const [activeId, setActiveId] = useState<string | null>(null);
   const visibleRef = useRef<Set<string>>(new Set());
+  const transition = useMotionTransition(0.5);
 
   useEffect(() => {
     const container = contentRef.current;
@@ -88,9 +91,12 @@ export default function TableOfContents({ contentRef, slug, lang }: TableOfConte
   if (headings.length === 0) return null;
 
   return (
-    <nav
+    <m.nav
       aria-label="Table of contents"
       className="hidden lg:block sticky top-28 self-start w-[200px] shrink-0"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={transition}
     >
       <ul className="space-y-2 text-sm">
         {headings.map(({ id, text, level }) => (
@@ -111,6 +117,6 @@ export default function TableOfContents({ contentRef, slug, lang }: TableOfConte
           </li>
         ))}
       </ul>
-    </nav>
+    </m.nav>
   );
 }

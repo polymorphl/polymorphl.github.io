@@ -1,10 +1,13 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useReducer, useRef } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import { MDXProvider } from '@mdx-js/react';
+import * as m from 'motion/react-m';
 import { usePostHog } from 'posthog-js/react';
 import { useLanguage } from '@hooks/useLanguage';
 import { useLanguageNavigation } from '@hooks/useLanguageNavigation';
 import { useArticleTracking } from '@hooks/useArticleTracking';
+import { useMotionTransition } from '@hooks/useMotionTransition';
+import { containerStagger06, fadeInUp20 } from '@config/motion';
 import MDXComponents from '@components/blog/MDXComponents';
 import ReadingProgressBar from '@components/blog/ReadingProgressBar';
 import TableOfContents from '@components/blog/TableOfContents';
@@ -12,6 +15,25 @@ import { getBlogData, getPostMeta, loadPost } from '@lib/blog';
 import type { MDXModule } from '@api/responses';
 
 const { slugToSlugInLang } = getBlogData();
+
+type BlogPostState = { module: MDXModule | null; loading: boolean };
+type BlogPostAction =
+  | { type: 'idle' }
+  | { type: 'loading' }
+  | { type: 'loaded'; module: MDXModule };
+
+function blogPostReducer(state: BlogPostState, action: BlogPostAction): BlogPostState {
+  switch (action.type) {
+    case 'idle':
+      return { module: null, loading: false };
+    case 'loading':
+      return { ...state, loading: true };
+    case 'loaded':
+      return { module: action.module, loading: false };
+    default:
+      return state;
+  }
+}
 
 function formatDate(dateStr: string): string {
   try {
@@ -53,8 +75,9 @@ export default function BlogPostPage() {
   const { slug } = useParams<{ slug: string }>();
   const { lang, t } = useLanguage();
   const contentRef = useRef<HTMLDivElement>(null);
-  const [module, setModule] = useState<MDXModule | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [state, dispatch] = useReducer(blogPostReducer, { module: null, loading: true });
+  const { module, loading } = state;
+  const transition = useMotionTransition(0.5);
 
   useLanguageNavigation(lang);
 
@@ -62,13 +85,13 @@ export default function BlogPostPage() {
 
   useEffect(() => {
     if (!slug || !meta) {
-      setLoading(false);
+      dispatch({ type: 'idle' });
       return;
     }
-    setLoading(true);
+    dispatch({ type: 'loading' });
     loadPost(slug, lang)
-      .then((mod) => setModule(mod))
-      .finally(() => setLoading(false));
+      .then((mod) => (mod ? dispatch({ type: 'loaded', module: mod }) : dispatch({ type: 'idle' })))
+      .catch(() => dispatch({ type: 'idle' }));
   }, [slug, lang, meta]);
 
   useEffect(() => {
@@ -118,10 +141,23 @@ export default function BlogPostPage() {
   return (
     <>
       <ReadingProgressBar />
-      <div className="md:col-span-2 w-full min-w-0 lg:grid lg:grid-cols-[1fr_200px] lg:gap-12 lg:items-start">
-        <article className="w-full min-w-0 max-w-3xl mx-auto lg:mx-0">
+      <m.div
+        className="md:col-span-2 w-full min-w-0 lg:grid lg:grid-cols-[1fr_200px] lg:gap-12 lg:items-start"
+        initial="hidden"
+        animate="visible"
+        variants={containerStagger06}
+      >
+        <m.article
+          className="w-full min-w-0 max-w-3xl mx-auto lg:mx-0"
+          variants={fadeInUp20}
+          transition={transition}
+        >
           {cover && (
-            <div className="relative rounded-xl overflow-hidden mb-8 h-40 md:h-56">
+            <m.div
+              className="relative rounded-xl overflow-hidden mb-8 h-40 md:h-56"
+              variants={fadeInUp20}
+              transition={transition}
+            >
               <img
                 src={cover}
                 alt=""
@@ -133,10 +169,14 @@ export default function BlogPostPage() {
                 style={{ background: 'linear-gradient(to bottom, transparent 30%, var(--color-bg) 100%)' }}
                 aria-hidden
               />
-            </div>
+            </m.div>
           )}
 
-          <div className="backdrop-blur-md bg-background/80 rounded-2xl ring-1 ring-border/40 shadow-floating px-6 md:px-10 py-8">
+          <m.div
+            className="backdrop-blur-md bg-background/80 rounded-2xl ring-1 ring-border/40 shadow-floating px-6 md:px-10 py-8"
+            variants={fadeInUp20}
+            transition={transition}
+          >
             <header className="mb-10">
               {tags && tags.length > 0 && (
                 <div className="flex flex-wrap gap-2 mb-4">
@@ -173,10 +213,10 @@ export default function BlogPostPage() {
                 <Content />
               </MDXProvider>
             </div>
-          </div>
-        </article>
+          </m.div>
+        </m.article>
         <TableOfContents contentRef={contentRef} slug={slug} lang={lang} />
-      </div>
+      </m.div>
     </>
   );
 }

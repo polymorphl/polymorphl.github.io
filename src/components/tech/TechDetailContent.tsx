@@ -37,18 +37,17 @@ export function TechDetailContent({ name, experience, projectEntries, t, onLinkC
                     {c.name}
                   </a>
                 ) : (
-                  <a
-                    href="#career"
-                    className={LINK_CLASS}
+                  <button
+                    type="button"
+                    className={`${LINK_CLASS} bg-transparent border-0 p-0 font-inherit cursor-pointer`}
                     style={LINK_STYLE}
                     onClick={(e) => {
                       onLinkClick?.(e);
-                      e.preventDefault();
                       document.getElementById('career')?.scrollIntoView({ behavior: 'smooth' });
                     }}
                   >
                     {c.name}
-                  </a>
+                  </button>
                 )}
               </span>
             ))}
