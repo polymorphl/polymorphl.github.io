@@ -1,7 +1,9 @@
 import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useInViewAnimation } from '@hooks/useInViewAnimation';
+import * as m from 'motion/react-m';
 import { useLanguage } from '@hooks/useLanguage';
+import { useMotionTransition } from '@hooks/useMotionTransition';
+import { fadeInUp30, PAGE_TRANSITION_DURATION_MS } from '@config/motion';
 import ProjectsGrid from '@components/ProjectsGrid';
 import HeroSection from '@components/HeroSection';
 import TechStack from '@components/TechStack';
@@ -10,38 +12,60 @@ import CareerTimeline from '@components/CareerTimeline';
 export default function HomePage() {
   const location = useLocation();
   const isFirstRenderRef = useRef(true);
-  const { ref: projectsRef, isInView: projectsInView } = useInViewAnimation();
   const { t } = useLanguage();
+  const transition = useMotionTransition(0.6);
 
   useEffect(() => {
-    // Cancel browser's automatic scroll to anchor on page reload
+    const scrollToSection = (id: string) => {
+      const el = document.getElementById(id);
+      el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+
+    const scrollTo = (location.state as { scrollTo?: string } | null)?.scrollTo;
+
     if (isFirstRenderRef.current) {
       isFirstRenderRef.current = false;
-      // Small delay ensures browser scroll happens first, then we override it
+      if (scrollTo) {
+        // Navigation from another page with scroll target: wait for page transition, then scroll
+        const t = setTimeout(() => scrollToSection(scrollTo), PAGE_TRANSITION_DURATION_MS);
+        return () => clearTimeout(t);
+      }
+      // No scroll target: cancel browser's automatic scroll to anchor on page reload
       setTimeout(() => window.scrollTo(0, 0), 0);
       return;
     }
 
-    // Only scroll when hash changes during navigation (user clicks a link)
-    if (location.hash) {
-      const id = location.hash.slice(1);
-      const el = document.getElementById(id);
-      el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // State changed during navigation on same page
+    if (scrollTo) {
+      scrollToSection(scrollTo);
+    } else {
+      // Logo clicked or nav to / without scroll target: scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-  }, [location.hash]);
+  }, [location.state]);
 
   return (
-    <>
+    <div className="flex flex-col gap-8 md:gap-12 lg:gap-16">
       <HeroSection />
 
-      <section ref={projectsRef} id="projects" className={`md:col-span-2 w-full max-w-full min-w-0 self-start text-left scroll-mt-28 ${projectsInView ? 'in-view' : 'in-view-hidden'}`}>
-        <h2 className={`section-title text-xl md:text-2xl font-bold text-text-primary mb-4 md:mb-6 tracking-tight ${projectsInView ? 'in-view' : 'in-view-hidden'}`}>{t('projects.title')}</h2>
+      <m.section
+        id="projects"
+        className="md:col-span-2 w-full max-w-full min-w-0 self-start text-left scroll-mt-28"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: '0px 0px -100px 0px' }}
+        variants={fadeInUp30}
+        transition={transition}
+      >
+        <h2 className="section-title text-xl md:text-2xl font-bold text-text-primary mb-4 md:mb-6 tracking-tight">
+          {t('projects.title')}
+        </h2>
         <ProjectsGrid />
-      </section>
+      </m.section>
 
       <CareerTimeline />
 
       <TechStack />
-    </>
+    </div>
   );
 }

@@ -15,7 +15,7 @@
   "sections": {
     "career": "Career",
     "tech": "Tech stack",
-    "projects": "Featured Work"
+    "projects": "Open-source projects"
   },
   "tech": {
     "frameworks": "Frameworks",
@@ -28,6 +28,8 @@
     "popoverLabel": "{{tech}} experience details",
     "experienceYears_one": "1 year experience",
     "experienceYears_other": "{{count}} years experience",
+    "experienceYearsAndHalf_one": "1 year and a half",
+    "experienceYearsAndHalf_other": "{{count}} years and a half",
     "experienceMoreThanYears_one": "More than 1 year",
     "experienceMoreThanYears_other": "More than {{count}} years",
     "experienceLessThanOneYear": "Less than 1 year",
@@ -111,7 +113,7 @@
     "readingTime": "min read"
   },
   "projects": {
-    "title": "Featured Work",
+    "title": "Open-source projects",
     "viewProject": "View project",
     "orcrux": {
       "description": "Cross-platform desktop GUI with Wails to test Shamir's Secret Sharing — generate, split, and recover secrets."

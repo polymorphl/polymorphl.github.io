@@ -8,16 +8,6 @@ export interface TechExperience {
   projectIds: string[];
 }
 
-/** Normalize tech name for matching (lowercase, trimmed). */
-function normalizeTech(name: string): string {
-  return name.trim().toLowerCase();
-}
-
-/** Map career stack names to canonical TechStack display names. */
-const TECH_ALIASES: Record<string, string> = {
-  'vanilla js': 'javascript',
-};
-
 /** Parse period [start, end] in MM/YYYY format to duration in years (fractional). Exported for CareerTimeline. */
 export function getPeriodDurationInYears(period: [string, string]): number {
   const [startStr, endStr] = period;
@@ -44,7 +34,7 @@ export function getPeriodDurationInYears(period: [string, string]): number {
   return Math.max(0, totalMonths) / 12;
 }
 
-/** Build a map of tech name (normalized) → TechExperience from career and projects. */
+/** Build a map of tech ID → TechExperience from career and projects. */
 export function computeTechExperience(
   careerEntries: CareerEntryBase[],
   projects: ReadonlyArray<ProjectConfig>
@@ -53,17 +43,15 @@ export function computeTechExperience(
 
   for (const entry of careerEntries) {
     const years = getPeriodDurationInYears(entry.period);
-    for (const tech of entry.stack) {
-      const normalized = normalizeTech(tech);
-      const key = TECH_ALIASES[normalized] ?? normalized;
-      const existing = map.get(key);
+    for (const techId of entry.stack) {
+      const existing = map.get(techId);
       if (existing) {
         existing.years += years;
         if (!existing.companies.some((c) => c.name === entry.company)) {
           existing.companies.push({ name: entry.company, website: entry.website });
         }
       } else {
-        map.set(key, {
+        map.set(techId, {
           years,
           companies: [{ name: entry.company, website: entry.website }],
           projectIds: [],
@@ -73,21 +61,40 @@ export function computeTechExperience(
   }
 
   for (const project of projects) {
-    for (const tech of project.techs) {
-      const normalized = normalizeTech(tech.name);
-      const key = TECH_ALIASES[normalized] ?? normalized;
-      const existing = map.get(key);
+    for (const techId of project.techIds) {
+      const existing = map.get(techId);
       if (existing) {
         if (!existing.projectIds.includes(project.id)) {
           existing.projectIds.push(project.id);
         }
       } else {
-        map.set(key, {
+        map.set(techId, {
           years: 0,
           companies: [],
           projectIds: [project.id],
         });
       }
+    }
+  }
+
+  // Merge vanillajs experience into javascript (Vanilla JS is JavaScript)
+  const vanillajs = map.get('vanillajs');
+  if (vanillajs) {
+    const js = map.get('javascript');
+    if (js) {
+      js.years += vanillajs.years;
+      for (const c of vanillajs.companies) {
+        if (!js.companies.some((x) => x.name === c.name)) js.companies.push(c);
+      }
+      for (const pid of vanillajs.projectIds) {
+        if (!js.projectIds.includes(pid)) js.projectIds.push(pid);
+      }
+    } else {
+      map.set('javascript', {
+        years: vanillajs.years,
+        companies: [...vanillajs.companies],
+        projectIds: [...vanillajs.projectIds],
+      });
     }
   }
 

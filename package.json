@@ -5,13 +5,14 @@
   "main": "index.js",
   "scripts": {
     "dev": "npm run generate:blog-metadata && vite",
-    "build": "npm run scrape:links && npm run generate:blog-metadata && vite build && npm run og:pages && cp dist/index.html dist/404.html",
+    "build": "npm run scrape:links && npm run generate:blog-metadata && vite build && npm run og:pages && npm run sitemap && cp dist/index.html dist/404.html",
     "preview": "vite preview",
     "typecheck": "npm run generate:blog-metadata && tsc --noEmit",
     "test": "echo \"Error: no test specified\" && exit 1",
     "scrape:links": "tsx scripts/scrapeLinks.ts",
     "generate:blog-metadata": "tsx scripts/generateBlogMetadata.ts",
-    "og:pages": "tsx scripts/generateOpenGraphPages.ts"
+    "og:pages": "tsx scripts/generateOpenGraphPages.ts",
+    "sitemap": "tsx scripts/generateSitemap.ts"
   },
   "repository": {
     "type": "git",
@@ -47,6 +48,7 @@
     "@vitejs/plugin-react": "^5.1.4",
     "highlight.js": "^11.11.1",
     "i18next": "^25.8.13",
+    "motion": "^12.35.2",
     "posthog-js": "^1.356.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",

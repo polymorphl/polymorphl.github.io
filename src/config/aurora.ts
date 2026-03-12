@@ -23,10 +23,6 @@ export const AURORA_PALETTES: AuroraPalette[] = [
     light: [hexToRgb('#0284c7'), hexToRgb('#0891b2'), hexToRgb('#7c3aed')],
   },
   {
-    dark: [hexToRgb('#f43f5e'), hexToRgb('#ec4899'), hexToRgb('#a855f7')],
-    light: [hexToRgb('#e11d48'), hexToRgb('#db2777'), hexToRgb('#9333ea')],
-  },
-  {
     dark: [hexToRgb('#22c55e'), hexToRgb('#14b8a6'), hexToRgb('#3b82f6')],
     light: [hexToRgb('#16a34a'), hexToRgb('#0d9488'), hexToRgb('#2563eb')],
   },

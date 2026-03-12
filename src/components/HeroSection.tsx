@@ -1,38 +1,100 @@
+import * as m from 'motion/react-m';
 import { usePostHog } from 'posthog-js/react';
 import { useLanguage } from '@hooks/useLanguage';
+import { useMotionTransition } from '@hooks/useMotionTransition';
+import { PROFILE_PHOTO_SIZE } from '@config/constants';
+import { containerHero, fadeInUp20, scaleIn, statusDotPing, underlineDrawIn } from '@config/motion';
 
 export default function HeroSection() {
   const posthog = usePostHog();
   const { t } = useLanguage();
+  const transition = useMotionTransition(0.6);
 
   return (
-    <section className="hero md:col-span-2 w-full flex flex-col items-center md:items-stretch gap-6 text-center md:text-left animate-fade-in-up overflow-hidden md:flex-row md:items-center md:gap-12 lg:gap-16">
-      <div className="profile-card flex justify-center shrink-0 animate-scale-in overflow-hidden rounded-[24px]" style={{ animationDelay: '0.05s' }}>
-        <picture>
+    <m.section
+      className="hero md:col-span-2 w-full flex flex-col items-center md:items-stretch gap-6 text-center md:text-left md:flex-row md:items-center md:gap-12 lg:gap-16"
+      variants={containerHero}
+      initial="hidden"
+      animate="visible"
+    >
+      <m.div
+        className={`profile-card profile-border-wrapper shrink-0 ${PROFILE_PHOTO_SIZE}`}
+        variants={scaleIn}
+        transition={transition}
+      >
+        <span className="profile-border-ring" aria-hidden />
+        <picture className="profile-photo-picture block relative z-10 size-full">
           <source srcSet="/profile.webp" type="image/webp" />
           <img
             src="/profile.png"
             alt="Luc TERRACHER"
             fetchPriority="high"
-            className="profile-image w-44 h-[180px] sm:w-52 sm:h-[200px] md:w-64 md:h-[240px] lg:w-72 lg:h-[260px] rounded-[24px] object-cover shadow-[var(--shadow-soft)] transition-all duration-300 hover:shadow-[var(--shadow-floating)]"
+            className={`profile-image block size-full object-cover object-center rounded-[22px] shadow-[var(--shadow-soft)] transition-shadow duration-300 hover:shadow-[var(--shadow-floating)]`}
             width={288}
             height={260}
           />
         </picture>
-      </div>
+      </m.div>
 
-      <div className="hero-content flex flex-col items-center md:items-stretch gap-4 flex-1 min-w-0 w-full">
-        <h1 className="hero-title text-text-primary text-3xl sm:text-4xl lg:text-5xl xl:text-[3.5rem] font-extrabold leading-tight tracking-tight animate-fade-in-up relative" style={{ animationDelay: '0.1s' }}>
-          Luc <span className="relative inline-block">TERRACHER<span className="absolute -bottom-1 left-0 w-3/4 h-0.5 bg-accent/70 rounded-full" aria-hidden="true" /></span>
-        </h1>
-        <p className="hero-subtitle text-lg lg:text-xl font-medium text-text-secondary animate-fade-in-up" style={{ animationDelay: '0.15s' }}>{t('hero.subtitle')}</p>
-        <p className="hero-tagline text-base lg:text-lg text-text-secondary/90 w-full lg:max-w-[480px] leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.2s' }}>{t('hero.tagline')}</p>
-        <div className="hero-status flex items-center justify-center md:justify-start gap-2 animate-fade-in-up" style={{ animationDelay: '0.25s' }}>
-          <span className="status-dot w-2 h-2 rounded-full bg-emerald-500 animate-pulse" aria-hidden="true" />
+      <m.div
+        className="hero-content flex flex-col items-center md:items-stretch gap-4 flex-1 min-w-0 w-full"
+        variants={containerHero}
+      >
+        <m.h1
+          className="hero-title text-text-primary text-3xl sm:text-4xl lg:text-5xl xl:text-[3.5rem] font-extrabold leading-tight tracking-tight relative"
+          variants={fadeInUp20}
+          transition={transition}
+        >
+          Luc{' '}
+          <span className="relative inline-block">
+            TERRACHER
+            <m.span
+              className="absolute -bottom-1 left-0 w-3/4 h-0.5 bg-accent/70 rounded-full origin-left"
+              variants={underlineDrawIn}
+              initial="hidden"
+              animate="visible"
+              transition={{ ...transition, delay: 0.15 }}
+              aria-hidden
+            />
+          </span>
+        </m.h1>
+        <m.p
+          className="hero-subtitle text-lg lg:text-xl font-medium text-text-secondary"
+          variants={fadeInUp20}
+          transition={transition}
+        >
+          {t('hero.subtitle')}
+        </m.p>
+        <m.p
+          className="hero-tagline text-base lg:text-lg text-text-secondary/90 w-full lg:max-w-[480px] leading-relaxed"
+          variants={fadeInUp20}
+          transition={transition}
+        >
+          {t('hero.tagline')}
+        </m.p>
+        <m.div
+          className="hero-status flex items-center justify-center md:justify-start gap-2"
+          variants={fadeInUp20}
+          transition={transition}
+        >
+          <span className="relative inline-flex items-center justify-center w-6 h-6 shrink-0">
+            <m.span
+              className="absolute w-2 h-2 rounded-full border-2 border-emerald-500"
+              variants={statusDotPing}
+              initial="hidden"
+              animate="visible"
+              aria-hidden
+            />
+            <span className="status-dot w-2 h-2 rounded-full bg-emerald-500 animate-pulse relative z-10" aria-hidden />
+          </span>
           <span className="text-sm font-medium text-text-secondary">{t('hero.status')}</span>
-        </div>
+        </m.div>
 
-        <div className="actions flex flex-row flex-wrap items-center justify-center md:justify-start gap-3 sm:gap-4 gap-y-4 sm:gap-y-6 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+        <m.div
+          className="actions flex flex-row flex-wrap items-center justify-center md:justify-start gap-3 sm:gap-4 gap-y-4 sm:gap-y-6"
+          variants={fadeInUp20}
+          transition={transition}
+        >
           <a
             href={t('resume.file')}
             className="btn-primary inline-flex items-center justify-center bg-accent text-white px-6 py-3 rounded-full font-medium text-sm no-underline shadow-[var(--shadow-button)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow-floating)] hover:opacity-90 active:translate-y-0 shrink-0 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
@@ -67,8 +129,8 @@ export default function HeroSection() {
               </svg>
             </a>
           </div>
-        </div>
-      </div>
-    </section>
+        </m.div>
+      </m.div>
+    </m.section>
   );
 }

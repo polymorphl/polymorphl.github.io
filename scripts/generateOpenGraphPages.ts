@@ -3,7 +3,7 @@ import path from 'path';
 import matter from 'gray-matter';
 
 const SITE_URL = 'https://polymorphl.github.io';
-const DEFAULT_IMAGE = `${SITE_URL}/profile.webp`;
+const DEFAULT_IMAGE = `${SITE_URL}/og-image.png`;
 
 interface Frontmatter {
   title?: string;
