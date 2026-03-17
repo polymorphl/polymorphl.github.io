@@ -33,7 +33,7 @@ export const CAREER_ENTRIES_BASE: CareerEntryBase[] = [
   {
     company: 'Asobo Studio',
     period: ['04/2016', '08/2017'],
-    stack: ['nodejs', 'angular', 'typescript', 'vanillajs', 'ansible', 'nginx', 'mongodb', 'mysql', 'docker'],
+    stack: ['nodejs', 'react','angular', 'typescript', 'vanillajs', 'ansible', 'nginx', 'mongodb', 'mysql', 'docker'],
     logoId: 'asobo',
     website: 'https://www.asobostudio.com'
   },
