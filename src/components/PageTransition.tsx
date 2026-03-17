@@ -8,13 +8,17 @@ import { pageTransition, PAGE_TRANSITION_DURATION_MS } from '@config/motion';
 const HomePage = lazy(() => import('@pages/HomePage'));
 const BlogPage = lazy(() => import('@pages/BlogPage'));
 const BlogPostPage = lazy(() => import('@pages/BlogPostPage'));
+const NotFoundPage = lazy(() => import('@pages/NotFoundPage'));
 
 const routes = [
   { index: true, element: <HomePage /> },
+  { path: '/en', element: <HomePage /> },
+  { path: '/fr', element: <HomePage /> },
   { path: '/blog', element: <BlogPage /> },
   { path: '/blog/:slug', element: <BlogPostPage /> },
   { path: '/:lang/blog', element: <BlogPage /> },
   { path: '/:lang/blog/:slug', element: <BlogPostPage /> },
+  { path: '*', element: <NotFoundPage /> },
 ];
 
 function PageTransitionFallback() {

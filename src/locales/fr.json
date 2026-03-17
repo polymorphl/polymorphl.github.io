@@ -124,5 +124,11 @@
     "my-open-claude": {
       "description": "Assistant de code LLM en Rust. Chat TUI & CLI mono-prompt. Outils : Read, Write, Edit, Grep, ListDir, Glob, Bash. OpenRouter, streaming, historique, commandes slash."
     }
+  },
+  "notFound": {
+    "title": "Page non trouvée",
+    "code": "404",
+    "description": "La page que vous recherchez n'existe pas ou a été déplacée.",
+    "backHome": "Retour à l'accueil"
   }
 }
