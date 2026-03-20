@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { use, Suspense } from 'react';
 
 interface PreviewData {
   url: string;
@@ -13,67 +13,37 @@ interface LinkPreviewProps {
   url: string;
 }
 
-export default function LinkPreview({ url }: LinkPreviewProps) {
-  const [preview, setPreview] = useState<PreviewData | null>(null);
-  const [loading, setLoading] = useState(true);
+// Module-level promise — shared across all LinkPreview instances on the page
+let previewsPromise: Promise<Record<string, PreviewData>> | null = null;
 
-  useEffect(() => {
-    async function loadPreview() {
-      try {
-        const response = await fetch('/link-previews.json');
-        const previews: Record<string, PreviewData> = await response.json();
-        const data = previews[url];
-
-        if (data) {
-          setPreview(data);
-        } else {
-          // Fallback if URL not in cache
-          const urlObj = new URL(url);
-          setPreview({
-            url,
-            title: urlObj.hostname || url,
-            description: '',
-            image: null,
-            favicon: `https://www.google.com/s2/favicons?sz=32&domain=${urlObj.hostname}`,
-            domain: urlObj.hostname || url,
-          });
-        }
-      } catch (error) {
-        console.warn('Failed to load link preview:', error);
-        // Fallback
-        try {
-          const urlObj = new URL(url);
-          setPreview({
-            url,
-            title: urlObj.hostname || url,
-            description: '',
-            image: null,
-            favicon: `https://www.google.com/s2/favicons?sz=32&domain=${urlObj.hostname}`,
-            domain: urlObj.hostname || url,
-          });
-        } catch {
-          setPreview(null);
-        }
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    loadPreview();
-  }, [url]);
-
-  if (loading || !preview) {
-    return (
-      <a
-        href={url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-flex items-center gap-2 text-accent hover:text-accent/80 underline text-sm"
-      >
-        🔗 {url}
-      </a>
-    );
+function getPreviewsPromise(): Promise<Record<string, PreviewData>> {
+  if (!previewsPromise) {
+    previewsPromise = fetch('/link-previews.json')
+      .then(r => r.json() as Promise<Record<string, PreviewData>>)
+      .catch(() => ({} as Record<string, PreviewData>));
   }
+  return previewsPromise;
+}
+
+function getFallback(url: string): PreviewData {
+  try {
+    const urlObj = new URL(url);
+    return {
+      url,
+      title: urlObj.hostname || url,
+      description: '',
+      image: null,
+      favicon: `https://www.google.com/s2/favicons?sz=32&domain=${urlObj.hostname}`,
+      domain: urlObj.hostname || url,
+    };
+  } catch {
+    return { url, title: url, description: '', image: null, favicon: null, domain: url };
+  }
+}
+
+function LinkPreviewContent({ url }: LinkPreviewProps) {
+  const previews = use(getPreviewsPromise());
+  const preview = previews[url] ?? getFallback(url);
 
   return (
     <a
@@ -127,5 +97,24 @@ export default function LinkPreview({ url }: LinkPreviewProps) {
         )}
       </div>
     </a>
+  );
+}
+
+export default function LinkPreview({ url }: LinkPreviewProps) {
+  return (
+    <Suspense
+      fallback={
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 text-accent hover:text-accent/80 underline text-sm"
+        >
+          🔗 {url}
+        </a>
+      }
+    >
+      <LinkPreviewContent url={url} />
+    </Suspense>
   );
 }

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, use, Suspense } from 'react';
 import ReactMarkdown from 'react-markdown';
 import rehypeHighlight from 'rehype-highlight';
 import type { Components } from 'react-markdown';
@@ -40,6 +40,34 @@ const components: Components = {
   hr: () => <hr className="border-border my-4" />
 };
 
+// Module-level cache — keyed by URL, persists for app lifetime
+const contentCache = new Map<string, Promise<string>>();
+
+function fetchContent(url: string): Promise<string> {
+  if (!contentCache.has(url)) {
+    contentCache.set(
+      url,
+      fetch(url)
+        .then(res => {
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          return res.text();
+        })
+        .catch(() => '')
+    );
+  }
+  return contentCache.get(url)!;
+}
+
+function MarkdownBlockWithFile({ contentFile, language }: { contentFile: string; language: string }) {
+  const text = use(fetchContent(contentFile));
+  const content = `\`\`\`${language}\n${text}\n\`\`\``;
+  return (
+    <ReactMarkdown rehypePlugins={[rehypeHighlight]} components={components}>
+      {content}
+    </ReactMarkdown>
+  );
+}
+
 function MarkdownBlock({
   content: contentProp,
   contentFile,
@@ -52,27 +80,7 @@ function MarkdownBlock({
   children
 }: MarkdownBlockProps) {
   const [accordionOpen, setAccordionOpen] = useState(false);
-  const [fetchedContent, setFetchedContent] = useState<string | null>(null);
-  const [fetchError, setFetchError] = useState<string | null>(null);
   const isAccordion = variant === 'accordion';
-
-  useEffect(() => {
-    if (!contentFile) return;
-    setFetchError(null);
-    fetch(contentFile)
-      .then((res) => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        return res.text();
-      })
-      .then((text) => setFetchedContent(text))
-      .catch((err) => setFetchError(err instanceof Error ? err.message : 'Erreur de chargement'));
-  }, [contentFile]);
-
-  const content = contentFile
-    ? fetchedContent !== null
-      ? `\`\`\`${language}\n${fetchedContent}\n\`\`\``
-      : contentProp ?? null
-    : contentProp ?? null;
 
   const hasChildren = children !== undefined && children !== null && (Array.isArray(children) ? children.length > 0 : true);
 
@@ -82,15 +90,17 @@ function MarkdownBlock({
 
   const contentBlock = (
     <div className="prose-inline min-w-0 [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
-      {fetchError && (
-        <p className="text-red-500 text-sm mb-3">{fetchError}</p>
-      )}
-      {content === null && contentFile && !fetchError && (
-        <p className="text-text-secondary text-sm animate-pulse">Chargement…</p>
-      )}
-      {hasChildren && children}
-      {!hasChildren && content !== null && (
-        <ReactMarkdown rehypePlugins={[rehypeHighlight]} components={components}>{content}</ReactMarkdown>
+      {contentFile ? (
+        <Suspense fallback={<p className="text-text-secondary text-sm animate-pulse">Chargement…</p>}>
+          <MarkdownBlockWithFile contentFile={contentFile} language={language} />
+        </Suspense>
+      ) : (
+        <>
+          {hasChildren && children}
+          {!hasChildren && contentProp !== null && contentProp !== undefined && (
+            <ReactMarkdown rehypePlugins={[rehypeHighlight]} components={components}>{contentProp}</ReactMarkdown>
+          )}
+        </>
       )}
     </div>
   );

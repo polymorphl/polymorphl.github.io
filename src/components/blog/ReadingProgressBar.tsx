@@ -1,21 +1,21 @@
-import { useEffect, useState } from 'react';
+import { useSyncExternalStore } from 'react';
 import { createPortal } from 'react-dom';
 
+function subscribeScroll(cb: () => void) {
+  window.addEventListener('scroll', cb, { passive: true });
+  return () => window.removeEventListener('scroll', cb);
+}
+
+function getScrollProgress() {
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  return h > 0 ? (window.scrollY / h) * 100 : 0;
+}
+
+const getServerScrollProgress = () => 0;
+
 export default function ReadingProgressBar() {
-  const [progress, setProgress] = useState(0);
+  const progress = useSyncExternalStore(subscribeScroll, getScrollProgress, getServerScrollProgress);
   const isCompleted = progress >= 99;
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const scrolled = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
-      setProgress(scrolled);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const radius = 28;
   const circumference = 2 * Math.PI * radius;

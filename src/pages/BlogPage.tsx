@@ -5,6 +5,7 @@ import { useLanguageNavigation } from '@hooks/useLanguageNavigation';
 import { useMotionTransition } from '@hooks/useMotionTransition';
 import { containerBlogList, fadeInUp30 } from '@config/motion';
 import { getBlogList } from '@lib/blog';
+import SurfaceCard from '@components/SurfaceCard';
 
 export default function BlogPage() {
   const { lang, t } = useLanguage();
@@ -62,14 +63,14 @@ export default function BlogPage() {
                   </div>
                 </div>
 
-                <div className="flex-1 min-w-0 rounded-xl border border-border bg-surface/60 dark:bg-surface/70 backdrop-blur-md p-4 md:p-5 border-l-4 border-l-accent transition-all duration-300 ease-out hover:shadow-[var(--shadow-soft)] hover:-translate-y-0.5 hover:border-accent/30">
+                <SurfaceCard darkOpacity="70" className="flex-1 min-w-0 backdrop-blur-md p-4 md:p-5 border-l-4 border-l-accent transition-all duration-300 ease-out hover:shadow-[var(--shadow-soft)] hover:-translate-y-0.5 hover:border-accent/30">
                   <h2 className="font-semibold text-text-primary text-lg mb-2 group-hover:text-accent transition-colors">
                     {post.title}
                   </h2>
                   {(post.summary ?? post.excerpt) && (
                     <p className="text-sm text-text-secondary line-clamp-3">{post.summary ?? post.excerpt}</p>
                   )}
-                </div>
+                </SurfaceCard>
               </Link>
             </m.div>
           ))
