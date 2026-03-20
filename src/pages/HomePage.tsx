@@ -7,6 +7,7 @@ import ProjectsGrid from '@components/ProjectsGrid';
 import HeroSection from '@components/HeroSection';
 import TechStack from '@components/TechStack';
 import CareerTimeline from '@components/CareerTimeline';
+import LatestPostTeaser from '@components/blog/LatestPostTeaser';
 
 export default function HomePage() {
   const { t } = useLanguage();
@@ -35,6 +36,8 @@ export default function HomePage() {
       <CareerTimeline />
 
       <TechStack />
+
+      <LatestPostTeaser />
     </div>
   );
 }
