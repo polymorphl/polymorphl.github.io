@@ -9,6 +9,7 @@ export default function TechPill({
   mini,
   compact,
   iconConfig: iconConfigProp,
+  isActive,
 }: TechPillProps) {
   const config = iconConfigProp;
   const icon = iconProp ?? config?.icon;
@@ -41,7 +42,7 @@ export default function TechPill({
   const compactClasses =
     'inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-xs font-medium bg-accent-on-surface/10 text-accent-on-surface border border-accent-on-surface/20';
   const fullClasses =
-    'tech-item tech-pill inline-flex items-center gap-2 md:gap-2.5 px-3 py-2 md:px-4 md:py-2.5 rounded-full bg-surface border border-border shadow-[var(--shadow-soft)] transition-all duration-200 hover:border-accent hover:shadow-[var(--shadow-floating)] hover:-translate-y-0.5 cursor-pointer text-text-primary';
+    `tech-item tech-pill inline-flex items-center gap-2 md:gap-2.5 px-3 py-2 md:px-4 md:py-2.5 rounded-full bg-surface border shadow-[var(--shadow-soft)] transition-all duration-200 hover:border-accent hover:shadow-[var(--shadow-floating)] hover:-translate-y-0.5 cursor-pointer text-text-primary${isActive ? ' scale-[1.04] border-accent shadow-[var(--shadow-floating)] -translate-y-0.5' : ' border-border'}`;
 
   if (compact) {
     return (

@@ -3,9 +3,10 @@ import * as m from 'motion/react-m';
 import { useLanguage } from '@hooks/useLanguage';
 import { useMotionTransition } from '@hooks/useMotionTransition';
 import { containerTechStack, fadeInUp30 } from '@config/motion';
-import TechStackPill from '@components/TechStackPill';
+import { TechListRow } from '@components/tech/TechListRow';
+import SurfaceCard from '@components/SurfaceCard';
 import { CAREER_ENTRIES_BASE } from '@config/career';
-import { PROJECTS } from '@config/projects';
+import { PROJECTS, type ProjectConfig } from '@config/projects';
 import { getTech } from '@config/techs';
 import { computeTechExperience, type TechExperience } from '@lib/computeTechExperience';
 import type { TechCategoryItem, TechCategoryWithIds } from '@ui/components';
@@ -23,43 +24,44 @@ function sortByExperience(
   });
 }
 
-interface TechCategoryProps {
+interface TechCategoryListProps {
   category: TechCategoryWithIds;
   experienceMap: Map<string, TechExperience>;
+  projectsById: Map<string, ProjectConfig>;
   transition: ReturnType<typeof useMotionTransition>;
-  t: (key: string) => string;
-  /** When false, omit md:col-span-2 (for inline layout e.g. runtime + database row) */
-  fullWidth?: boolean;
+  t: (key: string, options?: Record<string, unknown>) => string;
 }
 
-function TechCategory({ category, experienceMap, transition, t, fullWidth = true }: TechCategoryProps) {
+function TechCategoryList({ category, experienceMap, projectsById, transition, t }: TechCategoryListProps) {
   return (
     <m.div
-      className={`tech-category flex flex-col gap-2 md:gap-3 ${fullWidth ? 'md:col-span-2' : ''}`}
+      className="break-inside-avoid mb-5"
       variants={fadeInUp30}
       transition={transition}
     >
-      <h3 className="tech-category-title text-[10px] md:text-xs font-semibold uppercase tracking-widest text-text-secondary opacity-90">
-        {t(category.labelKey)}
-      </h3>
-      <div className="tech-items flex flex-wrap gap-2 md:gap-3">
-        {sortByExperience(category.items, experienceMap).map((item) => (
-          <TechStackPill
-            key={item.techId}
-            name={item.name}
-            icon={item.icon}
-            viewBox={item.viewBox}
-            invert={item.invert}
-            iconClass={item.iconClass}
-            experience={experienceMap.get(item.techId)}
-          />
-        ))}
-      </div>
+      <SurfaceCard className="overflow-hidden">
+        <div className="px-4 pt-3.5 pb-2 border-b border-border/30">
+          <h3 className="text-[10px] font-semibold uppercase tracking-widest text-text-secondary/70">
+            {t(category.labelKey)}
+          </h3>
+        </div>
+        <div className="py-1">
+          {sortByExperience(category.items, experienceMap).map((item) => (
+            <TechListRow
+              key={item.techId}
+              item={item}
+              experience={experienceMap.get(item.techId)}
+              projectsById={projectsById}
+              t={t}
+            />
+          ))}
+        </div>
+      </SurfaceCard>
     </m.div>
   );
 }
 
-const CATEGORY_IDS: { labelKey: string; techIds: string[] }[] = [
+const ALL_CATEGORY_IDS: { labelKey: string; techIds: readonly string[] }[] = [
   {
     labelKey: 'tech.frameworks',
     techIds: ['react', 'nextjs', 'nestjs', 'vuejs', 'angular', 'jquery'],
@@ -68,34 +70,42 @@ const CATEGORY_IDS: { labelKey: string; techIds: string[] }[] = [
     labelKey: 'tech.languages',
     techIds: ['typescript', 'javascript', 'php', 'go', 'rust'],
   },
+  {
+    labelKey: 'tech.runtime',
+    techIds: ['nodejs'],
+  },
+  {
+    labelKey: 'tech.database',
+    techIds: ['postgresql', 'mysql', 'mongodb', 'aerospike'],
+  },
+  {
+    labelKey: 'tech.cacheBrokers',
+    techIds: ['redis', 'zeromq'],
+  },
+  {
+    labelKey: 'tech.devops',
+    techIds: ['docker', 'vercel', 'gcp', 'aws', 'ansible', 'nginx'],
+  },
+  {
+    labelKey: 'tech.integrations',
+    techIds: ['stripe', 'chargebee', 'keycloak', 'clerk', 'ethereum'],
+  },
 ];
-
-const RUNTIME_IDS = { labelKey: 'tech.runtime', techIds: ['nodejs'] as const };
-const DATABASE_IDS = { labelKey: 'tech.database', techIds: ['postgresql', 'mysql', 'mongodb', 'aerospike'] as const };
-const CACHE_BROKERS_IDS = { labelKey: 'tech.cacheBrokers', techIds: ['redis', 'zeromq'] as const };
-const DEVOPS_IDS = {
-  labelKey: 'tech.devops',
-  techIds: ['docker', 'vercel', 'gcp', 'aws', 'ansible', 'nginx'] as const,
-};
-const INTEGRATIONS_IDS = {
-  labelKey: 'tech.integrations',
-  techIds: ['stripe', 'chargebee', 'keycloak', 'clerk', 'ethereum'] as const,
-};
 
 function techIdsToCategory(idList: { labelKey: string; techIds: readonly string[] }): TechCategoryWithIds {
   return {
     labelKey: idList.labelKey,
     items: idList.techIds
       .map((techId) => {
-        const t = getTech(techId);
-        if (!t) return null;
+        const tech = getTech(techId);
+        if (!tech) return null;
         return {
           techId,
-          name: t.displayName,
-          icon: t.icon,
-          viewBox: t.viewBox,
-          invert: t.invert,
-          iconClass: t.iconClass,
+          name: tech.displayName,
+          icon: tech.icon,
+          viewBox: tech.viewBox,
+          invert: tech.invert,
+          iconClass: tech.iconClass,
         };
       })
       .filter((item): item is NonNullable<typeof item> => item != null),
@@ -104,18 +114,19 @@ function techIdsToCategory(idList: { labelKey: string; techIds: readonly string[
 
 export default function TechStack() {
   const { t } = useLanguage();
+
   const experienceMap = useMemo(
     () => computeTechExperience(CAREER_ENTRIES_BASE, PROJECTS),
     []
   );
-  const transition = useMotionTransition(0.6);
 
-  const categories = CATEGORY_IDS.map(techIdsToCategory);
-  const runtimeCategory = techIdsToCategory(RUNTIME_IDS);
-  const databaseCategory = techIdsToCategory(DATABASE_IDS);
-  const cacheBrokersCategory = techIdsToCategory(CACHE_BROKERS_IDS);
-  const devopsCategory = techIdsToCategory(DEVOPS_IDS);
-  const integrationsCategory = techIdsToCategory(INTEGRATIONS_IDS);
+  const projectsById = useMemo(
+    () => new Map(PROJECTS.map((p) => [p.id, p])),
+    []
+  );
+
+  const transition = useMotionTransition(0.6);
+  const allCategories = useMemo(() => ALL_CATEGORY_IDS.map(techIdsToCategory), []);
 
   return (
     <m.section
@@ -131,62 +142,17 @@ export default function TechStack() {
         {t('sections.tech')}
       </h2>
 
-      <m.div
-        className="tech-categories-wrapper grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-10 w-full"
-        variants={containerTechStack}
-      >
-        {categories.map((category) => (
-          <TechCategory
+      <m.div className="columns-1 md:columns-2 gap-10" variants={containerTechStack}>
+        {allCategories.map((category) => (
+          <TechCategoryList
             key={category.labelKey}
             category={category}
             experienceMap={experienceMap}
+            projectsById={projectsById}
             transition={transition}
             t={t}
           />
         ))}
-
-        <m.div
-          className="tech-category-group md:col-span-2 flex flex-col md:flex-row md:flex-wrap md:gap-x-10 md:gap-y-0 gap-5 w-full"
-          variants={fadeInUp30}
-          transition={transition}
-        >
-          <TechCategory
-            category={runtimeCategory}
-            experienceMap={experienceMap}
-            transition={transition}
-            t={t}
-            fullWidth={false}
-          />
-          <TechCategory
-            category={databaseCategory}
-            experienceMap={experienceMap}
-            transition={transition}
-            t={t}
-            fullWidth={false}
-          />
-        </m.div>
-
-        <TechCategory
-          key={cacheBrokersCategory.labelKey}
-          category={cacheBrokersCategory}
-          experienceMap={experienceMap}
-          transition={transition}
-          t={t}
-        />
-        <TechCategory
-          key={integrationsCategory.labelKey}
-          category={integrationsCategory}
-          experienceMap={experienceMap}
-          transition={transition}
-          t={t}
-        />
-        <TechCategory
-          key={devopsCategory.labelKey}
-          category={devopsCategory}
-          experienceMap={experienceMap}
-          transition={transition}
-          t={t}
-        />
       </m.div>
     </m.section>
   );
