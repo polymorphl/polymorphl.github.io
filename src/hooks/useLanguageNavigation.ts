@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { SUPPORTED_LANGUAGES } from '@config/constants';
 import type { Lang } from '@domain/i18n';
 
 /**
@@ -12,8 +13,6 @@ export function useLanguageNavigation(lang: Lang) {
 
   useEffect(() => {
     const pathname = location.pathname;
-    const SUPPORTED_LANGS = ['en', 'fr'];
-
     // Check if we're on a blog route
     const isBlogRoute = pathname.includes('/blog');
     if (!isBlogRoute) return;
@@ -21,7 +20,7 @@ export function useLanguageNavigation(lang: Lang) {
     // Check if URL already has correct language prefix
     const pathSegments = pathname.split('/').filter(Boolean);
     const currentLangPrefix = pathSegments[0];
-    const hasLangPrefix = SUPPORTED_LANGS.includes(currentLangPrefix);
+    const hasLangPrefix = (SUPPORTED_LANGUAGES as readonly string[]).includes(currentLangPrefix);
 
     // Determine target path
     let targetPath: string;
