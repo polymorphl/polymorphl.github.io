@@ -4,12 +4,12 @@
 
 export type Lang = 'fr' | 'en';
 
-export interface LanguageConfig {
+export type LanguageConfig = {
   code: Lang;
   name: string;
   nativeName: string;
-}
+};
 
-export interface TranslationObject {
+export type TranslationObject = {
   [key: string]: string | TranslationObject;
-}
+};

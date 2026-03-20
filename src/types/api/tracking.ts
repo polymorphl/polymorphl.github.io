@@ -3,47 +3,47 @@
  * All tracking payloads are defined here for type safety and discoverability
  */
 
-export interface ResumeDownloadedEvent {
+export type ResumeDownloadedEvent = {
   source: string;
-}
+};
 
-export interface SocialLinkClickedEvent {
+export type SocialLinkClickedEvent = {
   platform: 'linkedin' | 'github';
   source: string;
-}
+};
 
-export interface ProjectClickedEvent {
+export type ProjectClickedEvent = {
   project_id: string;
   project_title: string;
   project_url: string;
-}
+};
 
-export interface CareerCompanyClickedEvent {
+export type CareerCompanyClickedEvent = {
   company: string;
   website: string;
   source: string;
-}
+};
 
-export interface BlogPostViewedEvent {
+export type BlogPostViewedEvent = {
   slug: string;
   title: string;
   lang: string;
   tags?: string[];
   reading_time?: number;
   date?: string;
-}
+};
 
-export interface ThemeToggledEvent {
+export type ThemeToggledEvent = {
   theme: string;
   previous_theme: string;
-}
+};
 
-export interface LanguageChangedEvent {
+export type LanguageChangedEvent = {
   language: string;
   previous_language?: string;
-}
+};
 
-export interface BlogPostReadEvent {
+export type BlogPostReadEvent = {
   slug: string;
   title: string;
   lang: string;
@@ -51,7 +51,7 @@ export interface BlogPostReadEvent {
   time_spent_seconds: number;
   max_scroll_percent: number;
   is_article_read: boolean;
-}
+};
 
 export type TrackingEvent =
   | ResumeDownloadedEvent
@@ -72,3 +72,12 @@ export type TrackingEventName =
   | 'theme_toggled'
   | 'language_changed'
   | 'blog_post_read';
+
+export type ArticleTrackingOptions = {
+  slug: string;
+  title: string;
+  lang: string;
+  readingTime?: number;
+  tags?: string[];
+  date?: string;
+};

@@ -1,17 +1,5 @@
 import { use, Suspense } from 'react';
-
-interface PreviewData {
-  url: string;
-  title: string;
-  description: string;
-  image: string | null;
-  favicon: string | null;
-  domain: string;
-}
-
-interface LinkPreviewProps {
-  url: string;
-}
+import type { PreviewData, LinkPreviewProps } from '@ui/components';
 
 // Module-level promise — shared across all LinkPreview instances on the page
 let previewsPromise: Promise<Record<string, PreviewData>> | null = null;

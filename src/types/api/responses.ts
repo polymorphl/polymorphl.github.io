@@ -4,7 +4,7 @@
 
 import type { ComponentType } from 'react';
 
-export interface MDXModule {
+export type MDXModule = {
   default: ComponentType;
   frontmatter?: {
     title?: string;
@@ -17,4 +17,4 @@ export interface MDXModule {
     readingTime?: number;
     draft?: boolean;
   };
-}
+};

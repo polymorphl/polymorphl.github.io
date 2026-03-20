@@ -1,14 +1,6 @@
 import { formatExperienceDuration } from '@lib/formatPeriod';
-import type { TechExperience } from '@lib/computeTechExperience';
-import type { ProjectConfig } from '@config/projects';
-import type { TechCategoryItem } from '@ui/components';
-
-interface TechListRowProps {
-  item: TechCategoryItem;
-  experience?: TechExperience;
-  projectsById: Map<string, ProjectConfig>;
-  t: (key: string, options?: Record<string, unknown>) => string;
-}
+import type { TechListRowProps } from '@ui/components';
+import type { ProjectConfig } from '@domain/project';
 
 export function TechListRow({ item, experience, projectsById, t }: TechListRowProps) {
   const yearsLabel = experience?.years ? formatExperienceDuration(experience.years, t) : null;

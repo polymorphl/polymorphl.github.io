@@ -11,9 +11,9 @@ import MDXComponents from '@components/blog/MDXComponents';
 import ReadingProgressBar from '@components/blog/ReadingProgressBar';
 import TableOfContents from '@components/blog/TableOfContents';
 import { getBlogData, getPostMeta, loadPost } from '@lib/blog';
-import type { BlogPostMeta } from '@domain/blog';
 import type { Lang } from '@domain/i18n';
 import type { MDXModule } from '@api/responses';
+import type { BlogPostContentProps } from '@ui/components';
 
 const { slugToSlugInLang } = getBlogData();
 
@@ -61,14 +61,6 @@ function BlogPostSkeleton() {
       </article>
     </div>
   );
-}
-
-interface BlogPostContentProps {
-  slug: string;
-  lang: Lang;
-  meta: BlogPostMeta;
-  transition: ReturnType<typeof useMotionTransition>;
-  t: (key: string) => string;
 }
 
 function BlogPostContent({ slug, lang, meta, transition, t }: BlogPostContentProps) {

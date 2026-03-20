@@ -3,9 +3,8 @@
  */
 
 import type { Lang } from './i18n';
-import type { MDXModule } from '@api/responses';
 
-export interface BlogPostMeta {
+export type BlogPostMeta = {
   slug: string;
   lang: Lang;
   title: string;
@@ -16,13 +15,10 @@ export interface BlogPostMeta {
   cover?: string;
   readingTime?: number;
   draft?: boolean;
-}
+};
 
-export interface BlogPost extends BlogPostMeta {
-  content: string;
-}
+export type BlogPost = BlogPostMeta & { content: string };
 
-export interface BlogData {
-  postsMap: Record<string, MDXModule>;
+export type BlogData = {
   slugToSlugInLang: (slug: string, targetLang: Lang) => string | null;
-}
+};

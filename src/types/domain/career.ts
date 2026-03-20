@@ -4,7 +4,7 @@ export type CareerPeriod = [string, string];
 import type { TechId } from '@config/techs';
 
 /** Shared data (company, period, stack, logo, website) — from config. */
-export interface CareerEntryBase {
+export type CareerEntryBase = {
   company: string;
   /** [start, end] in MM/YYYY format. End can be "present" for ongoing. */
   period: CareerPeriod;
@@ -16,14 +16,14 @@ export interface CareerEntryBase {
   logoLight?: boolean;
   /** Company website URL */
   website?: string;
-}
+};
 
 /** Translatable fields — from i18n. */
-export interface CareerEntryI18n {
+export type CareerEntryI18n = {
   role: string;
   location: string;
   highlights: string[];
-}
+};
 
 /** Full entry = base + i18n merged. */
-export interface CareerEntry extends CareerEntryBase, CareerEntryI18n {}
+export type CareerEntry = CareerEntryBase & CareerEntryI18n;

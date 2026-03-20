@@ -1,8 +1,5 @@
 import React, { useEffect, useState, type ReactNode } from 'react';
-
-interface PostHogLazyProviderProps {
-  children: ReactNode;
-}
+import type { PostHogLazyProviderProps } from '@ui/components';
 
 export default function PostHogLazyProvider({ children }: PostHogLazyProviderProps) {
   const [PostHogWrapper, setPostHogWrapper] = useState<

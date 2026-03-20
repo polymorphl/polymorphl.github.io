@@ -1,17 +1,9 @@
 import { useEffect, useRef } from 'react';
 import { useTracking } from './useTracking';
+import type { ArticleTrackingOptions } from '@api/tracking';
 
 const MIN_TIME_TO_TRACK = 30000; // 30 seconds in milliseconds
 const READ_THRESHOLD = 90; // 90% scroll to consider article as read
-
-interface ArticleTrackingOptions {
-  slug: string;
-  title: string;
-  lang: string;
-  readingTime?: number;
-  tags?: string[];
-  date?: string;
-}
 
 export function useArticleTracking(options: ArticleTrackingOptions) {
   const { trackBlogPostViewed, trackBlogPostRead } = useTracking();

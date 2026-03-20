@@ -6,10 +6,11 @@ import { containerTechStack, fadeInUp30 } from '@config/motion';
 import { TechListRow } from '@components/tech/TechListRow';
 import SurfaceCard from '@components/SurfaceCard';
 import { CAREER_ENTRIES_BASE } from '@config/career';
-import { PROJECTS, type ProjectConfig } from '@config/projects';
+import { PROJECTS } from '@config/projects';
 import { getTech } from '@config/techs';
-import { computeTechExperience, type TechExperience } from '@lib/computeTechExperience';
-import type { TechCategoryItem, TechCategoryWithIds } from '@ui/components';
+import { computeTechExperience } from '@lib/computeTechExperience';
+import type { TechCategoryItem, TechCategoryWithIds, TechCategoryListProps } from '@ui/components';
+import type { TechExperience } from '@domain/tech';
 
 function sortByExperience(
   items: TechCategoryItem[],
@@ -22,14 +23,6 @@ function sortByExperience(
     const scoreB = expB ? expB.years + (expB.companies.length + expB.projectIds.length) * 0.01 : -1;
     return scoreB - scoreA;
   });
-}
-
-interface TechCategoryListProps {
-  category: TechCategoryWithIds;
-  experienceMap: Map<string, TechExperience>;
-  projectsById: Map<string, ProjectConfig>;
-  transition: ReturnType<typeof useMotionTransition>;
-  t: (key: string, options?: Record<string, unknown>) => string;
 }
 
 function TechCategoryList({ category, experienceMap, projectsById, transition, t }: TechCategoryListProps) {
