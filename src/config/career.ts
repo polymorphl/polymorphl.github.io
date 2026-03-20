@@ -2,6 +2,13 @@ import type { CareerEntryBase } from '@domain/career';
 
 export const CAREER_ENTRIES_BASE: CareerEntryBase[] = [
   {
+    company: 'Formation & Open Source',
+    period: ['09/2025', 'present'],
+    stack: ['rust', 'go'],
+    logoId: 'formation-open-source',
+    logoLight: true,
+  },
+  {
     company: 'Paradox Institute',
     period: ['05/2023', '09/2025'],
     stack: ['nodejs', 'nextjs', 'react', 'nestjs', 'typescript', 'vanillajs', 'aws', 'clerk', 'redis', 'chargebee', 'stripe', 'vercel', 'postgresql', 'docker'],

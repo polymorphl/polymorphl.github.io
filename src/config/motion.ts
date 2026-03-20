@@ -36,12 +36,6 @@ export const fadeInUp30 = {
   visible: { opacity: 1, y: 0 },
 } as const;
 
-/** Fade in + rotate on Y axis – project cards (flip-in effect) */
-export const cardRotateIn = {
-  hidden: { opacity: 0, rotateY: -35 },
-  visible: { opacity: 1, rotateY: 0 },
-} as const;
-
 /** Fade in + scale – project cards (no position change) */
 export const cardScaleIn = {
   hidden: { opacity: 0, scale: 0.92 },
