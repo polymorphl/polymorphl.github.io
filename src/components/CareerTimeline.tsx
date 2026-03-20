@@ -9,6 +9,7 @@ import { getTech, toIconConfig } from '@config/techs';
 import { getPeriodDurationInYears } from '@lib/computeTechExperience';
 import { formatPeriodForDisplay, formatExperienceDuration } from '@lib/formatPeriod';
 import { parseTextWithLinks } from '@lib/parseLinks';
+import SurfaceCard from '@components/SurfaceCard';
 import type { CareerEntry, CareerEntryI18n } from '@domain/career';
 
 function mergeCareerEntries(
@@ -65,7 +66,7 @@ export default function CareerTimeline() {
               </div>
             </div>
 
-            <div className="career-card flex-1 min-w-0 rounded-xl border border-border bg-surface/60 dark:bg-surface/40 pl-4 md:pl-5 pr-4 md:pr-5 py-4 md:py-5 border-l-4 border-l-accent transition-all duration-300 ease-out hover:shadow-soft hover:-translate-y-1 hover:border-accent/30">
+            <SurfaceCard className="career-card flex-1 min-w-0 pl-4 md:pl-5 pr-4 md:pr-5 py-4 md:py-5 border-l-4 border-l-accent transition-all duration-300 ease-out hover:shadow-soft hover:-translate-y-1 hover:border-accent/30">
               <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3 mb-2">
                 <span className="text-xs font-mono text-accent-on-surface shrink-0 tabular-nums">
                   {formatPeriodForDisplay(entry.period, t('career.periodPresent'))}
@@ -111,7 +112,7 @@ export default function CareerTimeline() {
                   </li>
                 ))}
               </ul>
-            </div>
+            </SurfaceCard>
           </m.div>
         ))}
       </m.div>
