@@ -1,6 +1,8 @@
 import type { MDXComponents } from 'mdx/types';
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import { createPortal } from 'react-dom';
+import { useBodyScrollLock } from '@hooks/useBodyScrollLock';
+import { useEscapeKey } from '@hooks/useEscapeKey';
 import type { ReactNode } from 'react';
 import type { TimelineItem, ArticleImageProps, StepBlockProps } from '@ui/components';
 import LinkPreview from './LinkPreview';
@@ -105,18 +107,8 @@ function ArticleImage({ src, alt, caption }: ArticleImageProps) {
 
   const closePreview = useCallback(() => setIsPreviewOpen(false), []);
 
-  useEffect(() => {
-    if (!isPreviewOpen) return;
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') closePreview();
-    };
-    document.addEventListener('keydown', onKeyDown);
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.removeEventListener('keydown', onKeyDown);
-      document.body.style.overflow = '';
-    };
-  }, [isPreviewOpen, closePreview]);
+  useEscapeKey(closePreview, isPreviewOpen);
+  useBodyScrollLock(isPreviewOpen);
 
   return (
     <figure className="my-8">

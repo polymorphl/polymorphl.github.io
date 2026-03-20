@@ -1,7 +1,9 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '@components/ThemeProvider';
 import { useLanguage } from '@hooks/useLanguage';
+import { useBodyScrollLock } from '@hooks/useBodyScrollLock';
+import { useEscapeKey } from '@hooks/useEscapeKey';
 
 const SECTION_IDS = ['projects', 'career', 'tech'] as const;
 
@@ -26,21 +28,8 @@ export default function Navbar() {
     [closeMenu, location.pathname, navigate]
   );
 
-  // ESC key closes the drawer
-  useEffect(() => {
-    if (!isMenuOpen) return;
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') closeMenu();
-    };
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isMenuOpen, closeMenu]);
-
-  // Body scroll lock when menu is open
-  useEffect(() => {
-    document.body.style.overflow = isMenuOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
-  }, [isMenuOpen]);
+  useEscapeKey(closeMenu, isMenuOpen);
+  useBodyScrollLock(isMenuOpen);
 
   return (
     <>
