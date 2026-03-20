@@ -2,19 +2,13 @@
  * UI component prop types
  */
 
-import type { ReactNode } from 'react';
+import type { ReactNode, HTMLAttributes } from 'react';
 import type { TechIconConfig } from '@config/techs';
-import type { TechExperience } from '@lib/computeTechExperience';
-import type { ProjectConfig } from '@config/projects';
 import type { CareerEntry } from '@domain/career';
 import type { useLogoTransition } from '@hooks/useMotionTransition';
 
 /** Transition config for logo entrance animations (e.g. CareerLogo) */
 export type LogoTransition = ReturnType<typeof useLogoTransition>;
-
-export interface LayoutProps {
-  children?: ReactNode;
-}
 
 export interface ThemeContextType {
   theme: string;
@@ -38,16 +32,14 @@ export interface TechPillProps {
   compact?: boolean;
   /** Pre-resolved config from batch lookup; null = looked up, no icon. Omit = fallback to per-pill lookup */
   iconConfig?: TechIconConfig | null;
+  /** Persistent active state (e.g. while detail panel is showing) */
+  isActive?: boolean;
 }
 
 export interface TimelineItem {
   year: string;
   tool: string;
   desc: string;
-}
-
-export interface CareerTimelineProps {
-  // Reserved for future external props
 }
 
 export interface CareerLogoProps {
@@ -67,27 +59,6 @@ export interface StepBlockProps {
   children?: ReactNode;
 }
 
-export interface TechDetailContentProps {
-  name: string;
-  experience: TechExperience;
-  projectEntries: ProjectConfig[];
-  t: (key: string, options?: Record<string, unknown>) => string;
-  onLinkClick?: (e: React.MouseEvent) => void;
-}
-
-export interface TechDetailPopoverProps {
-  placement: 'above' | 'below';
-  ariaLabel: string;
-  children: ReactNode;
-}
-
-export interface TechDetailBottomSheetProps {
-  name: string;
-  ariaLabel: string;
-  closeLabel: string;
-  onClose: () => void;
-  children: ReactNode;
-}
 
 export interface TechCategoryItem {
   techId: string;
@@ -101,6 +72,25 @@ export interface TechCategoryItem {
 export interface TechCategoryWithIds {
   labelKey: string;
   items: TechCategoryItem[];
+}
+
+export interface Heading {
+  id: string;
+  text: string;
+  level: number;
+}
+
+export interface TableOfContentsProps {
+  contentRef: React.RefObject<HTMLElement | null>;
+  /** Slug of the current article — used to re-run effect when navigating to a different post */
+  slug?: string;
+  /** Current language — used to re-run effect when switching language (content changes) */
+  lang?: string;
+}
+
+export interface SurfaceCardProps extends HTMLAttributes<HTMLDivElement> {
+  /** Dark-mode background opacity. Defaults to '40'. Use '70' for denser surfaces (e.g. blog cards). */
+  darkOpacity?: '40' | '70';
 }
 
 export interface MarkdownBlockProps {
