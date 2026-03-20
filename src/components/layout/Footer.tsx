@@ -1,8 +1,8 @@
-import { usePostHog } from 'posthog-js/react';
 import { useLanguage } from '@hooks/useLanguage';
+import { useTracking } from '@hooks/useTracking';
 
 export default function Footer() {
-  const posthog = usePostHog();
+  const { trackSocialLinkClicked } = useTracking();
   const { t } = useLanguage();
   const currentYear = new Date().getFullYear();
 
@@ -25,7 +25,7 @@ export default function Footer() {
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-surface border border-border text-text-secondary hover:text-accent hover:border-accent transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
               aria-label={t('footer.socials.linkedin')}
-              onClick={() => posthog?.capture('footer_social_link_clicked', { platform: 'linkedin', source: 'footer' })}
+              onClick={() => trackSocialLinkClicked('linkedin', 'footer')}
             >
               <svg className="w-5 h-5 [fill:currentColor]" viewBox="0 0 24 24">
                 <use href="/assets/icons/sprite.svg#linkedin" />
@@ -37,7 +37,7 @@ export default function Footer() {
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-surface border border-border text-text-secondary hover:text-accent hover:border-accent transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
               aria-label={t('footer.socials.github')}
-              onClick={() => posthog?.capture('footer_social_link_clicked', { platform: 'github', source: 'footer' })}
+              onClick={() => trackSocialLinkClicked('github', 'footer')}
             >
               <svg className="w-5 h-5 [fill:currentColor]" viewBox="0 0 24 24">
                 <use href="/assets/icons/sprite.svg#github" />

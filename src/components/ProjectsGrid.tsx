@@ -1,14 +1,14 @@
 import * as m from 'motion/react-m';
-import { usePostHog } from 'posthog-js/react';
 import { useLanguage } from '@hooks/useLanguage';
 import { useCardTransition } from '@hooks/useMotionTransition';
+import { useTracking } from '@hooks/useTracking';
 import { containerStagger08, cardScaleIn } from '@config/motion';
 import TechPill from '@components/TechPill';
 import { PROJECTS } from '@config/projects';
 import { getTech } from '@config/techs';
 
 export default function ProjectsGrid() {
-  const posthog = usePostHog();
+  const { trackProjectClicked } = useTracking();
   const { t } = useLanguage();
   const transition = useCardTransition();
 
@@ -30,7 +30,7 @@ export default function ProjectsGrid() {
           aria-label={p.title}
           variants={cardScaleIn}
           transition={transition}
-          onClick={() => posthog?.capture('project_clicked', { project_id: p.id, project_title: p.title, project_url: p.url })}
+          onClick={() => trackProjectClicked(p.id, p.title, p.url)}
         >
           <div className="project-card-image w-20 h-20 md:w-full md:h-auto shrink-0 rounded-l-lg md:rounded-none md:rounded-t-xl aspect-square md:aspect-[4/3] relative overflow-hidden bg-gradient-to-br from-accent/20 to-primary/10 flex items-center justify-center">
             {p.image && <img src={p.image} alt={p.title} fetchPriority={p.id === 'orcrux' ? 'high' : undefined} className="w-full h-full object-cover md:object-contain transition-transform duration-300 group-hover:scale-105" loading={p.id === 'orcrux' ? undefined : 'lazy'} width={400} height={300} />}

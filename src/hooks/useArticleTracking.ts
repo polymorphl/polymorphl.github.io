@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { usePostHog } from 'posthog-js/react';
+import { useTracking } from './useTracking';
 
 const MIN_TIME_TO_TRACK = 30000; // 30 seconds in milliseconds
 const READ_THRESHOLD = 90; // 90% scroll to consider article as read
@@ -9,12 +9,28 @@ interface ArticleTrackingOptions {
   title: string;
   lang: string;
   readingTime?: number;
+  tags?: string[];
+  date?: string;
 }
 
 export function useArticleTracking(options: ArticleTrackingOptions) {
-  const posthog = usePostHog();
+  const { trackBlogPostViewed, trackBlogPostRead } = useTracking();
   const startTimeRef = useRef(Date.now());
   const maxScrollPercentRef = useRef(0);
+
+  useEffect(() => {
+    if (options.slug && options.title) {
+      trackBlogPostViewed({
+        slug: options.slug,
+        title: options.title,
+        lang: options.lang,
+        tags: options.tags,
+        reading_time: options.readingTime,
+        date: options.date,
+      });
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [options.slug, options.lang]);
 
   useEffect(() => {
     startTimeRef.current = Date.now();
@@ -39,7 +55,7 @@ export function useArticleTracking(options: ArticleTrackingOptions) {
       if (timeSpent >= MIN_TIME_TO_TRACK) {
         const isArticleRead = maxScrollPercentRef.current >= READ_THRESHOLD;
 
-        posthog?.capture('blog_post_read', {
+        trackBlogPostRead({
           slug: options.slug,
           title: options.title,
           lang: options.lang,
@@ -50,5 +66,5 @@ export function useArticleTracking(options: ArticleTrackingOptions) {
         });
       }
     };
-  }, [options.slug, options.title, options.lang, options.readingTime, posthog]);
+  }, [options.slug, options.title, options.lang, options.readingTime, trackBlogPostRead]);
 }

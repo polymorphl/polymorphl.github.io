@@ -1,12 +1,12 @@
 import * as m from 'motion/react-m';
-import { usePostHog } from 'posthog-js/react';
 import { useLanguage } from '@hooks/useLanguage';
 import { useMotionTransition } from '@hooks/useMotionTransition';
+import { useTracking } from '@hooks/useTracking';
 import { PROFILE_PHOTO_SIZE } from '@config/constants';
 import { containerHero, fadeInUp20, scaleIn, statusDotPing, underlineDrawIn } from '@config/motion';
 
 export default function HeroSection() {
-  const posthog = usePostHog();
+  const { trackResumeDownloaded, trackSocialLinkClicked } = useTracking();
   const { t } = useLanguage();
   const transition = useMotionTransition(0.6);
 
@@ -99,7 +99,7 @@ export default function HeroSection() {
             href={t('resume.file')}
             className="btn-primary inline-flex items-center justify-center bg-accent text-white px-6 py-3 rounded-full font-medium text-sm no-underline shadow-[var(--shadow-button)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow-floating)] hover:opacity-90 active:translate-y-0 shrink-0 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
             download
-            onClick={() => posthog?.capture('resume_downloaded', { source: 'hero' })}
+            onClick={() => trackResumeDownloaded('hero')}
           >
             {t('resume.text')}
           </a>
@@ -110,7 +110,7 @@ export default function HeroSection() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn profile"
-              onClick={() => posthog?.capture('social_link_clicked', { platform: 'linkedin', source: 'hero' })}
+              onClick={() => trackSocialLinkClicked('linkedin', 'hero')}
             >
               <svg className="social-icon w-5 h-5 text-text-primary transition-transform duration-200 [fill:currentColor]" width="20" height="20" viewBox="0 0 24 24">
                 <use href="/assets/icons/sprite.svg#linkedin" />
@@ -122,7 +122,7 @@ export default function HeroSection() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub profile"
-              onClick={() => posthog?.capture('social_link_clicked', { platform: 'github', source: 'hero' })}
+              onClick={() => trackSocialLinkClicked('github', 'hero')}
             >
               <svg className="social-icon w-5 h-5 text-text-primary transition-transform duration-200 [fill:currentColor]" width="20" height="20" viewBox="0 0 24 24">
                 <use href="/assets/icons/sprite.svg#github" />
