@@ -1,8 +1,11 @@
 {
   "hero": {
-    "subtitle": "Full Stack Developer",
-    "tagline": "I design and build performant web products — React, Node.js, TypeScript.",
-    "status": "Available for new opportunities"
+    "subtitle": "Lead Software Engineer",
+    "experience": "10+ years of experience",
+    "tagline": "I architect and ship high-performance web products — React, TypeScript, Node.js.",
+    "training": "Actively training · Deep Learning · LLM Engineering · Agentic AI",
+    "status": "Available for new opportunities",
+    "contact": "Contact me"
   },
   "nav": {
     "projects": "Projects",
@@ -15,7 +18,8 @@
   "sections": {
     "career": "Career",
     "tech": "Tech stack",
-    "projects": "Open-source projects"
+    "projects": "Open-source projects",
+    "latestPost": "Latest article"
   },
   "tech": {
     "frameworks": "Frameworks",
@@ -41,6 +45,16 @@
     "visitWebsite": "Visit website",
     "periodPresent": "present",
     "entries": [
+      {
+        "role": "Independent Engineer",
+        "location": "Remote",
+        "highlights": [
+          "Intensive training: Deep Learning, LLM Engineering and Agentic AI",
+          "my-open-claude (Rust) — agentic LLM assistant with native tools (Read, Write, Edit, Bash…)",
+          "go-kv (Go) — Redis-compatible server with zero external dependencies",
+          "orcrux (Go + React) — cross-platform desktop GUI for Shamir's Secret Sharing"
+        ]
+      },
       {
         "role": "Lead Software Engineer",
         "location": "Remote",
