@@ -2,7 +2,7 @@ import * as m from 'motion/react-m';
 import { useLanguage } from '@hooks/useLanguage';
 import { useMotionTransition } from '@hooks/useMotionTransition';
 import { useTracking } from '@hooks/useTracking';
-import { PROFILE_PHOTO_SIZE } from '@config/constants';
+import { PROFILE_PHOTO_SIZE, CONTACT_EMAIL } from '@config/constants';
 import { containerHero, fadeInUp20, scaleIn, statusDotPing, underlineDrawIn } from '@config/motion';
 
 export default function HeroSection() {
@@ -66,12 +66,34 @@ export default function HeroSection() {
           {t('hero.subtitle')}
         </m.p>
         <m.p
+          className="text-sm font-medium text-text-secondary/70 -mt-2"
+          variants={fadeInUp20}
+          transition={transition}
+        >
+          {t('hero.experience')}
+        </m.p>
+        <m.p
           className="hero-tagline text-base lg:text-lg text-text-secondary/90 w-full lg:max-w-[480px] leading-relaxed"
           variants={fadeInUp20}
           transition={transition}
         >
           {t('hero.tagline')}
         </m.p>
+        <m.div
+          className="flex items-center justify-center md:justify-start"
+          variants={fadeInUp20}
+          transition={transition}
+        >
+          <a
+            href="https://blent.ai/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium bg-accent-on-surface/10 text-accent-on-surface border border-accent-on-surface/20 no-underline transition-colors duration-200 hover:bg-accent-on-surface/20 hover:border-accent-on-surface/40"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-accent-on-surface animate-pulse shrink-0" aria-hidden />
+            {t('hero.training')}
+          </a>
+        </m.div>
         <m.div
           className="hero-status flex items-center justify-center md:justify-start gap-2"
           variants={fadeInUp20}
@@ -102,6 +124,16 @@ export default function HeroSection() {
             onClick={() => trackResumeDownloaded('hero')}
           >
             {t('resume.text')}
+          </a>
+          <a
+            href={`mailto:${CONTACT_EMAIL}`}
+            className="btn-secondary inline-flex items-center justify-center gap-2 border border-border bg-surface px-6 py-3 rounded-full font-medium text-sm no-underline shadow-[var(--shadow-soft)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow-floating)] hover:border-accent text-text-primary shrink-0 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
+            onClick={() => trackSocialLinkClicked('email', 'hero')}
+          >
+            <svg className="w-4 h-4" viewBox="0 0 24 24" aria-hidden>
+              <use href="/assets/icons/sprite.svg#mail" />
+            </svg>
+            {t('hero.contact')}
           </a>
           <div className="social-links flex gap-3">
             <a
