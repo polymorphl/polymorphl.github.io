@@ -1,5 +1,4 @@
-import type { AuroraPalette } from '@config/aurora';
-import type { Rgb } from '@domain/aurora';
+import type { AuroraPalette, Rgb } from '@domain/aurora';
 
 export function lerp(a: number, b: number, t: number): number {
   return a + (b - a) * t;

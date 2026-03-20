@@ -1,12 +1,7 @@
 import type { CareerEntryBase } from '@domain/career';
-import type { ProjectConfig } from '@config/projects';
+import type { ProjectConfig } from '@domain/project';
+import type { TechExperience } from '@domain/tech';
 import { isPresent } from '@lib/formatPeriod';
-
-export interface TechExperience {
-  years: number;
-  companies: Array<{ name: string; website?: string }>;
-  projectIds: string[];
-}
 
 /** Parse period [start, end] in MM/YYYY format to duration in years (fractional). Exported for CareerTimeline. */
 export function getPeriodDurationInYears(period: [string, string]): number {

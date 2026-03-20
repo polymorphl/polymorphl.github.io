@@ -1,10 +1,10 @@
-export interface Rgb {
+export type Rgb = {
   r: number;
   g: number;
   b: number;
-}
+};
 
-export interface Orb {
+export type Orb = {
   x: number;
   y: number;
   radius: number;
@@ -13,4 +13,9 @@ export interface Orb {
   vy: number;
   pulse: number;
   pulseSpeed: number;
-}
+};
+
+export type AuroraPalette = {
+  dark: readonly [Rgb, ...Rgb[]];
+  light: readonly [Rgb, ...Rgb[]];
+};

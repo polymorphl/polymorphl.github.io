@@ -3,22 +3,7 @@
  * Career and projects reference techs by ID. Display names and icon config come from here.
  */
 
-export interface TechDefinition {
-  id: string;
-  displayName: string;
-  icon: string;
-  viewBox?: string;
-  invert?: boolean;
-  iconClass?: string;
-}
-
-/** Icon config shape for TechPill (subset of TechDefinition). */
-export interface TechIconConfig {
-  icon: string;
-  viewBox?: string;
-  invert?: boolean;
-  iconClass?: string;
-}
+import type { TechDefinition, TechIconConfig } from '@domain/tech';
 
 export const TECH_REGISTRY = {
   react: { id: 'react', displayName: 'React', icon: 'react' },

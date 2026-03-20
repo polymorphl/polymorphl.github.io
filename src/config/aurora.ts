@@ -2,14 +2,11 @@
  * Aurora background: color palettes and animation config
  */
 
+import type { AuroraPalette } from '@domain/aurora';
+
 function hexToRgb(hex: string): { r: number; g: number; b: number } {
   const n = parseInt(hex.slice(1), 16);
   return { r: n >> 16, g: (n >> 8) & 0xff, b: n & 0xff };
-}
-
-export interface AuroraPalette {
-  dark: readonly [{ r: number; g: number; b: number }, ...{ r: number; g: number; b: number }[]];
-  light: readonly [{ r: number; g: number; b: number }, ...{ r: number; g: number; b: number }[]];
 }
 
 /** Color collections – each has dark + light variants */

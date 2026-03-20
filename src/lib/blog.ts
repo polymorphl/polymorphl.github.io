@@ -1,14 +1,10 @@
 import type { Lang } from '@domain/i18n';
-import type { BlogPostMeta } from '@domain/blog';
+import type { BlogPostMeta, BlogData } from '@domain/blog';
 import type { MDXModule } from '@api/responses';
 
 import blogMetadata from '@/generated/blog-metadata.json';
 
 const blogLoaders = import.meta.glob<MDXModule>('/content/blog/**/*.mdx', { eager: false });
-
-export interface BlogData {
-  slugToSlugInLang: (slug: string, targetLang: Lang) => string | null;
-}
 
 const { fileBaseToSlug, slugToFileBase } = blogMetadata as {
   fileBaseToSlug: Record<string, Partial<Record<Lang, string>>>;

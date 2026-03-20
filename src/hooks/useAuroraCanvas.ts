@@ -3,9 +3,8 @@ import {
   AURORA_CONFIG,
   AURORA_PALETTES,
   getAuroraPalette,
-  type AuroraPalette,
 } from '@config/aurora';
-import type { Rgb } from '@domain/aurora';
+import type { AuroraPalette, Rgb } from '@domain/aurora';
 import { getEffectivePalette, getOrbColors, lerp } from '@lib/aurora/auroraUtils';
 import {
   createOrbs,

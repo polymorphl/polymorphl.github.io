@@ -1,12 +1,4 @@
-import type { TechId } from './techs';
-
-export interface ProjectConfig {
-  id: string;
-  title: string;
-  url: string;
-  image: string;
-  techIds: TechId[];
-}
+import type { ProjectConfig } from '@domain/project';
 
 export const PROJECTS: ReadonlyArray<ProjectConfig> = [
   {
