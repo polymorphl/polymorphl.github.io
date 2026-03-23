@@ -15,6 +15,19 @@ export default function BlogPage() {
 
   const posts = getBlogList().filter((p) => p.lang === lang);
 
+  // Group posts by month (YYYY-MM)
+  const postsByMonth = posts.reduce<Record<string, typeof posts>>(
+    (acc, post) => {
+      const month = post.date.substring(0, 7);
+      if (!acc[month]) acc[month] = [];
+      acc[month].push(post);
+      return acc;
+    },
+    {}
+  );
+
+  const months = Object.keys(postsByMonth).sort().reverse();
+
   return (
     <m.div
       className="md:col-span-2 w-full"
@@ -23,7 +36,7 @@ export default function BlogPage() {
       variants={containerBlogList}
     >
       <m.h1
-        className="section-title text-xl md:text-2xl font-bold text-text-primary mb-6 md:mb-8 tracking-tight"
+        className="sr-only"
         variants={fadeInUp30}
         transition={transition}
       >
@@ -36,7 +49,23 @@ export default function BlogPage() {
         {posts.length === 0 ? (
           <p className="text-text-secondary">{t('blog.noPosts')}</p>
         ) : (
-          posts.map((post, index) => (
+          months.map((month) => (
+            <div key={month}>
+              <m.h2
+                className="text-sm md:text-base font-semibold text-accent mb-4 md:mb-6 uppercase tracking-widest opacity-80"
+                variants={fadeInUp30}
+                transition={transition}
+              >
+                {new Date(`${month}-01`).toLocaleDateString(lang === 'fr' ? 'fr-FR' : 'en-US', {
+                  month: 'long',
+                  year: 'numeric',
+                })}
+              </m.h2>
+              <m.div
+                className="flex flex-col gap-6 md:gap-8"
+                variants={containerBlogList}
+              >
+                {postsByMonth[month].map((post, index) => (
             <m.div
               key={`${post.slug}-${post.lang}`}
               variants={fadeInUp30}
@@ -46,13 +75,24 @@ export default function BlogPage() {
                 to={`/${lang}/blog/${post.slug}`}
                 className="group relative flex gap-4 md:gap-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2 rounded-xl"
               >
-                <div className="flex flex-col items-center shrink-0">
+                <div className="flex flex-col items-center shrink-0 w-14">
                   {post.date && (
                     <time
                       dateTime={post.date}
-                      className="text-xs font-mono text-accent tabular-nums shrink-0"
+                      className="text-xs font-mono text-accent shrink-0 capitalize text-center"
                     >
-                      {post.date}
+                      {(() => {
+                        const date = new Date(`${post.date}T00:00:00`);
+                        const weekday = new Intl.DateTimeFormat(
+                          lang === 'fr' ? 'fr-FR' : 'en-US',
+                          { weekday: 'long' }
+                        ).format(date);
+                        const day = new Intl.DateTimeFormat(
+                          lang === 'fr' ? 'fr-FR' : 'en-US',
+                          { day: 'numeric' }
+                        ).format(date);
+                        return `${weekday} ${day}`;
+                      })()}
                     </time>
                   )}
                   <div className="flex flex-col items-center flex-1 min-h-0 self-stretch">
@@ -73,6 +113,9 @@ export default function BlogPage() {
                 </SurfaceCard>
               </Link>
             </m.div>
+                ))}
+              </m.div>
+            </div>
           ))
         )}
       </m.div>
