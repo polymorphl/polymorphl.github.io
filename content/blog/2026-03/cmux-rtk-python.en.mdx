@@ -1,0 +1,148 @@
+---
+title: "Two New Tools, One New Language"
+slug: "cmux-rtk-python"
+date: "2026-03-23"
+tags: ["AI", "Claude Code", "cmux", "Python", "agents", "development", "RAG", "Machine Learning"]
+summary: "Two new tools, one new language. This is what crystallized over the past few weeks: cmux, rtk, and Python."
+cover: "/assets/blog/cmux-rtk-python/meme.jpg"
+readingTime: 7
+---
+
+<ArticleImage src="/assets/blog/cmux-rtk-python/meme.jpg" alt="Meme Buzz and Woody: Claude, Claude everywhere" caption="It's the same thing every week" />
+
+## Claude, Claude everywhere
+
+Since my article on [Agent Teams](/en/blog/claude-code-agent-teams-tmux), the ecosystem around agent orchestration has exploded. [Gas Town](https://github.com/steveyegge/gastown), [ruflo](https://github.com/ruvnet/ruflo)... every week brings a new batch of frameworks to coordinate Claude Code instances in parallel.
+
+It's both exciting and dizzying. Hard to keep up with everything, even harder to test it all.
+
+For my part, I simplified. I settled on two tools: one to manage the environment, one to reduce costs. And I made a decision that shifts the blog's direction a bit.
+
+<Callout type="tip">
+*There's also [everything-claude-code](https://github.com/affaan-m/everything-claude-code) sitting in my todo list — I need to find the time to really study it.*
+</Callout>
+
+## cmux: The terminal built for agents
+
+If you read the article on `/swarm`, you know that tmux was at the heart of my setup. It's still a solid foundation, but managing multiple agents in parallel quickly reveals its limits. macOS notifications are useless (always the same generic message), and with 4 panes open, you can't tell who's waiting for what without switching around constantly.
+
+[**cmux**](https://cmux.com/) solves exactly that. It's a native macOS terminal in Swift, built on Ghostty's rendering engine — an app designed from scratch for workflows with AI agents.
+
+What makes the difference:
+
+- **Contextual sidebar**: git branch, directory, listening ports, and a snippet of the last notification, permanently visible for each tab.
+- **Light rings**: when an agent is waiting, the pane lights up. No need to search.
+- **Integrated WebKit browser**: a pane can be a full browser, scriptable via cmux's socket API.
+
+<ImageGrid
+  src1="/assets/blog/cmux-rtk-python/cmux.png"
+  alt1="Cmux and my gains via rtk"
+  src2="/assets/blog/cmux-rtk-python/cmux-browser.png"
+  alt2="Cmux with integrated browser"
+  caption="Cmux and its main features"
+/>
+
+It reads the existing Ghostty config directly: fonts, theme, shortcuts — nothing to reconfigure.
+
+## rtk: Fewer tokens, same work
+
+The other problem I mentioned: token consumption. A `cargo test` on 80 tests, a `bun install`, a `git log`... The agent ingests all of it even when 90% is useless to it.
+
+[**rtk**](https://www.rtk-ai.app/) is a Rust CLI proxy that sits between Claude Code and the shell. It filters verbose outputs and only transmits what's essential. The claimed reduction is 60–90% depending on the command. In case of failure, the full output is saved to a file that the agent can read if needed, without polluting the context by default.
+
+```sh
+# Setup
+curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/refs/heads/master/install.sh | sh
+# Activate the hook
+rtk init --global
+# To check your savings
+rtk gain
+```
+
+## A new direction: Python, Data, ML
+
+That's it for the tools. But I also wanted to talk about a real shift in my direction.
+
+I started a course. The goal: to get closer to the Data world, explore Machine Learning, LLM Engineering, AI Agentic. And for that, you have to go through Python.
+
+I come from JavaScript/TypeScript. The switch isn't trivial — not so much in logic as in syntax and primitives. Here are the first differences that struck me.
+
+### Primitives: another way to think about data
+
+In JS, we have two basic structures: `Object` (key/value) and `Array` (ordered list). Python has four, and each has a specific role.
+
+**Dictionary**: the equivalent of JS `Object`
+
+```python
+// JS
+const user = { name: "Luc", age: 33 }
+
+// Python
+user = { "name": "Luc", "age": 33 }
+user["name"]  # → "Luc"
+```
+
+**List**: the equivalent of JS `Array`, mutable
+
+```python
+# JS
+const tools = ["cmux", "rtk"]
+tools.push("grepai")
+
+# Python
+tools = ["cmux", "rtk"]
+tools.append("grepai")
+```
+
+**Tuple**: no direct equivalent in JS. It's an *immutable* list: once created, you can't modify it. Useful for data that shouldn't change.
+
+```python
+coordinates = (48.8566, 2.3522)  # Paris — we don't modify coordinates
+# coordinates[0] = 0  → TypeError, this is intentional
+```
+
+**Set**: a collection without duplicates, unordered. Close to `new Set()` in JS, but native and much more widely used in Python, especially in data.
+
+```python
+# JS
+const unique = new Set(["python", "js", "python"])  // {"python", "js"}
+
+# Python
+unique = {"python", "js", "python"}  # → {"python", "js"}
+```
+
+### What really changes
+
+Beyond the structures, it's the philosophy that differs. Python is designed for readability above all; indentation is mandatory, not stylistic. List comprehensions replace `.map()` / `.filter()`:
+
+```python
+# JS
+const doubled = [1, 2, 3].map(n => n * 2)
+
+# Python
+doubled = [n * 2 for n in [1, 2, 3]]
+```
+
+And the richness of the data ecosystem: [NumPy](https://numpy.org/), [Pandas](https://pandas.pydata.org/), [scikit-learn](https://scikit-learn.org/) has no equivalent on the JS side. That's where it happens, and that's why the switch is worth it.
+
+## In parallel: a project to put it all into practice
+
+Learning by doing is always more solid than learning in a vacuum. So alongside the course, I launched a side project: **Briefeed**.
+
+The idea: a thematic monitoring tool based on RSS feeds. You define topics: `Coding assistants`, `Nintendo Switch 2`, whatever. Briefeed generates automatic digests by pulling relevant articles from its database.
+
+The central piece is a **RAG** pipeline (*Retrieval-Augmented Generation*: instead of asking an LLM to invent an answer from memory, you first retrieve relevant documents and inject them into the prompt so the generation is grounded in real content).
+
+Here's how it works in practice:
+
+**Ingestion (continuous)**: An RSS worker polls the feeds, retrieves new articles, and passes them to Ollama with the [`nomic-embed-text`](https://ollama.com/library/nomic-embed-text) model. Each article is transformed into a vector: a list of numbers representing its *meaning*. This vector is stored in Postgres with the [pgvector](https://github.com/pgvector/pgvector) extension.
+
+**Generation (on demand)**: When a digest is triggered for a given topic, we transform that topic into a vector with the same model. Then we search in pgvector for articles whose vector is closest — not by keywords, but by semantic similarity. The scored articles are injected into an LLM's prompt, which generates the digest.
+
+<ArticleImage src="/assets/blog/cmux-rtk-python/rag-pipeline-en.svg" alt="Diagram of Briefeed's RAG pipeline" caption="RAG Pipeline: from RSS ingestion to digest generation" />
+
+Two articles on the same subject will have close vectors even if they share no words. That's what makes this approach powerful: the search understands intent, not just form.
+
+The project is still in full development. The basic structure is in place *(monorepo, ingestion pipeline, RAG API, auth, beginning of the dashboard)*, but the pieces will likely evolve. Right now, the problems blocking me are mainly around the quality of generated digests: scoring relevant articles isn't fine enough yet, and there are optimizations to be made on the prompt and context injected into the LLM. That's exactly where the training starts to pay off.
+
+I don't yet know if Briefeed will turn into something distributed. But it's an ideal learning ground: everything I learn each week feeds straight into the project.

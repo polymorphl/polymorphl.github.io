@@ -1,0 +1,148 @@
+---
+title: "Deux nouveaux outils, un nouveau langage"
+slug: "cmux-rtk-python"
+date: "2026-03-23"
+tags: ["IA", "Claude Code", "cmux", "Python", "agents", "développement", "RAG", "Machine Learning"]
+summary: "Deux nouveaux outils, un nouveau langage. C'est ce qui s'est cristallisé ces dernières semaines : cmux, rtk et Python."
+cover: "/assets/blog/cmux-rtk-python/meme.jpg"
+readingTime: 7
+---
+
+<ArticleImage src="/assets/blog/cmux-rtk-python/meme.jpg" alt="Mème Buzz l'Éclair et Woody: Claude, Claude everywhere" caption="Chaque semaine c'est pareil" />
+
+## Claude, Claude everywhere
+
+Depuis mon article sur les [Agent Teams](/fr/blog/claude-code-agent-teams-tmux), l'écosystème autour de l'orchestration d'agents a explosé. [Gas Town](https://github.com/steveyegge/gastown), [ruflo](https://github.com/ruvnet/ruflo)... chaque semaine apporte son lot de nouveaux frameworks pour coordonner des instances Claude Code en parallèle.
+
+C'est à la fois excitant et vertigineux. Difficile de tout suivre, encore plus de tout tester.
+
+Pour ma part, j'ai simplifié. J'ai retenu deux outils : un pour gérer l'environnement, un pour réduire les coûts. Et j'ai pris une décision qui change un peu la direction du blog.
+
+<Callout type="tip">
+*Il y a aussi [everything-claude-code](https://github.com/affaan-m/everything-claude-code) qui traîne dans ma todo, faut que je me trouve du temps pour vraiment l'étudier.*
+</Callout>
+
+## cmux: le terminal pensé pour les agents 
+
+Si tu as lu l'article sur `/swarm`, tu sais que tmux était au cœur de mon setup. Ça reste une base solide, mais la gestion de plusieurs agents en parallèle révèle vite ses limites. Les notifications macOS sont inutiles (toujours le même message générique), et avec 4 panes ouverts, impossible de savoir qui attend quoi sans switcher partout.
+
+[**cmux**](https://cmux.com/) résout exactement ça. C'est un terminal macOS natif en Swift, construit sur le moteur de rendu de Ghostty - une app pensée from scratch pour les workflows avec des agents IA.
+
+Ce qui fait la différence :
+
+- **Sidebar contextuelle** : branche git, répertoire, ports en écoute, et extrait de la dernière notification, visible en permanence pour chaque onglet.
+- **Anneaux lumineux** : quand un agent attend, le pane s'illumine. Pas besoin de chercher.
+- **Navigateur WebKit intégré** : un pane peut être un browser complet, scriptable via l'API socket de cmux.
+
+<ImageGrid
+  src1="/assets/blog/cmux-rtk-python/cmux.png"
+  alt1="Cmux et mes gains obtenu via rtk"
+  src2="/assets/blog/cmux-rtk-python/cmux-browser.png"
+  alt2="Cmux avec navigateur intégré"
+  caption="Cmux et ses features principales"
+/>
+
+Il lit directement la config Ghostty existante: fonts, thème, raccourcis, rien à reconfigurer.
+
+## rtk: Moins de tokens, même travail
+
+L'autre problème que j'avais évoqué : la conso de tokens. Un `cargo test` sur 80 tests, un `bun install`, un `git log`... L'agent ingère tout ça même quand 90% ne lui est pas utile.
+
+[**rtk**](https://www.rtk-ai.app/) est un proxy CLI en Rust qui s'intercale entre Claude Code et le shell. Il filtre les outputs verbeux et ne transmet que l'essentiel. La réduction annoncée : 60 à 90% selon les commandes. En cas d'échec, l'output complet est sauvegardé dans un fichier que l'agent peut lire si besoin, sans polluer le contexte par défaut.
+
+```sh
+# Setup
+curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/refs/heads/master/install.sh | sh
+# Activation du hook 
+rtk init --global
+# Pour consulter les gains
+rtk gain 
+```
+
+## Une nouvelle route : Python, Data, ML
+
+Voilà pour les outils. Mais je voulais aussi parler d'un vrai changement dans ma direction.
+
+Je me suis inscrit à une formation. L'objectif : me rapprocher du monde Data, explorer le Machine Learning, le LLM Engineering, l'AI Agentic. Et pour ça, il faut passer par Python.
+
+Je viens de JavaScript/TypeScript. Le switch n'est pas anodin, pas tant dans la logique que dans la syntaxe et les primitives. Voilà les premières différences qui m'ont frappé.
+
+### Les primitives : une autre façon de penser les données
+
+En JS, on a deux structures de base : les `Object` (clé/valeur) et les `Array` (liste ordonnée). Python en a quatre, et chacune a un rôle précis.
+
+**Dictionary** : l'équivalent de l'`Object` JS
+
+```python
+// JS
+const user = { name: "Luc", age: 33 }
+
+// Python
+user = { "name": "Luc", "age": 33 }
+user["name"]  # → "Luc"
+```
+
+**List** : l'équivalent de l'`Array` JS, mutable
+
+```python
+# JS
+const tools = ["cmux", "rtk"]
+tools.push("grepai")
+
+# Python
+tools = ["cmux", "rtk"]
+tools.append("grepai")
+```
+
+**Tuple** : pas d'équivalent direct en JS. C'est une liste *immutable* : une fois créée, on ne peut pas la modifier. Utile pour des données qui ne doivent pas changer.
+
+```python
+coordinates = (48.8566, 2.3522)  # Paris - on ne modifie pas des coordonnées
+# coordinates[0] = 0  → TypeError, c'est voulu
+```
+
+**Set** : une collection sans doublons, sans ordre. Proche du `new Set()` JS, mais natif et beaucoup plus utilisé en Python, notamment en data.
+
+```python
+# JS
+const unique = new Set(["python", "js", "python"])  // {"python", "js"}
+
+# Python
+unique = {"python", "js", "python"}  # → {"python", "js"}
+```
+
+### Ce qui change vraiment
+
+Au-delà des structures, c'est la philosophie qui diffère. Python est pensé pour la lisibilité avant tout; l'indentation est obligatoire, pas stylistique. Les list comprehensions remplacent les `.map()` / `.filter()` :
+
+```python
+# JS
+const doubled = [1, 2, 3].map(n => n * 2)
+
+# Python
+doubled = [n * 2 for n in [1, 2, 3]]
+```
+
+Et la richesse de l'écosystème data : [NumPy](https://numpy.org/), [Pandas](https://pandas.pydata.org/), [scikit-learn](https://scikit-learn.org/) n'a pas d'équivalent côté JS. C'est là que ça se passe, et c'est pour ça que le switch vaut le coup.
+
+## En parallèle : un projet pour mettre tout ça en pratique
+
+Apprendre en faisant, c'est toujours plus solide qu'apprendre dans le vide. Alors en parallèle de la formation, j'ai lancé un side project : **Briefeed**.
+
+L'idée : un outil de veille thématique basé sur des flux RSS. Tu définis des topics: `Coding assistants`, `Nintendo Switch 2`, peu importe. Briefeed te génère des digests automatiques en allant chercher les articles pertinents dans sa base.
+
+La brique centrale, c'est un pipeline **RAG** (*Retrieval-Augmented Generation* : au lieu de demander à un LLM d'inventer une réponse de mémoire, on commence par retrouver des documents pertinents et on les injecte dans le prompt pour que la génération soit ancrée dans des contenus réels).
+
+Voilà comment ça fonctionne concrètement :
+
+**Ingestion (en continu)** : Un worker RSS poll les feeds, récupère les nouveaux articles, et les passe à Ollama avec le modèle [`nomic-embed-text`](https://ollama.com/library/nomic-embed-text). Chaque article est transformé en un vecteur : une liste de nombres qui représente sa *signification*. Ce vecteur est stocké dans Postgres avec l'extension [pgvector](https://github.com/pgvector/pgvector).
+
+**Génération (à la demande)** : Quand un digest est déclenché pour un topic donné, on transforme ce topic en vecteur avec le même modèle. Puis on cherche dans pgvector les articles dont le vecteur est le plus proche - pas par mots-clés, par similarité sémantique. Les articles scorés sont injectés dans le prompt d'un LLM, qui génère le digest.
+
+<ArticleImage src="/assets/blog/cmux-rtk-python/rag-pipeline-fr.svg" alt="Schéma du pipeline RAG de Briefeed" caption="Pipeline RAG : de l'ingestion RSS à la génération du digest" />
+
+Deux articles sur le même sujet auront des vecteurs proches, même s'ils n'ont aucun mot en commun. C'est ce qui fait la force de l'approche : la recherche comprend l'intention, pas juste la forme.
+
+Le projet est encore en plein développement. La structure de base est posée *(monorepo, pipeline d'ingestion, API RAG, auth, début du dashboard)*, mais les briques vont sûrement évoluer. En ce moment, les problèmes qui me bloquent sont surtout sur la qualité des digests générés : le scoring des articles pertinents n'est pas encore assez fin, et il y a des optimisations à apporter sur le prompt et le contexte injecté au LLM. C'est exactement là que la formation prend tout son sens.
+
+Je ne sais pas encore si Briefeed aboutira à quelque chose de distribué. Mais c'est un terrain d'apprentissage idéal : chaque semaine de formation trouve une application directe dans le projet.
