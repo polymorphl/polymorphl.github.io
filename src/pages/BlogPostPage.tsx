@@ -6,6 +6,7 @@ import { useLanguage } from '@hooks/useLanguage';
 import { useLanguageNavigation } from '@hooks/useLanguageNavigation';
 import { useArticleTracking } from '@hooks/useArticleTracking';
 import { useMotionTransition } from '@hooks/useMotionTransition';
+import { useHighlightJsTheme } from '@hooks/useHighlightJsTheme';
 import { containerStagger06, fadeInUp20 } from '@config/motion';
 import MDXComponents from '@components/blog/MDXComponents';
 import ReadingProgressBar from '@components/blog/ReadingProgressBar';
@@ -70,7 +71,7 @@ function BlogPostContent({ slug, lang, meta, transition, t }: BlogPostContentPro
   if (!mod) return null;
 
   const Content = mod.default;
-  const { title, date, summary, tags, cover, readingTime } = meta;
+  const { title, date, summary, tags, readingTime } = meta;
 
   return (
     <m.div
@@ -84,26 +85,6 @@ function BlogPostContent({ slug, lang, meta, transition, t }: BlogPostContentPro
         variants={fadeInUp20}
         transition={transition}
       >
-        {cover && (
-          <m.div
-            className="relative rounded-xl overflow-hidden mb-8 h-40 md:h-56"
-            variants={fadeInUp20}
-            transition={transition}
-          >
-            <img
-              src={cover}
-              alt=""
-              loading="lazy"
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-            <div
-              className="absolute inset-0"
-              style={{ background: 'linear-gradient(to bottom, transparent 30%, var(--color-bg) 100%)' }}
-              aria-hidden
-            />
-          </m.div>
-        )}
-
         <m.div
           className="backdrop-blur-md bg-background/80 rounded-2xl ring-1 ring-border/40 shadow-floating px-6 md:px-10 py-8"
           variants={fadeInUp20}
@@ -156,6 +137,9 @@ export default function BlogPostPage() {
   const { slug } = useParams<{ slug: string }>();
   const { lang, t } = useLanguage();
   const transition = useMotionTransition(0.5);
+
+  // Lazy-load highlight.js CSS only when viewing blog posts
+  useHighlightJsTheme();
 
   useLanguageNavigation(lang);
 

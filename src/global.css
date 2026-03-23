@@ -11,6 +11,8 @@
 @import "@fontsource-variable/archivo/wght.css";
 @import "@fontsource-variable/space-grotesk/wght.css";
 
+/* Highlight.js themes are lazy-loaded in useHighlightJsTheme hook (only on blog pages) */
+
 /* ========================================================================== */
 /* BASE OVERRIDES (body, html, dark theme) */
 /* ========================================================================== */
@@ -249,39 +251,11 @@ button:focus-visible {
   fill: #CE422B !important;
 }
 
-/* --- Code blocks (highlight.js) - theme-aware --- */
+/* --- Code blocks (highlight.js) - theme stylesheets dynamically loaded --- */
 .hljs-code-block .hljs {
   background: transparent;
   padding: 0;
 }
-
-.hljs-code-block .hljs-keyword,
-.hljs-code-block .hljs-selector-tag,
-.hljs-code-block .hljs-built_in { color: #059669; }
-.hljs-code-block .hljs-string,
-.hljs-code-block .hljs-attr { color: #b45309; }
-.hljs-code-block .hljs-number { color: #7c3aed; }
-.hljs-code-block .hljs-comment,
-.hljs-code-block .hljs-quote { color: #6b7280; }
-.hljs-code-block .hljs-title,
-.hljs-code-block .hljs-section { color: #2563eb; }
-.hljs-code-block .hljs-variable,
-.hljs-code-block .hljs-template-variable { color: #0891b2; }
-.hljs-code-block .hljs-meta { color: #64748b; }
-
-[data-theme="dark"] .hljs-code-block .hljs-keyword,
-[data-theme="dark"] .hljs-code-block .hljs-selector-tag,
-[data-theme="dark"] .hljs-code-block .hljs-built_in { color: #34d399; }
-[data-theme="dark"] .hljs-code-block .hljs-string,
-[data-theme="dark"] .hljs-code-block .hljs-attr { color: #fbbf24; }
-[data-theme="dark"] .hljs-code-block .hljs-number { color: #a78bfa; }
-[data-theme="dark"] .hljs-code-block .hljs-comment,
-[data-theme="dark"] .hljs-code-block .hljs-quote { color: #9ca3af; }
-[data-theme="dark"] .hljs-code-block .hljs-title,
-[data-theme="dark"] .hljs-code-block .hljs-section { color: #60a5fa; }
-[data-theme="dark"] .hljs-code-block .hljs-variable,
-[data-theme="dark"] .hljs-code-block .hljs-template-variable { color: #22d3ee; }
-[data-theme="dark"] .hljs-code-block .hljs-meta { color: #94a3b8; }
 
 /* --- Profile photo animated border --- */
 /* Wrapper has explicit dimensions (PROFILE_PHOTO_SIZE); ring overlays 2px outside */
@@ -364,6 +338,21 @@ button:focus-visible {
 
   .profile-border-wrapper {
     border: 2px solid color-mix(in oklch, var(--color-accent) 40%, transparent);
+  }
+}
+
+/* --- Screen Reader Only (SEO/Accessibility) --- */
+@layer utilities {
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
   }
 }
 
