@@ -57,6 +57,20 @@ export type ArticleImageProps = {
   caption?: string;
 };
 
+export type ImageGridProps = {
+  src1: string;
+  alt1: string;
+  src2: string;
+  alt2: string;
+  caption?: string;
+};
+
+export type LightboxProps = {
+  src: string;
+  alt: string;
+  onClose: () => void;
+};
+
 export type StepBlockProps = {
   step: number;
   children?: ReactNode;
