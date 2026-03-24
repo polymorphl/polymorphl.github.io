@@ -3,18 +3,9 @@
  */
 
 import type { ComponentType } from 'react';
+import type { BlogPostMeta } from '@domain/blog';
 
 export type MDXModule = {
   default: ComponentType;
-  frontmatter?: {
-    title?: string;
-    slug?: string;
-    date?: string;
-    excerpt?: string;
-    summary?: string;
-    tags?: string[];
-    cover?: string;
-    readingTime?: number;
-    draft?: boolean;
-  };
+  frontmatter?: Partial<Omit<BlogPostMeta, 'lang'>>;
 };

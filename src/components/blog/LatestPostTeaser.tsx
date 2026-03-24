@@ -7,7 +7,7 @@ export default function LatestPostTeaser() {
   const { lang, t } = useLanguage();
 
   const post = getBlogList()
-    .filter((p) => p.lang === lang && !p.draft)
+    .filter((p) => p.lang === lang)
     .sort((a, b) => b.date.localeCompare(a.date))[0];
 
   if (!post) return null;

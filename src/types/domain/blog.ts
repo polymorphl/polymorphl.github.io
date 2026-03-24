@@ -14,7 +14,6 @@ export type BlogPostMeta = {
   tags?: string[];
   cover?: string;
   readingTime?: number;
-  draft?: boolean;
 };
 
 export type BlogPost = BlogPostMeta & { content: string };
