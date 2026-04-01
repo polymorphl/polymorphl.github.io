@@ -2,7 +2,7 @@ import * as m from "motion/react-m";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@hooks/useLanguage";
 import { useMotionTransition } from "@hooks/useMotionTransition";
-import { containerHero, fadeInUp20, scaleIn } from "@config/motion";
+import { containerHero, fadeInUp20, scaleIn, underlineDrawIn } from "@config/motion";
 import HeroPhoto from "@components/HeroPhoto";
 import TechPill from "@components/TechPill";
 
@@ -38,7 +38,7 @@ export default function HeroSection() {
                 <m.span
                   className="absolute left-0 right-0 bottom-[-2px] h-[3px] rounded-sm origin-left"
                   style={{ background: "var(--accent-line-gradient)" }}
-                  variants={{ hidden: { scaleX: 0 }, visible: { scaleX: 1 } }}
+                  variants={underlineDrawIn}
                   initial="hidden"
                   animate="visible"
                   transition={{ ...transition, delay: 0.15 }}
