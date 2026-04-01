@@ -2,6 +2,13 @@ import type { ProjectConfig } from '@domain/project';
 
 export const PROJECTS: ReadonlyArray<ProjectConfig> = [
   {
+    id: 'claude-weekly-insights',
+    title: 'Claude Weekly Insights',
+    url: 'https://github.com/polymorphl/claude-weekly-insights',
+    image: '/assets/projects/claude-weekly-insights.webp',
+    techIds: ['python'],
+  },
+  {
     id: 'my-open-claude',
     title: 'My Open Claude',
     url: 'https://github.com/polymorphl/my-open-claude',
