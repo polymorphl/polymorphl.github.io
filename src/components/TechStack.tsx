@@ -131,7 +131,10 @@ export default function TechStack() {
       variants={fadeInUp30}
       transition={transition}
     >
-      <h2 className="section-title text-xl md:text-2xl font-bold text-text-primary mb-4 md:mb-6 tracking-tight">
+      <h2
+        id="tech-stack"
+        className="section-title text-xl md:text-2xl font-bold text-text-primary mb-4 md:mb-6 tracking-tight scroll-mt-28"
+      >
         {t('sections.tech')}
       </h2>
 
