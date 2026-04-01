@@ -26,7 +26,7 @@ export default function ProjectsGrid() {
           href={p.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="project-card group flex flex-col overflow-hidden rounded-xl bg-surface border border-border shadow-[var(--shadow-soft)] transition-all duration-300 hover:shadow-[var(--shadow-floating)] hover:border-accent hover:-translate-y-0.5 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
+          className="project-card group flex flex-col overflow-hidden rounded-2xl bg-surface border border-border shadow-[var(--shadow-soft)] transition-all duration-300 hover:shadow-[var(--shadow-floating)] hover:border-accent/60 hover:-translate-y-0.5 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
           aria-label={p.title}
           variants={cardScaleIn}
           transition={transition}
