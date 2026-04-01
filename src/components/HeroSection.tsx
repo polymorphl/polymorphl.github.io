@@ -2,197 +2,149 @@ import * as m from "motion/react-m";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@hooks/useLanguage";
 import { useMotionTransition } from "@hooks/useMotionTransition";
-import { useTracking } from "@hooks/useTracking";
-import {
-  containerHero,
-  fadeInUp20,
-  scaleIn,
-  underlineDrawIn,
-} from "@config/motion";
+import { containerHero, fadeInUp20, scaleIn } from "@config/motion";
 import HeroPhoto from "@components/HeroPhoto";
 import TechPill from "@components/TechPill";
-import type { HeroActionsProps, HeroStatusBadgeProps } from "@ui/components";
 
 export default function HeroSection() {
-  const { trackResumeDownloaded, trackSocialLinkClicked } = useTracking();
   const { t } = useLanguage();
   const transition = useMotionTransition(0.6);
 
   return (
     <m.section
-      className="hero-section w-full min-h-[60vh] md:min-h-[66vh] flex flex-col items-center justify-center px-4 pt-6 md:pt-10 pb-4 md:pb-6 gap-5 text-center"
+      className="hero-section w-full pt-6 md:pt-10 pb-4"
       variants={containerHero}
       initial="hidden"
       animate="visible"
     >
-      <m.div
-        className={`profile-card shrink-0 w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 lg:w-36 lg:h-36`}
-        variants={scaleIn}
-        transition={transition}
-      >
-        <HeroPhoto />
-      </m.div>
+      <div className="grid grid-cols-1 md:grid-cols-[1fr_180px_200px] gap-3">
 
-      <m.div
-        className="hero-content flex flex-col items-center gap-4 flex-1 min-w-0 w-full max-w-2xl"
-        variants={containerHero}
-      >
-        <m.h1
-          className="hero-title text-text-primary text-3xl sm:text-4xl lg:text-[2.9rem] xl:text-[3.4rem] font-extrabold leading-tight tracking-tight relative"
-          variants={fadeInUp20}
-          transition={transition}
-        >
-          Luc{" "}
-          <span className="relative inline-block">
-            TERRACHER
-            <m.span
-              variants={underlineDrawIn}
-              initial="hidden"
-              animate="visible"
-              transition={{ ...transition, delay: 0.15 }}
-              aria-hidden
-            />
-          </span>
-        </m.h1>
-        <m.p
-          className="text-sm md:text-base font-medium text-text-secondary mt-1 flex flex-wrap items-center justify-center gap-2"
-          variants={fadeInUp20}
-          transition={transition}
-        >
-          <span>{t("hero.subtitle")}</span>
-          <span className="text-text-secondary/50">•</span>
-          <span className="text-text-secondary/80">{t("hero.experience")}</span>
-        </m.p>
-        <m.p
-          className="hero-tagline text-base lg:text-lg text-text-secondary/90 w-full lg:max-w-[480px] leading-relaxed mt-1"
-          variants={fadeInUp20}
-          transition={transition}
-        >
-          {t("hero.tagline")}
-        </m.p>
+        {/* ── Cell: Main ── */}
         <m.div
-          className="mt-3 flex flex-wrap items-center justify-center gap-2"
+          className="md:row-span-2 flex flex-col justify-between gap-6 rounded-[20px] border border-border p-8 min-h-[200px] md:min-h-[300px]"
+          style={{ background: "linear-gradient(145deg, var(--color-surface) 0%, var(--color-background) 100%)" }}
           variants={fadeInUp20}
           transition={transition}
         >
-          <TechPill name="React" icon="react" />
-          <TechPill name="TypeScript" icon="typescript" />
-          <TechPill name="Node.js" icon="nodejs" />
+          <div className="flex flex-col gap-4">
+            <p className="text-[11px] font-semibold tracking-widest uppercase text-accent-on-surface/60 flex items-center gap-2">
+              <span className="inline-block w-1 h-1 rounded-full bg-accent-on-surface/60" aria-hidden />
+              {t("hero.subtitle")} · {t("hero.experience")}
+            </p>
+            <h1 className="hero-title text-[2.6rem] sm:text-[3rem] lg:text-[3.4rem] font-extrabold leading-[0.92] tracking-[-0.04em] text-text-primary">
+              Luc{" "}
+              <span className="relative inline-block">
+                TERRACHER
+                <m.span
+                  className="absolute left-0 right-0 bottom-[-2px] h-[3px] rounded-sm origin-left"
+                  style={{ background: "var(--accent-line-gradient)" }}
+                  variants={{ hidden: { scaleX: 0 }, visible: { scaleX: 1 } }}
+                  initial="hidden"
+                  animate="visible"
+                  transition={{ ...transition, delay: 0.15 }}
+                  aria-hidden
+                />
+              </span>
+            </h1>
+            <p className="text-sm md:text-base text-text-secondary/80 leading-relaxed max-w-md">
+              {t("hero.tagline")}
+            </p>
+          </div>
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+            <div className="flex flex-wrap gap-2">
+              <TechPill name="React" icon="react" />
+              <TechPill name="TypeScript" icon="typescript" />
+              <TechPill name="Node.js" icon="nodejs" />
+            </div>
+            <Link
+              to="/career"
+              className="cta-primary inline-flex items-center justify-center px-5 py-2.5 rounded-full font-semibold text-xs sm:text-sm no-underline shadow-[var(--shadow-button)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow-floating)] active:translate-y-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2 shrink-0"
+            >
+              {t("projects.viewCareerCta")}
+              <span aria-hidden className="ml-1">→</span>
+            </Link>
+          </div>
         </m.div>
+
+        {/* ── Cell: Photo ── */}
         <m.div
-          className="flex flex-col items-center gap-2 mt-4"
-          variants={fadeInUp20}
+          className="md:row-span-2 rounded-[20px] border border-border overflow-hidden relative h-[220px] md:h-auto"
+          variants={scaleIn}
           transition={transition}
         >
-          <Link
-            to="/career"
-            className="cta-primary inline-flex items-center justify-center px-6 py-2.5 rounded-full font-medium text-xs sm:text-sm no-underline shadow-[var(--shadow-button)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow-floating)] active:translate-y-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
-          >
-            {t("projects.viewCareerCta")}
-            <span aria-hidden className="ml-1 text-xs sm:text-sm">
-              →
+          <HeroPhoto />
+          <div
+            className="absolute inset-x-0 bottom-0 h-20 pointer-events-none"
+            style={{ background: "linear-gradient(to top, var(--color-background), transparent)" }}
+            aria-hidden
+          />
+        </m.div>
+
+        {/* ── Cell: Availability ── */}
+        <m.div
+          className="rounded-[20px] p-5 flex flex-col gap-3"
+          style={{
+            background: "linear-gradient(145deg, rgba(14,26,14,0.95), rgba(9,20,9,0.9))",
+            border: "1px solid rgba(74,222,128,0.25)",
+          }}
+          variants={fadeInUp20}
+          transition={{ ...transition, delay: 0.1 }}
+        >
+          <div className="flex items-center gap-2">
+            <span className="relative inline-flex w-2.5 h-2.5 shrink-0">
+              <span className="absolute inset-0 rounded-full bg-emerald-500/40 animate-ping" aria-hidden />
+              <span className="relative inline-block w-2.5 h-2.5 rounded-full bg-emerald-400" />
             </span>
-          </Link>
+            <span className="text-[11px] font-bold text-emerald-400 tracking-wide">
+              {t("hero.status")}
+            </span>
+          </div>
+          <p className="text-[11px] text-emerald-300/60 leading-relaxed">
+            {t("hero.training")}
+          </p>
         </m.div>
-        <HeroStatusBadge transition={transition} t={t} />
 
-        <HeroActions
-          transition={transition}
-          t={t}
-          trackResumeDownloaded={trackResumeDownloaded}
-          trackSocialLinkClicked={trackSocialLinkClicked}
-        />
-      </m.div>
+        {/* ── Cell: Metrics ── */}
+        <m.div
+          className="rounded-[20px] border border-border bg-surface/60 p-5 grid grid-cols-2 gap-4"
+          variants={fadeInUp20}
+          transition={{ ...transition, delay: 0.15 }}
+        >
+          <div>
+            <p className="text-[1.5rem] font-black leading-none tracking-tight text-text-primary">
+              10<span className="text-[1rem] text-accent-on-surface">+</span>
+            </p>
+            <p className="text-[10px] text-text-secondary/50 mt-1 leading-tight">
+              {t("hero.metricYears")}
+            </p>
+          </div>
+          <div>
+            <p className="text-[1.2rem] font-black leading-none tracking-tight text-accent-on-surface">
+              Lead
+            </p>
+            <p className="text-[10px] text-text-secondary/50 mt-1 leading-tight">
+              {t("hero.metricRole")}
+            </p>
+          </div>
+          <div>
+            <p className="text-[1.1rem] font-black leading-none tracking-tight text-text-primary">
+              FR/EN
+            </p>
+            <p className="text-[10px] text-text-secondary/50 mt-1 leading-tight">
+              {t("hero.metricBilingual")}
+            </p>
+          </div>
+          <div>
+            <p className="text-[1.1rem] font-black leading-none tracking-tight text-accent-on-surface">
+              AI
+            </p>
+            <p className="text-[10px] text-text-secondary/50 mt-1 leading-tight">
+              {t("hero.metricAI")}
+            </p>
+          </div>
+        </m.div>
+
+      </div>
     </m.section>
-  );
-}
-
-function HeroStatusBadge({ transition, t }: HeroStatusBadgeProps) {
-  return (
-    <m.div className="mt-3" variants={fadeInUp20} transition={transition}>
-      <div className="inline-flex flex-wrap items-center justify-center gap-3 rounded-full bg-surface/70 px-4 py-2 text-[11px] font-medium text-text-secondary/90">
-        <span className="inline-flex items-center gap-1.5">
-          <span className="relative inline-flex w-2.5 h-2.5">
-            <span
-              className="absolute inset-0 rounded-full bg-emerald-500/40 animate-ping"
-              aria-hidden
-            />
-            <span className="relative inline-block w-2.5 h-2.5 rounded-full bg-emerald-400" />
-          </span>
-          <span>{t("hero.status")}</span>
-        </span>
-        <span className="text-text-secondary/50">•</span>
-        <a
-          href="https://blent.ai/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-1 text-[11px] font-medium text-accent-on-surface hover:text-accent-on-surface/80 no-underline"
-        >
-          {t("hero.training")}
-        </a>
-      </div>
-    </m.div>
-  );
-}
-
-function HeroActions({
-  transition,
-  t,
-  trackResumeDownloaded,
-  trackSocialLinkClicked,
-}: HeroActionsProps) {
-  return (
-    <m.div
-      className="actions mt-3"
-      variants={fadeInUp20}
-      transition={transition}
-    >
-      <div className="inline-flex items-center justify-center gap-3 rounded-full bg-surface/70 px-4 py-2 shadow-[var(--shadow-soft)]">
-        <a
-          href={t("resume.file")}
-          className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-surface px-4 py-2 text-xs font-medium no-underline text-text-primary transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow-floating)] hover:border-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
-          download
-          onClick={() => trackResumeDownloaded("hero")}
-        >
-          {t("resume.text")}
-        </a>
-        <div className="social-links flex gap-2">
-          <a
-            href="https://www.linkedin.com/in/lucterracher/"
-            className="social-link flex items-center justify-center w-9 h-9 bg-surface border border-border rounded-full transition-all duration-200 text-text-primary hover:-translate-y-0.5 hover:shadow-[var(--shadow-button)] hover:border-accent no-underline cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="LinkedIn profile"
-            onClick={() => trackSocialLinkClicked("linkedin", "hero")}
-          >
-            <svg
-              className="social-icon w-4 h-4 text-text-primary transition-transform duration-200 [fill:currentColor]"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-            >
-              <use href="/assets/icons/sprite.svg#linkedin" />
-            </svg>
-          </a>
-          <a
-            href="https://github.com/polymorphl"
-            className="social-link flex items-center justify-center w-9 h-9 bg-surface border border-border rounded-full transition-all duration-200 text-text-primary hover:-translate-y-0.5 hover:shadow-[var(--shadow-button)] hover:border-accent no-underline cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="GitHub profile"
-            onClick={() => trackSocialLinkClicked("github", "hero")}
-          >
-            <svg
-              className="social-icon w-4 h-4 text-text-primary transition-transform duration-200 [fill:currentColor]"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-            >
-              <use href="/assets/icons/sprite.svg#github" />
-            </svg>
-          </a>
-        </div>
-      </div>
-    </m.div>
   );
 }
