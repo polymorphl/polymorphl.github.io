@@ -22,10 +22,7 @@ export default function LatestPostTeaser() {
   if (!post) return null;
 
   return (
-    <section className="md:col-span-2 w-full">
-      <h2 className="section-title text-xl md:text-2xl font-bold text-text-primary mb-4 md:mb-6 tracking-tight">
-        {t('sections.latestPost')}
-      </h2>
+    <div className="md:col-span-2 w-full">
       <Link
         to={`/${lang}/blog/${post.slug}`}
         className="group block no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2 rounded-xl"
@@ -45,11 +42,13 @@ export default function LatestPostTeaser() {
           <div className="flex items-center gap-3 text-xs text-text-secondary/70">
             {formattedDate && <time dateTime={post.date}>{formattedDate}</time>}
             {post.readingTime != null && (
-              <span>{post.readingTime} {t('blog.readingTime')}</span>
+              <span>
+                {post.readingTime} {t('blog.readingTime')}
+              </span>
             )}
           </div>
         </SurfaceCard>
       </Link>
-    </section>
+    </div>
   );
 }

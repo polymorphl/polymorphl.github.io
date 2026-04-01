@@ -2,24 +2,22 @@
   "hero": {
     "subtitle": "Lead Software Engineer",
     "experience": "10+ ans d'expérience",
-    "tagline": "J'architecte et développe des produits web performants — React, TypeScript, Node.js.",
+    "tagline": "J'architecte et développe des produits web performants",
     "training": "Formation active · Deep Learning · LLM Engineering · IA Agentique",
     "status": "Disponible pour de nouvelles opportunités",
     "contact": "Me contacter"
   },
   "nav": {
-    "projects": "Projets",
-    "career": "Parcours",
-    "tech": "Stack",
-    "blog": "Blog",
-    "menu": "Menu",
-    "close": "Fermer"
+  "home": "Accueil",
+  "career": "Parcours",
+  "blog": "Blog",
+  "menu": "Menu",
+  "close": "Fermer"
   },
   "sections": {
-    "career": "Parcours",
-    "tech": "Stack technique",
-    "projects": "Projets open-source",
-    "latestPost": "Dernier article"
+  "career": "Parcours",
+  "tech": "Stack technique",
+  "latestPost": "Dernier article"
   },
   "tech": {
     "frameworks": "Frameworks",
@@ -37,8 +35,6 @@
     "experienceMoreThanYears_one": "Plus de 1 an",
     "experienceMoreThanYears_other": "Plus de {{count}} ans",
     "experienceLessThanOneYear": "Moins d'un an",
-    "career": "Carrière",
-    "projects": "Projets",
     "noDetails": "Aucun détail disponible"
   },
   "career": {
@@ -149,7 +145,15 @@
     },
     "my-open-claude": {
       "description": "Assistant de code LLM en Rust. Chat TUI & CLI mono-prompt. Outils : Read, Write, Edit, Grep, ListDir, Glob, Bash. OpenRouter, streaming, historique, commandes slash."
+    },
+    "claude-weekly-insights": {
+      "description": "Insights hebdomadaires de Claude Code. Analyse la base de code de la semaine et génère des insights."
     }
+  },
+  "home": {
+    "projectsIntro": "Une sélection de projets open-source qui illustrent mon travail au quotidien.",
+    "blogIntro": "Je partage régulièrement des retours d'expérience et des analyses techniques sur mon blog.",
+    "allArticlesCta": "Voir tous les articles"
   },
   "notFound": {
     "title": "Page non trouvée",
