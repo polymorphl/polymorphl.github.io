@@ -71,6 +71,13 @@
     --accent-2: rgba(40, 80, 180, 0.12);
     --accent-2-pos: 80% 70%;
     --grain-opacity: 0.35;
+
+    /* Hero-specific: photo glow, accent line, primary CTA */
+    --photo-glow-1: rgba(80, 60, 160, 0.3);
+    --photo-glow-2: rgba(40, 80, 180, 0.15);
+    --accent-line-gradient: linear-gradient(90deg, rgba(80, 60, 160, 0.8), rgba(40, 80, 180, 0.4));
+    --cta-primary-bg: rgba(80, 60, 180, 0.9);
+    --cta-primary-hover: rgba(100, 80, 200, 1);
   }
 
   [data-theme="gold"] {
@@ -99,6 +106,13 @@
     --accent-3: rgba(100, 40, 60, 0.06);
     --accent-3-pos: 50% 90%;
     --grain-opacity: 0.30;
+
+    /* Hero-specific: photo glow, accent line, primary CTA */
+    --photo-glow-1: rgba(180, 90, 40, 0.25);
+    --photo-glow-2: rgba(160, 120, 50, 0.12);
+    --accent-line-gradient: linear-gradient(90deg, rgba(200, 120, 40, 0.8), rgba(180, 90, 40, 0.4));
+    --cta-primary-bg: rgba(200, 100, 30, 0.9);
+    --cta-primary-hover: rgba(220, 120, 40, 1);
   }
 }
 
@@ -365,6 +379,36 @@ button:focus-visible {
   transition: opacity 0.6s ease;
 }
 
+/* --- Hero specific styles --- */
+
+.hero-photo {
+  border-radius: 9999px;
+  border: 1px solid var(--color-border);
+  box-shadow:
+    0 0 60px var(--photo-glow-1),
+    0 0 120px var(--photo-glow-2);
+}
+
+.cta-primary {
+  background: var(--cta-primary-bg);
+  color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.45);
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.cta-primary:hover {
+  background: var(--cta-primary-hover);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.6);
+}
+
+@media (max-width: 768px) {
+  .hero-photo {
+    box-shadow:
+      0 0 30px var(--photo-glow-1),
+      0 0 60px var(--photo-glow-2);
+  }
+}
+
 /* --- Code blocks (highlight.js) - theme stylesheets dynamically loaded --- */
 .hljs-code-block .hljs {
   background: transparent;
@@ -372,7 +416,6 @@ button:focus-visible {
 }
 
 /* --- Profile photo animated border --- */
-/* Wrapper has explicit dimensions (PROFILE_PHOTO_SIZE); ring overlays 2px outside */
 .profile-border-wrapper {
   position: relative;
 }
