@@ -5,8 +5,6 @@ import { useLanguage } from '@hooks/useLanguage';
 import { useBodyScrollLock } from '@hooks/useBodyScrollLock';
 import { useEscapeKey } from '@hooks/useEscapeKey';
 
-const SECTION_IDS = ['projects'] as const;
-
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
   const { lang, setLanguage, t } = useLanguage();
@@ -16,17 +14,14 @@ export default function Navbar() {
 
   const closeMenu = useCallback(() => setIsMenuOpen(false), []);
 
-  const scrollToSection = useCallback(
-    (sectionId: (typeof SECTION_IDS)[number]) => {
-      closeMenu();
-      if (location.pathname !== '/') {
-        navigate('/', { state: { scrollTo: sectionId } });
-      } else {
-        document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    },
-    [closeMenu, location.pathname, navigate]
-  );
+  const goHome = useCallback(() => {
+    closeMenu();
+    if (location.pathname !== '/') {
+      navigate('/');
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [closeMenu, location.pathname, navigate]);
 
   useEscapeKey(closeMenu, isMenuOpen);
   useBodyScrollLock(isMenuOpen);
@@ -77,10 +72,10 @@ export default function Navbar() {
             <div className="nav-links hidden md:flex flex-1 justify-center items-center gap-0.5 sm:gap-1">
               <button
                 type="button"
-                onClick={() => scrollToSection('projects')}
+                onClick={goHome}
                 className="nav-link px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium text-text-secondary hover:text-text-primary hover:bg-border/40 transition-all duration-200 cursor-pointer shrink-0"
               >
-                {t('nav.projects')}
+                {t('nav.home')}
               </button>
               <Link
                 to="/career"
@@ -201,10 +196,10 @@ export default function Navbar() {
             <nav className="flex flex-col gap-1">
               <button
                 type="button"
-                onClick={() => scrollToSection('projects')}
+                onClick={goHome}
                 className="flex items-center min-h-[48px] px-4 rounded-xl text-base font-medium text-text-secondary hover:text-text-primary hover:bg-border/40 transition-all duration-200 text-left w-full"
               >
-                {t('nav.projects')}
+                {t('nav.home')}
               </button>
               <Link
                 to="/career"
