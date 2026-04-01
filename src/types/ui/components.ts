@@ -166,3 +166,9 @@ export type BlogPostContentProps = {
   transition: ReturnType<typeof useMotionTransition>;
   t: (key: string) => string;
 };
+
+export type FeaturedPostCardProps = {
+  post: BlogPostMeta;
+  lang: Lang;
+  t: (key: string) => string;
+};

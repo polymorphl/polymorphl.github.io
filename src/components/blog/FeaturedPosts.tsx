@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useLanguage } from "@hooks/useLanguage";
 import { getBlogList } from "@lib/blog";
-import type { BlogPostMeta } from "@domain/blog";
+import type { FeaturedPostCardProps } from "@ui/components";
 
 function formatDate(date: string, lang: string): string {
   return new Intl.DateTimeFormat(lang === "fr" ? "fr-FR" : "en-US", {
@@ -35,13 +35,7 @@ export default function FeaturedPosts() {
   );
 }
 
-type CardProps = {
-  post: BlogPostMeta;
-  lang: string;
-  t: (key: string) => string;
-};
-
-function FeaturedCard({ post, lang, t }: CardProps) {
+function FeaturedCard({ post, lang, t }: FeaturedPostCardProps) {
   return (
     <Link
       to={`/${lang}/blog/${post.slug}`}
@@ -95,7 +89,7 @@ function FeaturedCard({ post, lang, t }: CardProps) {
   );
 }
 
-function MiniCard({ post, lang, t }: CardProps) {
+function MiniCard({ post, lang, t }: FeaturedPostCardProps) {
   return (
     <Link
       to={`/${lang}/blog/${post.slug}`}
