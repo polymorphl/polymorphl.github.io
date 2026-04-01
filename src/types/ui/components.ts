@@ -8,14 +8,15 @@ import type { ProjectConfig } from '@domain/project';
 import type { CareerEntry } from '@domain/career';
 import type { BlogPostMeta } from '@domain/blog';
 import type { Lang } from '@domain/i18n';
+import type { Theme } from '@domain/theme';
 import type { useLogoTransition, useMotionTransition } from '@hooks/useMotionTransition';
 
 /** Transition config for logo entrance animations (e.g. CareerLogo) */
 export type LogoTransition = ReturnType<typeof useLogoTransition>;
 
 export type ThemeContextType = {
-  theme: string;
-  setTheme: (theme: string) => void;
+  theme: Theme;
+  setTheme: (theme: Theme) => void;
   toggleTheme: () => void;
 };
 
