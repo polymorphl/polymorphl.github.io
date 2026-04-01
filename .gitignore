@@ -11,3 +11,6 @@ src/generated/
 
 # Claude Code
 .claude/
+
+# Git worktrees
+.worktrees/
