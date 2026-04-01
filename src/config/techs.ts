@@ -25,8 +25,8 @@ export const TECH_REGISTRY = {
   angular: { id: 'angular', displayName: 'Angular', icon: 'angular' },
   keycloak: { id: 'keycloak', displayName: 'Keycloak', icon: 'keycloak' },
   stripe: { id: 'stripe', displayName: 'Stripe', icon: 'stripe' },
-  ansible: { id: 'ansible', displayName: 'Ansible', icon: 'ansible' },
-  nginx: { id: 'nginx', displayName: 'Nginx', icon: 'nginx' },
+  ansible: { id: 'ansible', displayName: 'Ansible', icon: 'ansible', invert: true },
+  nginx: { id: 'nginx', displayName: 'Nginx', icon: 'nginx', invert: true  },
   ethereum: { id: 'ethereum', displayName: 'Ethereum', icon: 'ethereum' },
   chargebee: { id: 'chargebee', displayName: 'Chargebee', icon: 'chargebee' },
   clerk: { id: 'clerk', displayName: 'Clerk', icon: 'clerk' },
@@ -36,6 +36,7 @@ export const TECH_REGISTRY = {
   mongodb: { id: 'mongodb', displayName: 'MongoDB', icon: 'mongodb' },
   redis: { id: 'redis', displayName: 'Redis', icon: 'redis' },
   zeromq: { id: 'zeromq', displayName: 'ZeroMQ', icon: 'zeromq' },
+  python: { id: 'python', displayName: 'Python', icon: 'python' },
 } as const satisfies Record<string, TechDefinition>;
 
 /** Tech ID — union of registry keys. E.g. 'react' | 'nextjs' | 'nodejs' | ... */

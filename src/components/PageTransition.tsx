@@ -6,6 +6,7 @@ import { useMotionTransition } from '@hooks/useMotionTransition';
 import { pageTransition, PAGE_TRANSITION_DURATION_MS } from '@config/motion';
 
 const HomePage = lazy(() => import('@pages/HomePage'));
+const CareerPage = lazy(() => import('@pages/CareerPage'));
 const BlogPage = lazy(() => import('@pages/BlogPage'));
 const BlogPostPage = lazy(() => import('@pages/BlogPostPage'));
 const NotFoundPage = lazy(() => import('@pages/NotFoundPage'));
@@ -14,6 +15,9 @@ const routes = [
   { index: true, element: <HomePage /> },
   { path: '/en', element: <HomePage /> },
   { path: '/fr', element: <HomePage /> },
+  { path: '/career', element: <CareerPage /> },
+  { path: '/en/career', element: <CareerPage /> },
+  { path: '/fr/career', element: <CareerPage /> },
   { path: '/blog', element: <BlogPage /> },
   { path: '/blog/:slug', element: <BlogPostPage /> },
   { path: '/:lang/blog', element: <BlogPage /> },

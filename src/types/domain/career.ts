@@ -27,3 +27,19 @@ export type CareerEntryI18n = {
 
 /** Full entry = base + i18n merged. */
 export type CareerEntry = CareerEntryBase & CareerEntryI18n;
+
+export type CertificationBase = {
+  id: string;
+  image: string;
+  pdf: string;
+  verifyUrl?: string;
+};
+
+export type CertificationI18n = {
+  id: string;
+  name: string;
+  issuer: string;
+  date: string;
+};
+
+export type Certification = CertificationBase & CertificationI18n;

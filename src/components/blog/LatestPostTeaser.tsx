@@ -10,13 +10,19 @@ export default function LatestPostTeaser() {
     .filter((p) => p.lang === lang)
     .sort((a, b) => b.date.localeCompare(a.date))[0];
 
+  const formattedDate =
+    post?.date != null
+      ? new Intl.DateTimeFormat(lang === 'fr' ? 'fr-FR' : 'en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: '2-digit',
+        }).format(new Date(post.date))
+      : null;
+
   if (!post) return null;
 
   return (
-    <section className="md:col-span-2 w-full">
-      <h2 className="section-title text-xl md:text-2xl font-bold text-text-primary mb-4 md:mb-6 tracking-tight">
-        {t('sections.latestPost')}
-      </h2>
+    <div className="md:col-span-2 w-full">
       <Link
         to={`/${lang}/blog/${post.slug}`}
         className="group block no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2 rounded-xl"
@@ -34,13 +40,15 @@ export default function LatestPostTeaser() {
             </p>
           )}
           <div className="flex items-center gap-3 text-xs text-text-secondary/70">
-            {post.date && <time dateTime={post.date}>{post.date}</time>}
+            {formattedDate && <time dateTime={post.date}>{formattedDate}</time>}
             {post.readingTime != null && (
-              <span>{post.readingTime} {t('blog.readingTime')}</span>
+              <span>
+                {post.readingTime} {t('blog.readingTime')}
+              </span>
             )}
           </div>
         </SurfaceCard>
       </Link>
-    </section>
+    </div>
   );
 }

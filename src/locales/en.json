@@ -2,24 +2,22 @@
   "hero": {
     "subtitle": "Lead Software Engineer",
     "experience": "10+ years of experience",
-    "tagline": "I architect and ship high-performance web products — React, TypeScript, Node.js.",
+    "tagline": "I architect and ship high-performance web products",
     "training": "Actively training · Deep Learning · LLM Engineering · Agentic AI",
     "status": "Available for new opportunities",
     "contact": "Contact me"
   },
   "nav": {
-    "projects": "Projects",
-    "career": "Career",
-    "tech": "Stack",
-    "blog": "Blog",
-    "menu": "Menu",
-    "close": "Close"
+  "home": "Home",
+  "career": "Career",
+  "blog": "Blog",
+  "menu": "Menu",
+  "close": "Close"
   },
   "sections": {
-    "career": "Career",
-    "tech": "Tech stack",
-    "projects": "Open-source projects",
-    "latestPost": "Latest article"
+  "career": "Career",
+  "tech": "Tech stack",
+  "latestPost": "Latest article"
   },
   "tech": {
     "frameworks": "Frameworks",
@@ -37,14 +35,23 @@
     "experienceMoreThanYears_one": "More than 1 year",
     "experienceMoreThanYears_other": "More than {{count}} years",
     "experienceLessThanOneYear": "Less than 1 year",
-    "career": "Career",
-    "projects": "Projects",
     "noDetails": "No details available"
   },
   "career": {
-    "visitWebsite": "Visit website",
-    "periodPresent": "present",
-    "entries": [
+  "visitWebsite": "Visit website",
+  "periodPresent": "present",
+  "certificationsTitle": "Certifications",
+  "viewCertification": "View certification",
+  "downloadCertification": "Download PDF",
+  "certifications": [
+    {
+      "id": "claude-code-in-action",
+      "name": "Claude Code in Action",
+      "issuer": "Anthropic",
+      "date": "2026"
+    }
+  ],
+  "entries": [
       {
         "role": "Independent Engineer",
         "location": "Remote",
@@ -129,6 +136,7 @@
   "projects": {
     "title": "Open-source projects",
     "viewProject": "View project",
+    "viewCareerCta": "View full career timeline",
     "orcrux": {
       "description": "Cross-platform desktop GUI with Wails to test Shamir's Secret Sharing — generate, split, and recover secrets."
     },
@@ -137,7 +145,15 @@
     },
     "my-open-claude": {
       "description": "LLM coding assistant in Rust. TUI chat & single-shot CLI. Tools: Read, Write, Edit, Grep, ListDir, Glob, Bash. OpenRouter, streaming, history, slash cmds."
+    },
+    "claude-weekly-insights": {
+      "description": "Weekly insights from Claude Code. Analyze the codebase of the week and generate insights."
     }
+  },
+  "home": {
+    "projectsIntro": "A selection of open-source projects that showcase how I work.",
+    "blogIntro": "I regularly share technical deep-dives and field notes on the blog.",
+    "allArticlesCta": "View all articles"
   },
   "notFound": {
     "title": "Page not found",

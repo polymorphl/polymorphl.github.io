@@ -41,6 +41,7 @@ function main() {
 
   const urls: { loc: string; lastmod?: string; priority?: string; changefreq?: string }[] = [
     { loc: `${SITE_URL}/`, lastmod: formatDateForSitemap(''), priority: '1.0', changefreq: 'weekly' },
+    { loc: `${SITE_URL}/career`, lastmod: formatDateForSitemap(''), priority: '0.95', changefreq: 'weekly' },
     { loc: `${SITE_URL}/blog`, lastmod: formatDateForSitemap(''), priority: '0.9', changefreq: 'weekly' },
     { loc: `${SITE_URL}/en/blog`, lastmod: formatDateForSitemap(''), priority: '0.9', changefreq: 'weekly' },
     { loc: `${SITE_URL}/fr/blog`, lastmod: formatDateForSitemap(''), priority: '0.9', changefreq: 'weekly' },

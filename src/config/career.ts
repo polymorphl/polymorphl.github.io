@@ -1,11 +1,11 @@
-import type { CareerEntryBase } from '@domain/career';
+import type { CareerEntryBase, CertificationBase } from '@domain/career';
 
 export const CAREER_ENTRIES_BASE: CareerEntryBase[] = [
   {
     company: 'Formation & Open Source',
     period: ['09/2025', 'present'],
-    stack: ['rust', 'go', 'react'],
-    logoId: 'formation-open-source',
+    stack: ['rust', 'go', 'python', 'react'],
+    logoId: 'formation-and-open-source',
     logoLight: true,
   },
   {
@@ -51,4 +51,13 @@ export const CAREER_ENTRIES_BASE: CareerEntryBase[] = [
     logoId: 'parker-parker',
     website: 'https://parker-parker.com'
   }
+];
+
+export const CERTIFICATIONS_BASE: CertificationBase[] = [
+  {
+    id: 'claude-code-in-action',
+    image: '/assets/certifications/claude-code-in-action.png',
+    pdf: '/assets/certifications/claude-code-in-action.pdf',
+    verifyUrl: 'https://verify.skilljar.com/c/keokczmmksmh',
+  },
 ];

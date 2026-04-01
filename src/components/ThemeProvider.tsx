@@ -9,17 +9,21 @@ import {
 import { DEFAULT_THEME, STORAGE_KEYS } from '@config/constants';
 import { useTracking } from '@hooks/useTracking';
 import type { ThemeContextType } from '@ui/components';
+import type { Theme } from '@domain/theme';
 
 const ThemeContext = createContext<ThemeContextType | null>(null);
 
-function applyTheme(t: string) {
+const VALID_THEMES = new Set<string>(['cold', 'gold']);
+
+function applyTheme(t: Theme) {
   document.documentElement.setAttribute('data-theme', t);
   localStorage.setItem(STORAGE_KEYS.THEME, t);
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<string>(() => {
-    const t = localStorage.getItem(STORAGE_KEYS.THEME) || DEFAULT_THEME;
+  const [theme, setThemeState] = useState<Theme>(() => {
+    const stored = localStorage.getItem(STORAGE_KEYS.THEME);
+    const t: Theme = stored && VALID_THEMES.has(stored) ? (stored as Theme) : DEFAULT_THEME;
     applyTheme(t);
     return t;
   });
@@ -27,7 +31,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const { trackThemeToggled } = useTracking();
   const prevThemeRef = useRef(theme);
 
-  const setTheme = useCallback((next: string) => {
+  const setTheme = useCallback((next: Theme) => {
     trackThemeToggled(next, prevThemeRef.current);
     prevThemeRef.current = next;
     applyTheme(next);
@@ -35,7 +39,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   }, [trackThemeToggled]);
 
   const toggleTheme = useCallback(() => {
-    setTheme(theme === 'light' ? 'dark' : 'light');
+    setTheme(theme === 'cold' ? 'gold' : 'cold');
   }, [theme, setTheme]);
 
   return (
