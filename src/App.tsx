@@ -3,9 +3,9 @@ import { BrowserRouter, Routes, Route, useLocation, useNavigate } from 'react-ro
 import { LazyMotion } from 'motion/react';
 import { useLanguage } from '@hooks/useLanguage';
 import { ThemeProvider } from '@components/ThemeProvider';
+import { ThemedBackground } from '@components/ThemedBackground';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
-import FluidAurora from './components/FluidAurora';
 import PageTransition from './components/PageTransition';
 
 const loadMotionFeatures = () => import('motion/react').then(m => m.domAnimation);
@@ -49,7 +49,7 @@ function App() {
           </main>
           <Footer />
         </BrowserRouter>
-        <FluidAurora />
+        <ThemedBackground />
       </LazyMotion>
     </ThemeProvider>
   );

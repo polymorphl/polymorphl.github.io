@@ -3,7 +3,7 @@
  */
 
 export const DEFAULT_LANGUAGE = 'fr';
-export const DEFAULT_THEME = 'dark';
+export const DEFAULT_THEME = 'gold';
 export const SUPPORTED_LANGUAGES = ['fr', 'en'] as const;
 
 export const STORAGE_KEYS = {

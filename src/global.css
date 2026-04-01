@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
-/* Custom dark mode: data-theme="dark" on html */
-@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+/* Dark variant: applies to both cold and gold themes (both have dark backgrounds) */
+@custom-variant dark (&:where([data-theme="cold"], [data-theme="cold"] *, [data-theme="gold"], [data-theme="gold"] *));
 
 /* ========================================================================== */
 /* FONTS - Archivo Variable + Space Grotesk Variable */
@@ -47,20 +47,58 @@
     font-family: var(--font-display);
   }
 
-  [data-theme="dark"] {
-    --color-primary: #fafafa;
-    --color-secondary: #a1a1aa;
-    --color-accent: #2563eb; /* blue-600: 4.5:1 contrast with white for WCAG AA */
-    --color-accent-on-surface: #60a5fa; /* blue-400: sufficient contrast on dark surface for WCAG AA */
-    --color-background: #09090b;
-    --color-surface: #18181b;
-    --color-text-primary: #fafafa;
-    --color-text-secondary: #a1a1aa;
-    --color-border: #27272a;
-    --color-on-primary: #09090b;
-    --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.4);
-    --shadow-floating: 0 10px 40px rgba(0, 0, 0, 0.5);
-    --shadow-button: 0 2px 8px rgba(0, 0, 0, 0.3);
+  [data-theme="cold"] {
+    --color-primary: #e6e8f5;
+    --color-secondary: #b4b9d2;
+    --color-accent: #6366f1;
+    --color-accent-on-surface: #818cf8;
+    --color-background: #0c0c18;
+    --color-surface: #14142a;
+    --color-text-primary: #e6e8f5;
+    --color-text-secondary: #b4b9d2;
+    --color-border: #2a2a4a;
+    --color-on-primary: #0c0c18;
+    --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.5);
+    --shadow-floating: 0 10px 40px rgba(0, 0, 0, 0.6);
+    --shadow-button: 0 2px 8px rgba(0, 0, 0, 0.4);
+
+    /* Background system */
+    --bg-base: #0c0c18;
+    --pattern-color: rgba(120, 130, 180, 0.06);
+    --pattern-size: 28px;
+    --accent-1: rgba(80, 60, 160, 0.18);
+    --accent-1-pos: 20% 30%;
+    --accent-2: rgba(40, 80, 180, 0.12);
+    --accent-2-pos: 80% 70%;
+    --grain-opacity: 0.35;
+  }
+
+  [data-theme="gold"] {
+    --color-primary: #f0ebe1;
+    --color-secondary: #c8bead;
+    --color-accent: #e0693c;
+    --color-accent-on-surface: #f0956a;
+    --color-background: #0a0a0e;
+    --color-surface: #141210;
+    --color-text-primary: #f0ebe1;
+    --color-text-secondary: #c8bead;
+    --color-border: #2a2218;
+    --color-on-primary: #0a0a0e;
+    --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.5);
+    --shadow-floating: 0 10px 40px rgba(0, 0, 0, 0.6);
+    --shadow-button: 0 2px 8px rgba(0, 0, 0, 0.4);
+
+    /* Background system */
+    --bg-base: #0a0a0e;
+    --pattern-color: rgba(180, 160, 140, 0.12);
+    --pattern-size: 20px;
+    --accent-1: rgba(180, 90, 40, 0.1);
+    --accent-1-pos: 25% 35%;
+    --accent-2: rgba(160, 120, 50, 0.08);
+    --accent-2-pos: 75% 65%;
+    --accent-3: rgba(100, 40, 60, 0.06);
+    --accent-3-pos: 50% 90%;
+    --grain-opacity: 0.30;
   }
 }
 
@@ -211,6 +249,11 @@
     }
   }
 
+  @keyframes drift {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 100% 100%; }
+  }
+
 }
 
 /* ========================================================================== */
@@ -230,18 +273,18 @@ button:focus-visible {
   outline-offset: 2px;
 }
 
-[data-theme="dark"] .tech-icon.invert-dark {
+:is([data-theme="cold"], [data-theme="gold"]) .tech-icon.invert-dark {
   filter: invert(1);
   opacity: 0.9;
 }
 
-[data-theme="dark"] .tech-pill:hover .tech-icon.invert-dark {
+:is([data-theme="cold"], [data-theme="gold"]) .tech-pill:hover .tech-icon.invert-dark {
   filter: invert(1);
   opacity: 1;
 }
 
-[data-theme="dark"] .tech-pill[aria-label="Vercel"] .tech-icon,
-[data-theme="dark"] .tech-pill[aria-label="Vercel"]:hover .tech-icon {
+:is([data-theme="cold"], [data-theme="gold"]) .tech-pill[aria-label="Vercel"] .tech-icon,
+:is([data-theme="cold"], [data-theme="gold"]) .tech-pill[aria-label="Vercel"]:hover .tech-icon {
   filter: brightness(0) invert(1);
   opacity: 1;
 }
@@ -249,6 +292,77 @@ button:focus-visible {
 .tech-icon-rust,
 .tech-pill[aria-label="Rust"] .tech-icon {
   fill: #CE422B !important;
+}
+
+/* ========================================================================== */
+/* THEMED BACKGROUND LAYERS */
+/* ========================================================================== */
+
+/* Cold: grid pattern */
+[data-theme="cold"] .themed-pattern {
+  background-image:
+    linear-gradient(to right, var(--pattern-color) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--pattern-color) 1px, transparent 1px);
+  background-size: var(--pattern-size) var(--pattern-size);
+  mask-image: radial-gradient(ellipse 60% 60% at 50% 50%, transparent 20%, rgba(0, 0, 0, 0.8) 70%);
+  -webkit-mask-image: radial-gradient(ellipse 60% 60% at 50% 50%, transparent 20%, rgba(0, 0, 0, 0.8) 70%);
+}
+
+/* Gold: dots pattern */
+[data-theme="gold"] .themed-pattern {
+  background-image: radial-gradient(circle, var(--pattern-color) 1px, transparent 1px);
+  background-size: var(--pattern-size) var(--pattern-size);
+  mask-image: radial-gradient(ellipse 55% 55% at 50% 50%, transparent 15%, rgba(0, 0, 0, 0.9) 65%);
+  -webkit-mask-image: radial-gradient(ellipse 55% 55% at 50% 50%, transparent 15%, rgba(0, 0, 0, 0.9) 65%);
+}
+
+/* Cold: radial gradient accents */
+[data-theme="cold"] .themed-accents {
+  background:
+    radial-gradient(ellipse 50% 50% at var(--accent-1-pos), var(--accent-1), transparent),
+    radial-gradient(ellipse 40% 45% at var(--accent-2-pos), var(--accent-2), transparent);
+}
+
+/* Gold: radial gradient accents */
+[data-theme="gold"] .themed-accents {
+  background:
+    radial-gradient(ellipse 45% 50% at var(--accent-1-pos), var(--accent-1), transparent),
+    radial-gradient(ellipse 35% 40% at var(--accent-2-pos), var(--accent-2), transparent),
+    radial-gradient(ellipse 60% 60% at var(--accent-3-pos), var(--accent-3), transparent);
+}
+
+/* Slow ambient drift on accents */
+.themed-accents {
+  background-size: 200% 200%;
+  animation: drift 20s ease-in-out infinite alternate;
+}
+
+/* SVG noise grain */
+.themed-grain {
+  opacity: var(--grain-opacity);
+  mix-blend-mode: soft-light;
+}
+
+/* Theme toggle button — accent-tinted background that adapts to cold/gold */
+.theme-toggle-btn {
+  background-color: color-mix(in oklch, var(--color-accent) 10%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in oklch, var(--color-accent) 22%, transparent);
+}
+
+.theme-toggle-btn:hover {
+  background-color: color-mix(in oklch, var(--color-accent) 18%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in oklch, var(--color-accent) 40%, transparent);
+}
+
+/* Smooth theme transition */
+[data-theme] {
+  transition: background-color 0.6s ease, color 0.3s ease;
+}
+
+.themed-pattern,
+.themed-accents,
+.themed-grain {
+  transition: opacity 0.6s ease;
 }
 
 /* --- Code blocks (highlight.js) - theme stylesheets dynamically loaded --- */
@@ -338,6 +452,10 @@ button:focus-visible {
 
   .profile-border-wrapper {
     border: 2px solid color-mix(in oklch, var(--color-accent) 40%, transparent);
+  }
+
+  .themed-accents {
+    animation: none;
   }
 }
 
