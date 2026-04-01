@@ -42,9 +42,20 @@
     "noDetails": "Aucun détail disponible"
   },
   "career": {
-    "visitWebsite": "Visiter le site",
-    "periodPresent": "présent",
-    "entries": [
+  "visitWebsite": "Visiter le site",
+  "periodPresent": "présent",
+  "certificationsTitle": "Certifications",
+  "viewCertification": "Voir la certification",
+  "downloadCertification": "Télécharger le PDF",
+  "certifications": [
+    {
+      "id": "claude-code-in-action",
+      "name": "Claude Code in Action",
+      "issuer": "Anthropic",
+      "date": "2026"
+    }
+  ],
+  "entries": [
       {
         "role": "Ingénieur indépendant",
         "location": "Remote",
@@ -129,6 +140,7 @@
   "projects": {
     "title": "Projets open-source",
     "viewProject": "Voir le projet",
+    "viewCareerCta": "Voir mon parcours complet",
     "orcrux": {
       "description": "GUI desktop multiplateforme avec Wails pour tester le partage de secret de Shamir — générer, diviser et restaurer des secrets."
     },

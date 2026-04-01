@@ -36,7 +36,10 @@ export default function CareerTimeline() {
       variants={fadeInUp30}
       transition={transition}
     >
-      <h2 className="section-title text-xl md:text-2xl font-bold text-text-primary mb-6 md:mb-8 tracking-tight">
+      <h2
+        id="career-timeline"
+        className="section-title text-xl md:text-2xl font-bold text-text-primary mb-6 md:mb-8 tracking-tight scroll-mt-28"
+      >
         {t('sections.career')}
       </h2>
 

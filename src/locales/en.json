@@ -42,9 +42,20 @@
     "noDetails": "No details available"
   },
   "career": {
-    "visitWebsite": "Visit website",
-    "periodPresent": "present",
-    "entries": [
+  "visitWebsite": "Visit website",
+  "periodPresent": "present",
+  "certificationsTitle": "Certifications",
+  "viewCertification": "View certification",
+  "downloadCertification": "Download PDF",
+  "certifications": [
+    {
+      "id": "claude-code-in-action",
+      "name": "Claude Code in Action",
+      "issuer": "Anthropic",
+      "date": "2026"
+    }
+  ],
+  "entries": [
       {
         "role": "Independent Engineer",
         "location": "Remote",
@@ -129,6 +140,7 @@
   "projects": {
     "title": "Open-source projects",
     "viewProject": "View project",
+    "viewCareerCta": "View full career timeline",
     "orcrux": {
       "description": "Cross-platform desktop GUI with Wails to test Shamir's Secret Sharing — generate, split, and recover secrets."
     },
