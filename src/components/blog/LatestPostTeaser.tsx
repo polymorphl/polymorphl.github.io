@@ -10,6 +10,15 @@ export default function LatestPostTeaser() {
     .filter((p) => p.lang === lang)
     .sort((a, b) => b.date.localeCompare(a.date))[0];
 
+  const formattedDate =
+    post?.date != null
+      ? new Intl.DateTimeFormat(lang === 'fr' ? 'fr-FR' : 'en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: '2-digit',
+        }).format(new Date(post.date))
+      : null;
+
   if (!post) return null;
 
   return (
@@ -34,7 +43,7 @@ export default function LatestPostTeaser() {
             </p>
           )}
           <div className="flex items-center gap-3 text-xs text-text-secondary/70">
-            {post.date && <time dateTime={post.date}>{post.date}</time>}
+            {formattedDate && <time dateTime={post.date}>{formattedDate}</time>}
             {post.readingTime != null && (
               <span>{post.readingTime} {t('blog.readingTime')}</span>
             )}
