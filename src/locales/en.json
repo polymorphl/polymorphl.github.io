@@ -43,6 +43,15 @@
   "certificationsTitle": "Certifications",
   "viewCertification": "View certification",
   "downloadCertification": "Download PDF",
+  "overview": {
+    "available": "Available",
+    "availableDetail": "Freelance & CDI opportunities",
+    "tags": ["Remote", "Paris", "Lead Eng."],
+    "yearsLabel": "years in production",
+    "companiesLabel": "companies · startup → scale-up",
+    "bilingualValue": "FR · EN",
+    "bilingualLabel": "Bilingual · pro & tech"
+  },
   "certifications": [
     {
       "id": "claude-code-in-action",
