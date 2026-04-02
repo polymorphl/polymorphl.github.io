@@ -121,8 +121,10 @@ export type TableOfContentsProps = {
 };
 
 export type SurfaceCardProps = HTMLAttributes<HTMLDivElement> & {
-  /** Dark-mode background opacity. Defaults to '40'. Use '70' for denser surfaces (e.g. blog cards). */
+  /** Dark-mode background opacity. Defaults to '40'. Use '70' for denser surfaces (e.g. blog cards). Ignored when variant is 'bento'. */
   darkOpacity?: '40' | '70';
+  /** 'bento' applies the cold/warm gradient background matching homepage bento cells. Defaults to 'default'. */
+  variant?: 'default' | 'bento';
 };
 
 export type MarkdownBlockProps = {
