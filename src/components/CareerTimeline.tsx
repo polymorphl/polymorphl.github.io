@@ -38,7 +38,7 @@ export default function CareerTimeline() {
     >
       <h2
         id="career-timeline"
-        className="section-title text-xl md:text-2xl font-bold text-text-primary mb-6 md:mb-8 tracking-tight scroll-mt-28"
+        className="section-title section-title-underline text-2xl md:text-3xl font-black text-text-primary mb-6 md:mb-8 tracking-[-0.04em] scroll-mt-28"
       >
         {t('sections.career')}
       </h2>
@@ -69,7 +69,7 @@ export default function CareerTimeline() {
               </div>
             </div>
 
-            <SurfaceCard className="career-card flex-1 min-w-0 pl-4 md:pl-5 pr-4 md:pr-5 py-4 md:py-5 border-l-4 border-l-accent transition-all duration-300 ease-out hover:shadow-soft hover:-translate-y-1 hover:border-accent/30">
+            <SurfaceCard variant="bento" className="bento-card-glow career-card flex-1 min-w-0 pl-4 md:pl-5 pr-4 md:pr-5 py-4 md:py-5 border-l-[3px] border-l-accent border-[rgba(99,102,241,0.18)] transition-all duration-300 ease-out hover:[box-shadow:var(--bento-card-hover-shadow)] hover:-translate-y-[2px] hover:border-accent">
               <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3 mb-2">
                 <span className="text-xs font-mono text-accent-on-surface shrink-0 tabular-nums">
                   {formatPeriodForDisplay(entry.period, t('career.periodPresent'))}
