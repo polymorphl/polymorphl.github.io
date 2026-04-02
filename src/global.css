@@ -80,6 +80,10 @@
     --cta-primary-hover: rgba(100, 80, 200, 1);
     --bento-card-gradient: linear-gradient(135deg, #13133a 0%, #0e0e26 60%, #0c0c1e 100%);
     --bento-card-hover-shadow: 0 4px 24px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(99, 102, 241, 0.2);
+    --bento-tech-border: rgba(99, 102, 241, 0.18);
+    --bento-tech-border-hover: rgba(99, 102, 241, 0.35);
+    --bento-tech-border-divider: rgba(99, 102, 241, 0.12);
+    --bento-category-label: rgba(165, 180, 252, 0.6);
   }
 
   [data-theme="gold"] {
@@ -117,6 +121,10 @@
     --cta-primary-hover: rgba(220, 120, 40, 1);
     --bento-card-gradient: linear-gradient(135deg, #1a1108 0%, #130d06 60%, #0a0a0e 100%);
     --bento-card-hover-shadow: 0 4px 24px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(224, 105, 60, 0.2);
+    --bento-tech-border: rgba(224, 105, 60, 0.18);
+    --bento-tech-border-hover: rgba(224, 105, 60, 0.35);
+    --bento-tech-border-divider: rgba(224, 105, 60, 0.10);
+    --bento-category-label: rgba(240, 149, 106, 0.6);
   }
 }
 
@@ -154,6 +162,10 @@
 
   /* Fallback for light / undefined themes — bento cells use a subtle light gradient */
   --bento-card-gradient: linear-gradient(135deg, #f0f0f8 0%, #e8e8f0 60%, #e0e0ea 100%);
+  --bento-tech-border: rgba(37, 99, 235, 0.18);
+  --bento-tech-border-hover: rgba(37, 99, 235, 0.35);
+  --bento-tech-border-divider: rgba(37, 99, 235, 0.10);
+  --bento-category-label: rgba(37, 99, 235, 0.6);
 
   /* Font */
   --font-sans: "Space Grotesk Variable", system-ui, sans-serif;

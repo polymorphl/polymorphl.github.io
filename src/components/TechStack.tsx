@@ -47,10 +47,10 @@ function TechCategoryList({
     >
       <SurfaceCard
         variant="bento"
-        className="overflow-hidden border-[rgba(99,102,241,0.18)] transition-all duration-200 hover:border-[rgba(99,102,241,0.35)] hover:-translate-y-[1px]"
+        className="overflow-hidden border-[var(--bento-tech-border)] transition-[border-color,transform,box-shadow] duration-200 hover:border-[var(--bento-tech-border-hover)] hover:-translate-y-[1px] hover:[box-shadow:var(--bento-card-hover-shadow)]"
       >
-        <div className="px-4 pt-3.5 pb-2 border-b border-[rgba(99,102,241,0.12)]">
-          <h3 className="text-[10px] font-semibold uppercase tracking-widest text-[rgba(165,180,252,0.6)]">
+        <div className="px-4 pt-3.5 pb-2 border-b border-[var(--bento-tech-border-divider)]">
+          <h3 className="text-[11px] font-semibold uppercase tracking-widest text-[var(--bento-category-label)]">
             {t(category.labelKey)}
           </h3>
         </div>
