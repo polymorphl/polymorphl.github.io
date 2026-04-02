@@ -2,13 +2,12 @@
   "hero": {
     "subtitle": "Lead Software Engineer",
     "experience": "10+ years of experience",
-    "tagline": "I architect and ship high-performance web products",
+    "tagline": "I build robust web products, from architecture to deployment.",
     "training": "Actively training · Deep Learning · LLM Engineering · Agentic AI",
     "status": "Available for new opportunities",
     "contact": "Contact me",
     "metricYears": "Years in prod",
     "metricRole": "Lead Engineer",
-    "metricBilingual": "Bilingual",
     "metricAI": "Upskilling"
   },
   "nav": {
