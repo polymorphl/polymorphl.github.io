@@ -78,6 +78,8 @@
     --accent-line-gradient: linear-gradient(90deg, rgba(80, 60, 160, 0.8), rgba(40, 80, 180, 0.4));
     --cta-primary-bg: rgba(80, 60, 180, 0.9);
     --cta-primary-hover: rgba(100, 80, 200, 1);
+    --bento-card-gradient: linear-gradient(135deg, #13133a 0%, #0e0e26 60%, #0c0c1e 100%);
+    --bento-card-hover-shadow: 0 4px 24px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(99, 102, 241, 0.2);
   }
 
   [data-theme="gold"] {
@@ -113,6 +115,8 @@
     --accent-line-gradient: linear-gradient(90deg, rgba(200, 120, 40, 0.8), rgba(180, 90, 40, 0.4));
     --cta-primary-bg: rgba(200, 100, 30, 0.9);
     --cta-primary-hover: rgba(220, 120, 40, 1);
+    --bento-card-gradient: linear-gradient(135deg, #1a1108 0%, #130d06 60%, #0a0a0e 100%);
+    --bento-card-hover-shadow: 0 4px 24px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(224, 105, 60, 0.2);
   }
 }
 
@@ -525,4 +529,50 @@ button:focus-visible {
 
 @media (max-width: 768px) {
   body { height: auto; overflow-y: auto; overflow-x: clip; display: block; }
+}
+
+/* ========================================================================== */
+/* BENTO DESIGN SYSTEM UTILITIES */
+/* ========================================================================== */
+
+/* Gradient underline for editorial section titles */
+.section-title-underline {
+  position: relative;
+  display: inline-block;
+}
+
+.section-title-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(to right, var(--color-accent), transparent);
+  border-radius: 1px;
+}
+
+/* Radial glow top-right corner for bento cards */
+.bento-card-glow {
+  position: relative;
+  overflow: hidden;
+}
+
+.bento-card-glow::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  width: 80px;
+  height: 80px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+[data-theme="cold"] .bento-card-glow::before {
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.1), transparent 70%);
+}
+
+[data-theme="gold"] .bento-card-glow::before {
+  background: radial-gradient(circle, rgba(251, 146, 60, 0.08), transparent 70%);
 }
