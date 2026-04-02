@@ -167,14 +167,8 @@ export type BlogPostContentProps = {
   t: (key: string) => string;
 };
 
-export type HeroStatusBadgeProps = {
-  transition: ReturnType<typeof useMotionTransition>;
+export type FeaturedPostCardProps = {
+  post: BlogPostMeta;
+  lang: Lang;
   t: (key: string) => string;
-};
-
-export type HeroActionsProps = {
-  transition: ReturnType<typeof useMotionTransition>;
-  t: (key: string) => string;
-  trackResumeDownloaded: (source: string) => void;
-  trackSocialLinkClicked: (network: 'linkedin' | 'github' | 'email', source: string) => void;
 };
