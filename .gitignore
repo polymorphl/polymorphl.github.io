@@ -14,3 +14,6 @@ src/generated/
 
 # Git worktrees
 .worktrees/
+
+# Dev artifacts
+docs/
