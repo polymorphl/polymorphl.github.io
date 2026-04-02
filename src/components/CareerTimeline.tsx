@@ -89,9 +89,9 @@ export default function CareerTimeline() {
                 ) : (
                   <span className="font-medium text-text-primary">{entry.company}</span>
                 )}
-                <span className="text-border mx-1">·</span>
+                <span aria-hidden="true" className="text-border mx-1">·</span>
                 <span>{entry.location}</span>
-                <span className="text-border mx-1">·</span>
+                <span aria-hidden="true" className="text-border mx-1">·</span>
                 <span>{formatExperienceDuration(getPeriodDurationInYears(entry.period), t)}</span>
               </p>
               <div className="flex flex-wrap gap-1.5 mb-3">
@@ -110,7 +110,7 @@ export default function CareerTimeline() {
               <ul className="flex flex-col gap-1">
                 {entry.highlights.map((highlight) => (
                   <li key={highlight} className="flex gap-2 text-sm text-text-secondary leading-relaxed">
-                    <span className="text-accent-on-surface shrink-0 mt-0.5">•</span>
+                    <span aria-hidden="true" className="text-accent-on-surface shrink-0 mt-0.5">•</span>
                     <span>{parseTextWithLinks(highlight)}</span>
                   </li>
                 ))}

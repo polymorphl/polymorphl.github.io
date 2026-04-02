@@ -15,12 +15,7 @@ export default function Certifications() {
   const i18nById = new Map(i18nEntries.map((entry) => [entry.id, entry]));
   const certifications: Certification[] = CERTIFICATIONS_BASE.map((base) => ({
     ...base,
-    ...(i18nById.get(base.id) ?? {
-      id: base.id,
-      name: "",
-      issuer: "",
-      date: "",
-    }),
+    ...(i18nById.get(base.id) ?? { name: "", issuer: "", date: "" }),
   }));
 
   if (!certifications.length) return null;
@@ -48,7 +43,7 @@ export default function Certifications() {
             className="bento-card-glow p-4 md:p-5 flex flex-col gap-2 border-accent/25 transition-all duration-300 hover:-translate-y-[2px] hover:[box-shadow:var(--bento-card-hover-shadow)] hover:border-accent/50"
           >
             <span className="inline-flex items-center gap-1 self-start text-[10px] font-bold uppercase tracking-wider text-accent bg-accent/10 border border-accent/20 px-2 py-0.5 rounded-full">
-              ✦ Certification
+              {t("career.certificationBadge")}
             </span>
             <h3 className="text-sm md:text-base font-bold text-text-primary leading-snug tracking-[-0.02em]">
               {cert.name}
@@ -78,7 +73,7 @@ export default function Certifications() {
                     className="inline-flex items-center gap-1 text-text-secondary/90 hover:text-accent underline-offset-2 hover:underline"
                   >
                     <span
-                      aria-hidden
+                      aria-hidden="true"
                       className="inline-flex h-3.5 w-3.5 items-center justify-center rounded-full border border-border/70 bg-background/60 text-[9px]"
                     >
                       ⤓
