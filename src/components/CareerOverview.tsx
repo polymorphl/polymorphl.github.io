@@ -12,12 +12,18 @@ export default function CareerOverview() {
 
   const { yearsTotal, companyCount } = useMemo(() => {
     const companies = CAREER_ENTRIES_BASE.filter((e) => !!e.website);
-    const earliest = CAREER_ENTRIES_BASE[CAREER_ENTRIES_BASE.length - 1].period[0];
+    const parseMonthYear = (s: string): number => {
+      const [mm, yyyy] = s.split('/');
+      return parseInt(yyyy, 10) * 12 + parseInt(mm, 10);
+    };
+    const earliest = CAREER_ENTRIES_BASE.reduce((min, e) => {
+      return parseMonthYear(e.period[0]) < parseMonthYear(min.period[0]) ? e : min;
+    }, CAREER_ENTRIES_BASE[0]).period[0];
     const years = Math.floor(getPeriodDurationInYears([earliest, 'present']));
     return { yearsTotal: years, companyCount: companies.length };
   }, []);
 
-  const tags = (tObject<string[]>('career.overview.tags') ?? []) as string[];
+  const tags = tObject<string[]>('career.overview.tags') ?? [];
 
   return (
     <m.div
@@ -36,11 +42,11 @@ export default function CareerOverview() {
         <div
           className="absolute top-0 right-0 w-20 h-20 pointer-events-none"
           style={{ background: 'radial-gradient(circle at top right, rgba(74,222,128,0.12), transparent 70%)' }}
-          aria-hidden
+          aria-hidden="true"
         />
         <div className="flex items-center gap-2 mb-1.5">
           <span className="relative inline-flex w-2.5 h-2.5">
-            <span className="absolute inset-0 rounded-full bg-emerald-500/40 animate-ping" aria-hidden />
+            <span className="absolute inset-0 rounded-full bg-emerald-500/40 animate-ping" aria-hidden="true" />
             <span className="relative inline-block w-2.5 h-2.5 rounded-full bg-emerald-400" />
           </span>
           <span className="text-xs font-bold text-emerald-400">{t('career.overview.available')}</span>
