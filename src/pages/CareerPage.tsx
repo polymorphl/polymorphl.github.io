@@ -5,6 +5,7 @@ import { useLanguageNavigation } from '@hooks/useLanguageNavigation';
 import { useMotionTransition } from '@hooks/useMotionTransition';
 import { containerCareer, fadeInUp30 } from '@config/motion';
 import TableOfContents from '@components/blog/TableOfContents';
+import ActionBar from '@components/ActionBar';
 import CareerTimeline from '@components/CareerTimeline';
 import TechStack from '@components/TechStack';
 import Certifications from '@components/Certifications';
@@ -31,6 +32,9 @@ export default function CareerPage() {
         >
           {t('sections.career')}
         </m.h1>
+        <m.div className="mb-10 md:mb-14" variants={fadeInUp30} transition={transition}>
+          <ActionBar />
+        </m.div>
         <div
           ref={contentRef}
           className="flex flex-col gap-10 md:gap-14"
