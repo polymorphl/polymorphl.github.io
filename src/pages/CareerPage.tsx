@@ -13,7 +13,7 @@ import Certifications from '@components/Certifications';
 export default function CareerPage() {
   const { lang, t } = useLanguage();
   const transition = useMotionTransition(0.4);
-   const contentRef = useRef<HTMLDivElement | null>(null);
+  const contentRef = useRef<HTMLDivElement | null>(null);
 
   useLanguageNavigation(lang);
 
