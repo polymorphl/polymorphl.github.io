@@ -34,7 +34,7 @@ export function TechListRow({ item, experience, projectsById, t }: TechListRowPr
               className={`text-[11px] font-medium rounded-full px-2 py-0.5 leading-tight whitespace-nowrap border ${
                 years >= SENIOR_YEARS_THRESHOLD
                   ? 'text-accent-on-surface bg-accent/10 border-accent/20'
-                  : 'text-indigo-300 bg-indigo-500/10 border-indigo-400/20'
+                  : 'text-text-secondary bg-surface border-border'
               }`}
             >
               {yearsLabel}
