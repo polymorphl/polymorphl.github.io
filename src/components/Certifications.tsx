@@ -42,9 +42,6 @@ export default function Certifications() {
             variant="bento"
             className="bento-card-glow p-4 md:p-5 flex flex-col gap-2 border-accent/25 transition-all duration-300 hover:-translate-y-[2px] hover:[box-shadow:var(--bento-card-hover-shadow)] hover:border-accent/50"
           >
-            <span className="inline-flex items-center gap-1 self-start text-[10px] font-bold uppercase tracking-wider text-accent bg-accent/10 border border-accent/20 px-2 py-0.5 rounded-full">
-              {t("career.certificationBadge")}
-            </span>
             <h3 className="text-sm md:text-base font-bold text-text-primary leading-snug tracking-[-0.02em]">
               {cert.name}
             </h3>
