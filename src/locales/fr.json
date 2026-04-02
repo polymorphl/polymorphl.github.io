@@ -5,7 +5,11 @@
     "tagline": "J'architecte et développe des produits web performants",
     "training": "Formation active · Deep Learning · LLM Engineering · IA Agentique",
     "status": "Disponible pour de nouvelles opportunités",
-    "contact": "Me contacter"
+    "contact": "Me contacter",
+    "metricYears": "Ans en prod",
+    "metricRole": "Ingénieur Lead",
+    "metricBilingual": "Bilingue",
+    "metricAI": "En formation"
   },
   "nav": {
   "home": "Accueil",
@@ -17,7 +21,7 @@
   "sections": {
   "career": "Parcours",
   "tech": "Stack technique",
-  "latestPost": "Dernier article"
+  "latestPost": "Derniers articles"
   },
   "tech": {
     "frameworks": "Frameworks",
@@ -162,7 +166,8 @@
   "home": {
     "projectsIntro": "Une sélection de projets open-source qui illustrent mon travail au quotidien.",
     "blogIntro": "Je partage régulièrement des retours d'expérience et des analyses techniques sur mon blog.",
-    "allArticlesCta": "Voir tous les articles"
+    "allArticlesCta": "Voir tous les articles",
+    "featuredPost": "À la une"
   },
   "notFound": {
     "title": "Page non trouvée",

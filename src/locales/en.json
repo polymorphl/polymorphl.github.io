@@ -5,7 +5,11 @@
     "tagline": "I architect and ship high-performance web products",
     "training": "Actively training · Deep Learning · LLM Engineering · Agentic AI",
     "status": "Available for new opportunities",
-    "contact": "Contact me"
+    "contact": "Contact me",
+    "metricYears": "Years in prod",
+    "metricRole": "Lead Engineer",
+    "metricBilingual": "Bilingual",
+    "metricAI": "Upskilling"
   },
   "nav": {
   "home": "Home",
@@ -17,7 +21,7 @@
   "sections": {
   "career": "Career",
   "tech": "Tech stack",
-  "latestPost": "Latest article"
+  "latestPost": "Latest articles"
   },
   "tech": {
     "frameworks": "Frameworks",
@@ -162,7 +166,8 @@
   "home": {
     "projectsIntro": "A selection of open-source projects that showcase how I work.",
     "blogIntro": "I regularly share technical deep-dives and field notes on the blog.",
-    "allArticlesCta": "View all articles"
+    "allArticlesCta": "View all articles",
+    "featuredPost": "Featured"
   },
   "notFound": {
     "title": "Page not found",
