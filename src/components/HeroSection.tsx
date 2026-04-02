@@ -17,7 +17,7 @@ export default function HeroSection() {
       initial="hidden"
       animate="visible"
     >
-      <div className="grid grid-cols-1 md:grid-cols-[1fr_180px_200px] gap-3">
+      <div className="grid grid-cols-1 md:grid-cols-[1fr_220px_200px] gap-3">
 
         {/* ── Cell: Main ── */}
         <m.div
@@ -68,14 +68,21 @@ export default function HeroSection() {
 
         {/* ── Cell: Photo ── */}
         <m.div
-          className="md:row-span-2 rounded-[20px] border border-border overflow-hidden relative h-[220px] md:h-auto"
+          className="md:row-span-2 rounded-[20px] border border-border/50 overflow-hidden relative h-[220px] md:h-auto"
           variants={scaleIn}
           transition={transition}
         >
           <HeroPhoto />
+          {/* bottom fade into background */}
           <div
-            className="absolute inset-x-0 bottom-0 h-20 pointer-events-none"
-            style={{ background: "linear-gradient(to top, var(--color-background), transparent)" }}
+            className="absolute inset-x-0 bottom-0 h-32 pointer-events-none"
+            style={{ background: "linear-gradient(to top, var(--color-background) 0%, transparent 100%)" }}
+            aria-hidden
+          />
+          {/* subtle left edge blend with main cell */}
+          <div
+            className="absolute inset-y-0 left-0 w-8 pointer-events-none"
+            style={{ background: "linear-gradient(to right, rgba(0,0,0,0.25), transparent)" }}
             aria-hidden
           />
         </m.div>

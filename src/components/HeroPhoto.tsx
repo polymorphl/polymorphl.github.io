@@ -6,7 +6,7 @@ export default function HeroPhoto() {
         src="/profile.png"
         alt="Luc TERRACHER"
         fetchPriority="high"
-        className="hero-photo block size-full object-cover object-top"
+        className="hero-photo block size-full object-cover object-[center_5%]"
         width={288}
         height={260}
       />
