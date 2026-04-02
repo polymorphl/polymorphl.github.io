@@ -27,7 +27,13 @@ export function TechListRow({ item, experience, projectsById, t }: TechListRowPr
         <div className="flex items-center gap-2 flex-wrap">
           <span className="text-sm font-semibold text-text-primary leading-tight">{item.name}</span>
           {yearsLabel && (
-            <span className="text-[11px] font-medium text-accent bg-accent/10 rounded-full px-2 py-0.5 leading-tight whitespace-nowrap">
+            <span
+              className={`text-[11px] font-medium rounded-full px-2 py-0.5 leading-tight whitespace-nowrap border ${
+                (experience?.years ?? 0) >= 4
+                  ? 'text-accent-on-surface bg-accent/10 border-accent/20'
+                  : 'text-indigo-300 bg-indigo-500/10 border-indigo-400/20'
+              }`}
+            >
               {yearsLabel}
             </span>
           )}
