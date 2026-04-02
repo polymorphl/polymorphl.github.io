@@ -45,8 +45,17 @@
   "visitWebsite": "Visiter le site",
   "periodPresent": "présent",
   "certificationsTitle": "Certifications",
+  "certificationBadge": "✦ Certification",
   "viewCertification": "Voir la certification",
   "downloadCertification": "Télécharger le PDF",
+  "overview": {
+    "available": "Disponible",
+    "availableDetail": "Opportunités en CDI",
+    "tags": ["Remote", "Lead Eng."],
+    "yearsLabel": "ans en production",
+    "companiesLabel": "entreprises · startup → scale-up",
+    "bilingualLabel": "Bilingue · pro & tech"
+  },
   "certifications": [
     {
       "id": "claude-code-in-action",

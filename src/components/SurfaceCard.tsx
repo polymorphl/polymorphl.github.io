@@ -7,12 +7,17 @@ const DARK_OPACITY_CLASS = {
 } as const;
 
 const SurfaceCard = forwardRef<HTMLDivElement, SurfaceCardProps>(
-  ({ className, darkOpacity = '40', ...props }, ref) => {
-    const darkClass = DARK_OPACITY_CLASS[darkOpacity];
+  ({ className, darkOpacity = '40', variant = 'default', ...props }, ref) => {
+    // For bento, border-color is intentionally omitted from the base so each
+    // caller can freely apply their own color class without Tailwind v4 cascade conflicts.
+    const baseClass =
+      variant === 'bento'
+        ? 'rounded-xl border [background:var(--bento-card-gradient)]'
+        : `rounded-xl border border-border bg-surface/60 ${DARK_OPACITY_CLASS[darkOpacity]}`;
     return (
       <div
         ref={ref}
-        className={`rounded-xl border border-border bg-surface/60 ${darkClass}${className ? ` ${className}` : ''}`}
+        className={`${baseClass}${className ? ` ${className}` : ''}`}
         {...props}
       />
     );

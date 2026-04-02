@@ -12,6 +12,9 @@ src/generated/
 # Claude Code
 .claude/
 
+# Claude Code superpowers
+.superpowers/
+
 # Git worktrees
 .worktrees/
 

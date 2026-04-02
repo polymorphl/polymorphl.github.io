@@ -1,6 +1,6 @@
 export default function HeroPhoto() {
   return (
-    <picture className="profile-photo-picture block relative z-10 size-full">
+    <picture className="block relative z-10 size-full leading-[0] text-[0]">
       <source srcSet="/profile.webp" type="image/webp" />
       <img
         src="/profile.png"

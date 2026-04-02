@@ -42,13 +42,16 @@ function TechCategoryList({
 }: TechCategoryListProps) {
   return (
     <m.div
-      className="break-inside-avoid mb-5"
+      className="break-inside-avoid mb-4"
       variants={fadeInUp30}
       transition={transition}
     >
-      <SurfaceCard className="overflow-hidden">
-        <div className="px-4 pt-3.5 pb-2 border-b border-border/30">
-          <h3 className="text-[10px] font-semibold uppercase tracking-widest text-text-secondary/70">
+      <SurfaceCard
+        variant="bento"
+        className="overflow-hidden border-[var(--bento-tech-border)] transition-[border-color,transform,box-shadow] duration-200 hover:border-[var(--bento-tech-border-hover)] hover:-translate-y-[1px] hover:[box-shadow:var(--bento-card-hover-shadow)]"
+      >
+        <div className="px-4 pt-3.5 pb-2 border-b border-[var(--bento-tech-border-divider)]">
+          <h3 className="text-[11px] font-semibold uppercase tracking-widest text-[var(--bento-category-label)]">
             {t(category.labelKey)}
           </h3>
         </div>
@@ -153,13 +156,13 @@ export default function TechStack() {
     >
       <h2
         id="tech-stack"
-        className="section-title text-xl md:text-2xl font-bold text-text-primary mb-4 md:mb-6 tracking-tight scroll-mt-28"
+        className="section-title section-title-underline text-2xl md:text-3xl font-black text-text-primary mb-4 md:mb-6 tracking-[-0.04em] scroll-mt-28"
       >
         {t("sections.tech")}
       </h2>
 
       <m.div
-        className="columns-1 md:columns-2 gap-10"
+        className="columns-1 sm:columns-2 lg:columns-3 gap-4"
         variants={containerTechStack}
       >
         {allCategories.map((category) => (

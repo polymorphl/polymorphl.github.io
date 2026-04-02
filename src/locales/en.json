@@ -45,8 +45,17 @@
   "visitWebsite": "Visit website",
   "periodPresent": "present",
   "certificationsTitle": "Certifications",
+  "certificationBadge": "✦ Certification",
   "viewCertification": "View certification",
   "downloadCertification": "Download PDF",
+  "overview": {
+    "available": "Available",
+    "availableDetail": "Permanent contract opportunities",
+    "tags": ["Remote", "Lead Eng."],
+    "yearsLabel": "years in production",
+    "companiesLabel": "companies · startup → scale-up",
+    "bilingualLabel": "Bilingual · pro & tech"
+  },
   "certifications": [
     {
       "id": "claude-code-in-action",

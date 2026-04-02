@@ -15,12 +15,7 @@ export default function Certifications() {
   const i18nById = new Map(i18nEntries.map((entry) => [entry.id, entry]));
   const certifications: Certification[] = CERTIFICATIONS_BASE.map((base) => ({
     ...base,
-    ...(i18nById.get(base.id) ?? {
-      id: base.id,
-      name: "",
-      issuer: "",
-      date: "",
-    }),
+    ...(i18nById.get(base.id) ?? { name: "", issuer: "", date: "" }),
   }));
 
   if (!certifications.length) return null;
@@ -36,7 +31,7 @@ export default function Certifications() {
     >
       <h2
         id="certifications"
-        className="section-title text-xl md:text-2xl font-bold text-text-primary mb-4 md:mb-6 tracking-tight scroll-mt-28"
+        className="section-title section-title-underline text-2xl md:text-3xl font-black text-text-primary mb-4 md:mb-6 tracking-[-0.04em] scroll-mt-28"
       >
         {t("career.certificationsTitle")}
       </h2>
@@ -44,19 +39,18 @@ export default function Certifications() {
         {certifications.map((cert) => (
           <SurfaceCard
             key={cert.id}
-            className="p-4 md:p-5 flex flex-col gap-2 border-l-4 border-l-accent/60 hover:border-accent/30 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-soft"
+            variant="bento"
+            className="bento-card-glow p-4 md:p-5 flex flex-col gap-2 border-accent/25 transition-all duration-300 hover:-translate-y-[2px] hover:[box-shadow:var(--bento-card-hover-shadow)] hover:border-accent/50"
           >
-            <div className="flex items-baseline justify-between gap-3">
-              <h3 className="text-sm md:text-base font-semibold text-text-primary leading-snug">
-                {cert.name}
-              </h3>
-              <span className="text-[11px] font-mono text-text-secondary/80 tabular-nums shrink-0">
-                {cert.date}
-              </span>
-            </div>
+            <h3 className="text-sm md:text-base font-bold text-text-primary leading-snug tracking-[-0.02em]">
+              {cert.name}
+            </h3>
             <p className="text-xs md:text-sm text-text-secondary">
               {cert.issuer}
             </p>
+            <span className="text-[11px] font-mono text-accent tabular-nums">
+              {cert.date}
+            </span>
             {(cert.verifyUrl || cert.pdf) && (
               <div className="mt-1 flex items-center justify-between text-[11px] font-medium">
                 {cert.verifyUrl && (
@@ -76,7 +70,7 @@ export default function Certifications() {
                     className="inline-flex items-center gap-1 text-text-secondary/90 hover:text-accent underline-offset-2 hover:underline"
                   >
                     <span
-                      aria-hidden
+                      aria-hidden="true"
                       className="inline-flex h-3.5 w-3.5 items-center justify-center rounded-full border border-border/70 bg-background/60 text-[9px]"
                     >
                       ⤓

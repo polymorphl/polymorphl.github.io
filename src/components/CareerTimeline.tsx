@@ -38,7 +38,7 @@ export default function CareerTimeline() {
     >
       <h2
         id="career-timeline"
-        className="section-title text-xl md:text-2xl font-bold text-text-primary mb-6 md:mb-8 tracking-tight scroll-mt-28"
+        className="section-title section-title-underline text-2xl md:text-3xl font-black text-text-primary mb-6 md:mb-8 tracking-[-0.04em] scroll-mt-28"
       >
         {t('sections.career')}
       </h2>
@@ -69,7 +69,7 @@ export default function CareerTimeline() {
               </div>
             </div>
 
-            <SurfaceCard className="career-card flex-1 min-w-0 pl-4 md:pl-5 pr-4 md:pr-5 py-4 md:py-5 border-l-4 border-l-accent transition-all duration-300 ease-out hover:shadow-soft hover:-translate-y-1 hover:border-accent/30">
+            <SurfaceCard variant="bento" className="bento-card-glow career-card flex-1 min-w-0 pl-4 md:pl-5 pr-4 md:pr-5 py-4 md:py-5 border-l-[3px] border-l-accent border-[var(--bento-tech-border)] transition-all duration-300 ease-out hover:[box-shadow:var(--bento-card-hover-shadow)] hover:-translate-y-[2px] hover:border-accent">
               <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3 mb-2">
                 <span className="text-xs font-mono text-accent-on-surface shrink-0 tabular-nums">
                   {formatPeriodForDisplay(entry.period, t('career.periodPresent'))}
@@ -89,9 +89,9 @@ export default function CareerTimeline() {
                 ) : (
                   <span className="font-medium text-text-primary">{entry.company}</span>
                 )}
-                <span className="text-border mx-1">·</span>
+                <span aria-hidden="true" className="text-border mx-1">·</span>
                 <span>{entry.location}</span>
-                <span className="text-border mx-1">·</span>
+                <span aria-hidden="true" className="text-border mx-1">·</span>
                 <span>{formatExperienceDuration(getPeriodDurationInYears(entry.period), t)}</span>
               </p>
               <div className="flex flex-wrap gap-1.5 mb-3">
@@ -110,7 +110,7 @@ export default function CareerTimeline() {
               <ul className="flex flex-col gap-1">
                 {entry.highlights.map((highlight) => (
                   <li key={highlight} className="flex gap-2 text-sm text-text-secondary leading-relaxed">
-                    <span className="text-accent-on-surface shrink-0 mt-0.5">•</span>
+                    <span aria-hidden="true" className="text-accent-on-surface shrink-0 mt-0.5">•</span>
                     <span>{parseTextWithLinks(highlight)}</span>
                   </li>
                 ))}
