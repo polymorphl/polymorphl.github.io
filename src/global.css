@@ -37,12 +37,6 @@
     flex-direction: column;
   }
 
-  #root {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
-
   h1, h2, h3, .hero-title, .section-title, .tech-category-title {
     font-family: var(--font-display);
   }
@@ -433,50 +427,8 @@ button:focus-visible {
   padding: 0;
 }
 
-/* --- Profile photo animated border --- */
-.profile-border-wrapper {
-  position: relative;
-}
-
-.profile-border-wrapper .profile-border-ring {
-  position: absolute;
-  inset: -2px;
-  border-radius: 26px;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.profile-border-wrapper .profile-border-ring::before {
-  content: "";
-  position: absolute;
-  inset: -50%;
-  width: 200%;
-  height: 200%;
-  background: conic-gradient(
-    from 0deg,
-    transparent 0deg,
-    color-mix(in oklch, var(--color-accent) 60%, transparent) 25deg,
-    transparent 50deg,
-    transparent 180deg,
-    color-mix(in oklch, var(--color-accent) 60%, transparent) 205deg,
-    transparent 230deg
-  );
-  animation: profile-border-rotate 10s linear infinite;
-}
-
-.profile-photo-picture {
-  display: block;
-  line-height: 0;
-  font-size: 0;
-}
-
 /* --- Reduced motion --- */
 @media (prefers-reduced-motion: reduce) {
-
-  .status-dot {
-    animation: none !important;
-  }
 
   .tech-pill:hover {
     transform: none !important;
@@ -507,31 +459,8 @@ button:focus-visible {
     transition: none !important;
   }
 
-  .profile-border-wrapper .profile-border-ring {
-    display: none;
-  }
-
-  .profile-border-wrapper {
-    border: 2px solid color-mix(in oklch, var(--color-accent) 40%, transparent);
-  }
-
   .themed-accents {
     animation: none;
-  }
-}
-
-/* --- Screen Reader Only (SEO/Accessibility) --- */
-@layer utilities {
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border-width: 0;
   }
 }
 
