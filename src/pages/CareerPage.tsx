@@ -5,6 +5,7 @@ import { useLanguageNavigation } from '@hooks/useLanguageNavigation';
 import { useMotionTransition } from '@hooks/useMotionTransition';
 import { containerCareer, fadeInUp30 } from '@config/motion';
 import TableOfContents from '@components/blog/TableOfContents';
+import CareerOverview from '@components/CareerOverview';
 import CareerTimeline from '@components/CareerTimeline';
 import TechStack from '@components/TechStack';
 import Certifications from '@components/Certifications';
@@ -35,6 +36,7 @@ export default function CareerPage() {
           ref={contentRef}
           className="flex flex-col gap-10 md:gap-14"
         >
+          <CareerOverview />
           <CareerTimeline />
           <Certifications />
           <div className="pt-6 md:pt-8 border-t border-border/50">
