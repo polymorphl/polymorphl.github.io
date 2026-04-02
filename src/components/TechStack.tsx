@@ -161,7 +161,7 @@ export default function TechStack() {
       </h2>
 
       <m.div
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-start"
         variants={containerTechStack}
       >
         {allCategories.map((category) => (
