@@ -80,7 +80,7 @@ export default function ProjectsGrid() {
             </p>
           </div>
           <span className="self-center mr-3 md:hidden text-text-secondary/60 shrink-0" aria-hidden="true">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+            <svg className="w-4 h-4" viewBox="0 0 24 24" aria-hidden="true"><use href="/assets/ui/sprite.svg#external-link" /></svg>
           </span>
         </m.a>
       ))}

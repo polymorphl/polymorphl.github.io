@@ -76,6 +76,11 @@ def create_sprites() -> None:
     companies_output = os.path.join(companies_dir, "sprite.svg")
     create_sprite_for_directory(companies_dir, companies_output)
 
+    # UI sprite
+    ui_dir = os.path.join(project_root, "public", "assets", "ui")
+    ui_output = os.path.join(ui_dir, "sprite.svg")
+    create_sprite_for_directory(ui_dir, ui_output)
+
 
 if __name__ == "__main__":
     create_sprites()

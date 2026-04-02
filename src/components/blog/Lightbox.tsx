@@ -22,8 +22,8 @@ export default function Lightbox({ src, alt, onClose }: LightboxProps) {
           className="absolute top-4 right-4 p-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-border/50 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           aria-label="Close preview"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M18 6 6 18" /><path d="m6 6 12 12" />
+          <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+            <use href="/assets/ui/sprite.svg#close" />
           </svg>
         </button>
         <img
