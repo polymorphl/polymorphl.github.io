@@ -89,7 +89,7 @@ export default function HeroSection() {
 
         {/* ── Cell: Availability ── */}
         <m.div
-          className="rounded-[20px] p-5 flex flex-col gap-3"
+          className="rounded-[20px] p-5 flex flex-col justify-start gap-2"
           style={{
             background: "linear-gradient(145deg, rgba(14,26,14,0.95), rgba(9,20,9,0.9))",
             border: "1px solid rgba(74,222,128,0.25)",
@@ -113,39 +113,36 @@ export default function HeroSection() {
 
         {/* ── Cell: Metrics ── */}
         <m.div
-          className="rounded-[20px] border border-border bg-surface/60 p-5 grid grid-cols-2 gap-4"
+          className="rounded-[20px] border border-border bg-surface/60 overflow-hidden grid grid-cols-[3fr_2fr] grid-rows-2"
           variants={fadeInUp20}
           transition={{ ...transition, delay: 0.15 }}
         >
-          <div>
-            <p className="text-[1.5rem] font-black leading-none tracking-tight text-text-primary">
-              10<span className="text-[1rem] text-accent-on-surface">+</span>
+          {/* 10+ — featured stat, spans full left column */}
+          <div className="row-span-2 border-r border-border p-5 flex flex-col justify-center gap-1">
+            <p className="font-black leading-none tracking-tight text-text-primary" style={{ fontSize: "2.8rem" }}>
+              10<span className="text-[1.4rem] text-accent-on-surface">+</span>
             </p>
-            <p className="text-[10px] text-text-secondary/50 mt-1 leading-tight">
+            <p className="text-[11px] text-text-secondary/60 leading-tight">
               {t("hero.metricYears")}
             </p>
           </div>
-          <div>
-            <p className="text-[1.2rem] font-black leading-none tracking-tight text-accent-on-surface">
+
+          {/* Lead */}
+          <div className="p-4 border-b border-border flex flex-col justify-center gap-1">
+            <p className="text-[1.3rem] font-black leading-none tracking-tight text-accent-on-surface">
               Lead
             </p>
-            <p className="text-[10px] text-text-secondary/50 mt-1 leading-tight">
+            <p className="text-[10px] text-text-secondary/60 leading-tight">
               {t("hero.metricRole")}
             </p>
           </div>
-          <div>
-            <p className="text-[1.1rem] font-black leading-none tracking-tight text-text-primary">
-              FR/EN
-            </p>
-            <p className="text-[10px] text-text-secondary/50 mt-1 leading-tight">
-              {t("hero.metricBilingual")}
-            </p>
-          </div>
-          <div>
-            <p className="text-[1.1rem] font-black leading-none tracking-tight text-accent-on-surface">
+
+          {/* AI */}
+          <div className="p-4 flex flex-col justify-center gap-1">
+            <p className="text-[1.3rem] font-black leading-none tracking-tight text-accent-on-surface">
               AI
             </p>
-            <p className="text-[10px] text-text-secondary/50 mt-1 leading-tight">
+            <p className="text-[10px] text-text-secondary/60 leading-tight">
               {t("hero.metricAI")}
             </p>
           </div>
