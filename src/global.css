@@ -152,6 +152,9 @@
   --transition-smooth: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   --z-background: -1;
 
+  /* Fallback for light / undefined themes — bento cells use a subtle light gradient */
+  --bento-card-gradient: linear-gradient(135deg, #f0f0f8 0%, #e8e8f0 60%, #e0e0ea 100%);
+
   /* Font */
   --font-sans: "Space Grotesk Variable", system-ui, sans-serif;
   --font-display: "Archivo Variable", system-ui, sans-serif;
