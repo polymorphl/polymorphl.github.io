@@ -46,11 +46,10 @@
   "downloadCertification": "Télécharger le PDF",
   "overview": {
     "available": "Disponible",
-    "availableDetail": "Freelance & opportunités CDI",
-    "tags": ["Remote", "Paris", "Lead Eng."],
+    "availableDetail": "Opportunités en CDI",
+    "tags": ["Remote", "Lead Eng."],
     "yearsLabel": "ans en production",
     "companiesLabel": "entreprises · startup → scale-up",
-    "bilingualValue": "FR · EN",
     "bilingualLabel": "Bilingue · pro & tech"
   },
   "certifications": [

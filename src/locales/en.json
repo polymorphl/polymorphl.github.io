@@ -46,11 +46,10 @@
   "downloadCertification": "Download PDF",
   "overview": {
     "available": "Available",
-    "availableDetail": "Freelance & CDI opportunities",
-    "tags": ["Remote", "Paris", "Lead Eng."],
+    "availableDetail": "Permanent contract opportunities",
+    "tags": ["Remote", "Lead Eng."],
     "yearsLabel": "years in production",
     "companiesLabel": "companies · startup → scale-up",
-    "bilingualValue": "FR · EN",
     "bilingualLabel": "Bilingual · pro & tech"
   },
   "certifications": [
