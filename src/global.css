@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "katex/dist/katex.min.css";
 
 /* Dark variant: applies to both cold and gold themes (both have dark backgrounds) */
 @custom-variant dark (&:where([data-theme="cold"], [data-theme="cold"] *, [data-theme="gold"], [data-theme="gold"] *));

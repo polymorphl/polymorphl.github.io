@@ -7,6 +7,8 @@ import mdx from '@mdx-js/rollup';
 import remarkFrontmatter from 'remark-frontmatter';
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter';
 import rehypeHighlight from 'rehype-highlight';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -29,8 +31,8 @@ export default defineConfig({
     {
       enforce: 'pre',
       ...mdx({
-        remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter],
-        rehypePlugins: [rehypeHighlight],
+        remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter, remarkMath],
+        rehypePlugins: [rehypeHighlight, rehypeKatex],
         providerImportSource: '@mdx-js/react'
       })
     },
