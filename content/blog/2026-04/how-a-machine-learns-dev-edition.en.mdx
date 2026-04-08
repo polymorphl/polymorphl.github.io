@@ -1,0 +1,201 @@
+---
+title: "How a machine learns: gradient descent explained to a dev"
+slug: "how-a-machine-learns-dev-edition"
+date: "2026-04-08"
+tags: ["Machine Learning", "Python", "gradient descent", "learning", "Deep Learning", "pedagogy"]
+summary: "Why is a Machine Learning course so hard to read when you come from a dev background? Not because of the concepts, but because of a translation layer that's missing. I decode gradient descent with a single running example: compressing a JPEG image."
+cover: "/assets/blog/how-a-machine-learns-dev-edition/science-bitch.jpg"
+readingTime: 6
+---
+
+## The real wall isn't the concepts
+
+Since I [started my Data/ML training](/en/blog/cmux-rtk-python), I've had my first real contact with the math behind Machine Learning. And one thing struck me immediately: what blocks you when you come from dev isn't the intelligence of the concepts. It's the formalism.
+
+Greek symbols, arrows, strange notations. It looks like a dead language when you come from TypeScript. You read a formula, you lose your footing, you drop off. Not because the idea is complicated, but because the notation speaks a language you've never learned.
+
+This morning, while running every formula through the sieve of Python code, something clicked. A real click, not an illusion of understanding. **For a machine, learning is just minimizing a function by groping around intelligently.** Once you see that, a huge chunk of the ML mystery falls away.
+
+This article is the translation I wish I'd had. No math prerequisites. One single running example every back-end dev knows: finding the best JPEG quality for an image.
+
+<PullQuote>The real wall in ML isn't the concepts. It's the formalism.</PullQuote>
+
+## The problem: what's a "good" quality?
+
+You have an image to serve on a CDN. You want to compress it as JPEG. The question looks simple: what value do you put in the `quality` parameter?
+
+With `quality = 10`, the file is 8 KB but it looks terrible. With `quality = 100`, the rendering is gorgeous but it's 800 KB for an avatar. Somewhere between the two, there's a sweet spot.
+
+The problem is that "sweet spot" isn't a definition. For an algorithm to find it, you need a formula. Something you can measure.
+
+First naive attempt: you could say *"the best `quality` is the one that produces the smallest file"*. In Python:
+
+```python
+def cost(quality):
+    return file_size(quality)
+```
+
+Except it doesn't work. With this criterion, the algorithm will naturally pick `quality = 1`, which gives the tiniest file possible and a completely unreadable image. Something's missing: a measure of visual loss to counterbalance.
+
+```python
+def cost(quality):
+    return file_size(quality) + 10 * visual_loss(quality)
+```
+
+Now we're adding two things:
+
+- `file_size(quality)`: the size of the file in kilobytes after compression. The bigger `quality` is, the heavier the file.
+- `visual_loss(quality)`: a measure of "how much the compressed image drifts from the original". In practice, it's often the pixel-by-pixel difference between the two. The bigger `quality` is, the closer to the original, so the smaller this value.
+
+The `10` is a weight we choose. It says *"I penalize visual loss ten times harder than size"*. Crank it up, and the algorithm becomes obsessed with quality. Turn it down, and it becomes stingy on size. That's a business decision, not a mathematical one.
+
+And the question becomes: what value of `quality` gives the smallest `cost`?
+
+<Callout type="info">
+The snippets above are conceptual: `file_size` and `visual_loss` represent the idea but aren't implemented. Further down in the article, we'll work with a simplified and **actually runnable** version to see the algorithm in action. But before that, remember this word: **cost** (or *loss*). Defining a function that measures "how bad this is" is exactly how you set the objective of a Machine Learning model. Everything in ML revolves around it.
+</Callout>
+
+The naive approach would be to test all 100 values of `quality` one by one and keep the best. That works here because there's only one variable. But imagine you also had to tune a dozen other technical encoding parameters. You'd go from 100 combinations to millions. You need a smarter method.
+
+## Feeling the slope without seeing the curve
+
+Let's go back to our `quality` parameter. Imagine you have a slider going from 1 to 100, and a display showing the `cost` in real time as you move the slider. The sweet spot is the slider position that shows the smallest number.
+
+Now close your eyes. You can't see the display anymore, but someone tells you *"at your current position, if you push the slider one notch left, the cost goes up. If you push it one notch right, the cost goes down"*. That's all you need to know which direction to move the slider. And if you repeat this micro-test at every step, you eventually land on the sweet spot without ever having seen the full picture.
+
+<ArticleImage
+  src="/assets/blog/how-a-machine-learns-dev-edition/gradient-compass.svg"
+  alt="A position on the curve with two test points on the left and right, and a green arrow pointing in the descent direction"
+  caption="We test right next to our position, left and right. The cost goes down on one side, up on the other. We go toward the side that goes down."
+/>
+
+This "slope direction", in ML, is called the **gradient**. It's just a slightly intimidating word for *"which way does it rise the steepest at the spot where I am"*. In code, you'd write it as a function that takes a position and returns a direction:
+
+```python
+def gradient(position):
+    # returns the direction in which the slope rises the most
+    ...
+```
+
+There's an important subtlety. The gradient always points toward the steepest ascent, not toward descent. It's a bit counterintuitive the first time you run into it. But it's easy to fix: to go down, you move in the **opposite** direction of the gradient. That's it.
+
+## Gradient descent in a few lines of Python
+
+Now that we know how to test left and right, all that's left is to put it in a loop. Here's what our algorithm looks like applied to image compression:
+
+```python
+# Coefficients that calibrate the relative importance
+# of file size and visual loss
+SIZE_WEIGHT = 0.002
+LOSS_WEIGHT = 1556
+
+def cost(quality):
+    # file_size grows like quality² (the higher we go, the heavier the file)
+    # visual_loss shrinks like 1/quality (the higher we go, the more faithful the image)
+    return SIZE_WEIGHT * quality**2 + LOSS_WEIGHT / quality
+
+def gradient(quality, h=0.01):
+    # We estimate the slope by looking at cost just to the left and right
+    return (cost(quality + h) - cost(quality - h)) / (2 * h)
+
+quality = 20          # we start with a bad quality
+learning_rate = 5     # the size of our steps
+
+for step in range(50):
+    quality = quality - learning_rate * gradient(quality)
+
+print(f"Optimal quality found: {quality:.1f}")
+# → 72.0 (we're approaching the theoretical minimum at 73)
+```
+
+Fifteen lines, and that's it. Before looking at what happens, two functions deserve an explanation.
+
+**`cost(quality)`** is our simplified cost function. Rather than using real calculations on an image (which would require a lib like Pillow), we approximate the two components with simple formulas: a `file_size` that grows like `quality²` (the higher the quality, the heavier the file) and a `visual_loss` that shrinks like `1/quality` (the higher we go, the more faithful the image). The minimum isn't placed by hand: it **emerges** from the compromise between these two opposing terms. If you work out on paper where the two forces balance, you land on `quality ≈ 73`. That's exactly the value the algorithm is going to have to find on its own.
+
+**`gradient(quality, h=0.01)`** implements exactly the "test left and right" we just saw. We evaluate `cost` a tiny bit to the left (`quality - h`) and a tiny bit to the right (`quality + h`), we look at the difference, and that gives us the local slope. The `h` is just the gap we use for the test: small enough to be accurate, large enough not to drown in rounding errors.
+
+If we look at what the loop produces at each iteration, we can see the convergence in real time:
+
+<ArticleImage
+  src="/assets/blog/how-a-machine-learns-dev-edition/convergence-table.svg"
+  alt="Table showing the evolution of quality and cost over the first five iterations: quality goes from 20 to 49, cost goes from 78.60 to 36.43"
+  caption="The first five iterations of the loop. Quality moves fast at the start, then tightens as it approaches the minimum."
+/>
+
+The first step is huge (20 → 39) because at that point the slope is very steep. Then the steps tighten (39 → 43 → 47 → 49) as we approach the bottom of the bowl. That's an interesting property: the closer you are to the minimum, the weaker the slope, so the smaller the steps become all on their own. The algorithm slows down automatically on landing. After the full 50 iterations, `quality` has converged to about 72, very close to the theoretical minimum at 73. The algorithm slows down so much near the bottom that it never actually reaches it exactly, but in practice that's plenty good enough.
+
+<ArticleImage
+  src="/assets/blog/how-a-machine-learns-dev-edition/cost-bowl.svg"
+  alt="An asymmetric bowl-shaped cost function, with a red ball descending step by step toward the green minimum"
+  caption="The curve is asymmetric: very steep on the left (small file_size but ugly image), gentle on the right (faithful image but heavy file). The minimum is the balance point."
+/>
+
+The line that does all the work is this one:
+
+```python
+quality = quality - learning_rate * gradient(quality)
+```
+
+The `-` in front of `gradient(quality)` is the key: it turns "direction of ascent" into "direction of descent". And this line of Python has a direct equivalent in the mathematical formalism of ML:
+
+<FormulaToCode
+  code="x = x - learning_rate * gradient(x)"
+  latex="x \leftarrow x - \eta \nabla f(x)"
+/>
+
+It's strictly the same thing. The arrow `←` is an assignment, like `=` in Python. The `η` (the Greek letter *eta*) is just another name for `learning_rate`. The `∇f(x)` (with that upside-down triangle called *nabla*) is just another way to write `gradient(x)`.
+
+<Callout type="tip">
+When you see `∇f` in a course, read `gradient(f)` in your head. When you see `η`, read `learning_rate`. That's it. These symbols exist because math folks need a compact notation to fit their ideas on half a page instead of ten. But behind every symbol, there's a word or a concept a dev already knows.
+</Callout>
+
+<PullQuote>This line of Python is the backbone of almost every training algorithm in modern Deep Learning.</PullQuote>
+
+## The learning rate trap
+
+There's a variable in this code you absolutely need to understand: `learning_rate`. It's the size of the step we take at each iteration. And it's probably the most finicky knob in all of Machine Learning.
+
+There are three cases.
+
+<ArticleImage
+  src="/assets/blog/how-a-machine-learns-dev-edition/learning-rate-regimes.svg"
+  alt="Three panels showing three different behaviors depending on the value of learning_rate"
+  caption="Three learning rate values on the same cost function. Only the middle one converges properly."
+/>
+
+**Too small** (e.g. `learning_rate = 0.1`). You move by micro-steps. The algorithm has barely budged after 50 iterations. It's like doing `git pull` byte by byte: it works, but say hello to patience.
+
+**Well tuned** (e.g. `learning_rate = 5` in our example). You take steps sized to the problem. You descend cleanly, and you land near the minimum after a few dozen iterations.
+
+**Too large** (e.g. `learning_rate = 200`). You take huge leaps. Instead of descending calmly into the bowl, you bounce from one side to the other like a ball that won't lose energy. Instead of converging toward 73, you oscillate without ever settling. That's what's called the yoyo effect.
+
+<Callout type="warning">
+In real life, when a training run isn't going well, the first suspect to check is almost always the learning rate. Too small, and the model doesn't learn anything. Too large, and it spirals out and the loss values become `NaN`.
+</Callout>
+
+## The real click: same thing, but bigger
+
+Here's the moment where everything connects. A neural network does exactly what we just coded. Literally. The only difference is scale.
+
+Instead of tuning `quality`, it tunes millions (or billions) of internal weights. Instead of 50 iterations, it runs thousands on GPUs. But the golden loop stays exactly the one we wrote above:
+
+```python
+for step in range(n_iterations):
+    params = params - learning_rate * gradient(loss, params)
+```
+
+<PullQuote>Replace `quality` with 175 billion weights, and you have GPT.</PullQuote>
+
+That's the click. All the complicated architectures *(transformers, CNN, RNN)*, all the papers with their sprawling formulas, they're implementation details around this loop. The core is just "minimize a function by following its gradient".
+
+## Changing glasses, not brains
+
+When you come from dev, you tend to believe ML requires a different kind of intelligence. A "mathy" intelligence. And that's exactly what the formalism reinforces: you see Greek symbols, you tell yourself *"this isn't for me"*, you close the tab. But in reality, it's just a translation layer. Two languages describing the same thing, one built to fit on half a page, the other built to run on a machine.
+
+This morning, that's exactly what happened to me. Not a sudden illumination about math, just a change of glasses. And now, when I run into a formula in a paper, instead of dropping off, I read it like a slightly exotic function signature. I look for the code underneath. And most of the time, I find it.
+
+<ArticleImage
+  src="/assets/blog/how-a-machine-learns-dev-edition/science-bitch.jpg"
+  alt="Jesse Pinkman in Breaking Bad: Yeah science, bitch!"
+  caption="Yeah, gradient descent, bitch!"
+/>
