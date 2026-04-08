@@ -93,23 +93,37 @@ function MiniCard({ post, lang, t }: FeaturedPostCardProps) {
   return (
     <Link
       to={`/${lang}/blog/${post.slug}`}
-      className="group flex-1 block no-underline rounded-xl border border-border bg-surface/50 p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-[var(--shadow-soft)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
+      className="group flex-1 flex no-underline rounded-xl border border-border bg-surface/50 overflow-hidden transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-[var(--shadow-soft)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
     >
-      <h3 className="font-semibold text-text-primary text-sm leading-snug group-hover:text-accent transition-colors">
-        {post.title}
-      </h3>
-      <div className="flex items-center gap-2 text-[10px] text-text-secondary/50 mt-2">
-        {post.date && (
-          <time dateTime={post.date}>{formatDate(post.date, lang)}</time>
-        )}
-        {post.readingTime != null && (
-          <>
-            <span className="w-1 h-1 rounded-full bg-current opacity-40" aria-hidden />
-            <span>
-              {post.readingTime} {t("blog.readingTime")}
-            </span>
-          </>
-        )}
+      {post.cover && (
+        <div className="relative w-20 shrink-0 overflow-hidden">
+          <img
+            src={post.cover}
+            alt=""
+            aria-hidden
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 opacity-80"
+            loading="lazy"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent to-surface/40" />
+        </div>
+      )}
+      <div className="p-4 flex flex-col justify-center">
+        <h3 className="font-semibold text-text-primary text-sm leading-snug group-hover:text-accent transition-colors">
+          {post.title}
+        </h3>
+        <div className="flex items-center gap-2 text-[10px] text-text-secondary/50 mt-2">
+          {post.date && (
+            <time dateTime={post.date}>{formatDate(post.date, lang)}</time>
+          )}
+          {post.readingTime != null && (
+            <>
+              <span className="w-1 h-1 rounded-full bg-current opacity-40" aria-hidden />
+              <span>
+                {post.readingTime} {t("blog.readingTime")}
+              </span>
+            </>
+          )}
+        </div>
       </div>
     </Link>
   );
