@@ -174,3 +174,8 @@ export type FeaturedPostCardProps = {
   lang: Lang;
   t: (key: string) => string;
 };
+
+export type FormulaToCodeProps = {
+  latex: string;
+  code: string;
+};
