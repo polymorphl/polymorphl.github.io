@@ -30,7 +30,9 @@ export type CareerEntry = CareerEntryBase & CareerEntryI18n;
 
 export type CertificationBase = {
   id: string;
-  image: string;
+  issuer: string;
+  /** MM/YYYY format for chronological ordering */
+  date: string;
   pdf: string;
   verifyUrl?: string;
 };
@@ -38,8 +40,6 @@ export type CertificationBase = {
 export type CertificationI18n = {
   id: string;
   name: string;
-  issuer: string;
-  date: string;
 };
 
 export type Certification = CertificationBase & CertificationI18n;

@@ -56,8 +56,15 @@ export const CAREER_ENTRIES_BASE: CareerEntryBase[] = [
 export const CERTIFICATIONS_BASE: CertificationBase[] = [
   {
     id: 'claude-code-in-action',
-    image: '/assets/certifications/claude-code-in-action.png',
+    issuer: 'Anthropic',
+    date: '04/2026',
     pdf: '/assets/certifications/claude-code-in-action.pdf',
     verifyUrl: 'https://verify.skilljar.com/c/keokczmmksmh',
+  },
+  {
+    id: 'blent-ai-python',
+    issuer: 'Blent.ai',
+    date: '03/2026',
+    pdf: '/assets/certifications/blent-ai-python.pdf',
   },
 ];

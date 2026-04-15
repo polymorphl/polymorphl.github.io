@@ -4,19 +4,38 @@ import { useMotionTransition } from "@hooks/useMotionTransition";
 import { fadeInUp30 } from "@config/motion";
 import { CERTIFICATIONS_BASE } from "@config/career";
 import SurfaceCard from "@components/SurfaceCard";
+import type { Lang } from "@domain/i18n";
 import type { Certification, CertificationI18n } from "@domain/career";
 
+const LOCALE_MAP: Record<Lang, string> = { fr: "fr-FR", en: "en-US" };
+
+function formatCertDate(date: string, lang: Lang): string {
+  const [month, year] = date.split("/");
+  const d = new Date(parseInt(year), parseInt(month) - 1);
+  return new Intl.DateTimeFormat(LOCALE_MAP[lang], {
+    month: "long",
+    year: "numeric",
+  }).format(d);
+}
+
+function parseDateToTimestamp(date: string): number {
+  const [month, year] = date.split("/");
+  return parseInt(year) * 100 + parseInt(month);
+}
+
 export default function Certifications() {
-  const { t, tObject } = useLanguage();
+  const { t, tObject, lang } = useLanguage();
   const transition = useMotionTransition(0.5);
   const i18nEntries = (tObject<CertificationI18n[]>("career.certifications") ??
     []) as CertificationI18n[];
 
   const i18nById = new Map(i18nEntries.map((entry) => [entry.id, entry]));
-  const certifications: Certification[] = CERTIFICATIONS_BASE.map((base) => ({
-    ...base,
-    ...(i18nById.get(base.id) ?? { name: "", issuer: "", date: "" }),
-  }));
+  const certifications: Certification[] = CERTIFICATIONS_BASE
+    .map((base) => ({
+      ...base,
+      ...(i18nById.get(base.id) ?? { name: "" }),
+    }))
+    .sort((a, b) => parseDateToTimestamp(b.date) - parseDateToTimestamp(a.date));
 
   if (!certifications.length) return null;
 
@@ -49,7 +68,7 @@ export default function Certifications() {
               {cert.issuer}
             </p>
             <span className="text-[11px] font-mono text-accent tabular-nums">
-              {cert.date}
+              {formatCertDate(cert.date, lang)}
             </span>
             {(cert.verifyUrl || cert.pdf) && (
               <div className="mt-1 flex items-center justify-between text-[11px] font-medium">

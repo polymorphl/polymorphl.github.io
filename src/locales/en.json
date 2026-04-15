@@ -58,9 +58,11 @@
   "certifications": [
     {
       "id": "claude-code-in-action",
-      "name": "Claude Code in Action",
-      "issuer": "Anthropic",
-      "date": "2026"
+      "name": "Claude Code in Action"
+    },
+    {
+      "id": "blent-ai-python",
+      "name": "Python Language"
     }
   ],
   "entries": [
