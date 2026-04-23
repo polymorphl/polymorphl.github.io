@@ -180,9 +180,7 @@ export type FormulaToCodeProps = {
   code: string;
 };
 
-export type MiniWorkspaceToken = [string, string];
-
-export type MiniWorkspaceLine = MiniWorkspaceToken[];
+export type MiniWorkspaceLine = [string, string][];
 
 export type MiniWorkspaceFile = {
   id: string;
