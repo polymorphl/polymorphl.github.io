@@ -179,3 +179,27 @@ export type FormulaToCodeProps = {
   latex: string;
   code: string;
 };
+
+export type MiniWorkspaceToken = [string, string];
+
+export type MiniWorkspaceLine = MiniWorkspaceToken[];
+
+export type MiniWorkspaceFile = {
+  id: string;
+  label: string;
+  icon: string;
+  path: string;
+  content: MiniWorkspaceLine[];
+  highlight?: number[];
+};
+
+export type MiniWorkspaceFolder = {
+  label: string;
+  children: MiniWorkspaceFile[];
+};
+
+export type MiniWorkspaceProps = {
+  defaultFile: string;
+  height?: number;
+  tree: MiniWorkspaceFolder[];
+};
