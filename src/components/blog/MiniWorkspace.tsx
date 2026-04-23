@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { MiniWorkspaceProps, MiniWorkspaceLine } from '@ui/components';
+import type { MiniWorkspaceProps, MiniWorkspaceLine, MiniWorkspaceFile, MiniWorkspaceSubfolder } from '@ui/components';
 
 const TOKEN_CLASSES: Record<string, string> = {
   't-head': 'text-text-primary font-semibold',
@@ -23,6 +23,28 @@ function IconBadge({ icon }: { icon: string }) {
   );
 }
 
+function FileButton({ file, activeFileId, setActiveFileId, indent = false }: {
+  file: MiniWorkspaceFile;
+  activeFileId: string;
+  setActiveFileId: (id: string) => void;
+  indent?: boolean;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={() => setActiveFileId(file.id)}
+      className={`w-full flex items-center gap-1.5 py-1 text-left text-[11px] font-mono truncate transition-colors cursor-pointer ${indent ? 'px-5' : 'px-3'} ${
+        file.id === activeFileId
+          ? 'bg-accent/10 border-l-2 border-accent text-text-primary'
+          : 'text-text-secondary hover:bg-accent/5 hover:text-text-primary border-l-2 border-transparent'
+      }`}
+    >
+      <IconBadge icon={file.icon} />
+      <span className="truncate">{file.label}</span>
+    </button>
+  );
+}
+
 function CodeLine({ line, lineNum, isHighlighted }: { line: MiniWorkspaceLine; lineNum: number; isHighlighted: boolean }) {
   return (
     <div className={`flex min-w-0 ${isHighlighted ? 'bg-red-500/10 border-l-2 border-red-500' : 'border-l-2 border-transparent'}`}>
@@ -43,7 +65,11 @@ function CodeLine({ line, lineNum, isHighlighted }: { line: MiniWorkspaceLine; l
 export default function MiniWorkspace({ defaultFile, height = 400, tree }: MiniWorkspaceProps) {
   const [activeFileId, setActiveFileId] = useState(defaultFile);
 
-  const allFiles = tree.flatMap(folder => folder.children);
+  const allFiles = tree.flatMap(folder =>
+    folder.children.flatMap(child =>
+      'id' in child ? [child as MiniWorkspaceFile] : (child as MiniWorkspaceSubfolder).children
+    )
+  );
   const activeFile = allFiles.find(f => f.id === activeFileId) ?? allFiles[0];
 
   return (
@@ -71,21 +97,20 @@ export default function MiniWorkspace({ defaultFile, height = 400, tree }: MiniW
               <div className="px-3 py-1 text-[9px] font-mono text-text-secondary/50 uppercase tracking-widest truncate">
                 {folder.label}
               </div>
-              {folder.children.map((file) => (
-                <button
-                  key={file.id}
-                  type="button"
-                  onClick={() => setActiveFileId(file.id)}
-                  className={`w-full flex items-center gap-1.5 px-3 py-1 text-left text-[11px] font-mono truncate transition-colors cursor-pointer ${
-                    file.id === activeFileId
-                      ? 'bg-accent/10 border-l-2 border-accent text-text-primary'
-                      : 'text-text-secondary hover:bg-accent/5 hover:text-text-primary border-l-2 border-transparent'
-                  }`}
-                >
-                  <IconBadge icon={file.icon} />
-                  <span className="truncate">{file.label}</span>
-                </button>
-              ))}
+              {folder.children.map((child) =>
+                'id' in child ? (
+                  <FileButton key={child.id} file={child} activeFileId={activeFileId} setActiveFileId={setActiveFileId} />
+                ) : (
+                  <div key={child.label}>
+                    <div className="px-3 py-1 text-[10px] font-mono text-text-secondary/40 truncate">
+                      {child.label}/
+                    </div>
+                    {child.children.map((file) => (
+                      <FileButton key={file.id} file={file} activeFileId={activeFileId} setActiveFileId={setActiveFileId} indent />
+                    ))}
+                  </div>
+                )
+              )}
             </div>
           ))}
         </div>

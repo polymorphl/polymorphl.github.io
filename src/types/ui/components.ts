@@ -193,9 +193,14 @@ export type MiniWorkspaceFile = {
   highlight?: number[];
 };
 
-export type MiniWorkspaceFolder = {
+export type MiniWorkspaceSubfolder = {
   label: string;
   children: MiniWorkspaceFile[];
+};
+
+export type MiniWorkspaceFolder = {
+  label: string;
+  children: (MiniWorkspaceFile | MiniWorkspaceSubfolder)[];
 };
 
 export type MiniWorkspaceProps = {
