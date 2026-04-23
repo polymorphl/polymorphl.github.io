@@ -9,6 +9,7 @@ import StepBlock from './StepBlock';
 import ArticleImage from './ArticleImage';
 import ImageGrid from './ImageGrid';
 import FormulaToCode from './FormulaToCode';
+import MiniWorkspace from './MiniWorkspace';
 
 function slugify(text: string): string {
   return text
@@ -78,6 +79,7 @@ const mdxComponents: MDXComponents = {
   LinkPreview,
   MarkdownBlock,
   FormulaToCode,
+  MiniWorkspace,
 };
 
 export default mdxComponents;
