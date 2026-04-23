@@ -8,6 +8,11 @@ const TOKEN_CLASSES: Record<string, string> = {
   't-err': 'text-red-400',
   't-keyword': 'text-violet-400',
   't-string': 'text-green-300',
+  't-ok': 'text-green-400',
+  't-warn': 'text-yellow-400',
+  't-prop': 'text-sky-300',
+  't-type': 'text-blue-300',
+  't-op': 'text-text-secondary',
 };
 
 function IconBadge({ icon }: { icon: string }) {
