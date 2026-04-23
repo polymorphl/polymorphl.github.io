@@ -84,7 +84,7 @@ function FileViewer({ file }: { file: MiniWorkspaceFile }) {
               {lineNum}
             </div>
             <div
-              className="flex-1 px-3 text-xs font-mono whitespace-nowrap"
+              className="flex-1 px-3 text-xs font-mono whitespace-pre"
               dangerouslySetInnerHTML={{ __html: highlighted || ' ' }}
             />
           </div>
