@@ -1,19 +1,33 @@
-import { useState } from 'react';
-import type { MiniWorkspaceProps, MiniWorkspaceLine, MiniWorkspaceFile, MiniWorkspaceSubfolder } from '@ui/components';
+import { useState, use, useMemo, Suspense } from 'react';
+import hljs from 'highlight.js/lib/core';
+import typescript from 'highlight.js/lib/languages/typescript';
+import markdown from 'highlight.js/lib/languages/markdown';
+import type { MiniWorkspaceProps, MiniWorkspaceFile } from '@ui/components';
 
-const TOKEN_CLASSES: Record<string, string> = {
-  't-head': 'text-text-primary font-semibold',
-  't-muted': 'text-text-secondary/30',
-  't-comment': 'text-[#5a6a9a]',
-  't-err': 'text-red-400',
-  't-keyword': 'text-violet-400',
-  't-string': 'text-green-300',
-  't-ok': 'text-green-400',
-  't-warn': 'text-yellow-400',
-  't-prop': 'text-sky-300',
-  't-type': 'text-blue-300',
-  't-op': 'text-text-secondary',
+hljs.registerLanguage('typescript', typescript);
+hljs.registerLanguage('markdown', markdown);
+
+const ICON_TO_LANG: Record<string, string> = {
+  ts: 'typescript',
+  md: 'markdown',
 };
+
+const contentCache = new Map<string, Promise<string>>();
+
+function fetchContent(url: string): Promise<string> {
+  if (!contentCache.has(url)) {
+    contentCache.set(
+      url,
+      fetch(url)
+        .then(res => {
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          return res.text();
+        })
+        .catch(() => '')
+    );
+  }
+  return contentCache.get(url)!;
+}
 
 function IconBadge({ icon }: { icon: string }) {
   return (
@@ -45,19 +59,37 @@ function FileButton({ file, activeFileId, setActiveFileId, indent = false }: {
   );
 }
 
-function CodeLine({ line, lineNum, isHighlighted }: { line: MiniWorkspaceLine; lineNum: number; isHighlighted: boolean }) {
+function FileViewer({ file }: { file: MiniWorkspaceFile }) {
+  const text = use(fetchContent(file.src));
+  const lang = ICON_TO_LANG[file.icon] ?? 'plaintext';
+  const lines = text.trimEnd().split('\n');
+
   return (
-    <div className={`flex min-w-0 ${isHighlighted ? 'bg-red-500/10 border-l-2 border-red-500' : 'border-l-2 border-transparent'}`}>
-      <div className={`w-8 shrink-0 text-right pr-3 text-[10px] font-mono select-none ${isHighlighted ? 'text-red-400/50' : 'text-text-secondary/30'}`}>
-        {lineNum}
-      </div>
-      <div className="flex-1 px-3 text-xs font-mono whitespace-nowrap">
-        {line.map(([type, text], i) => (
-          <span key={i} className={TOKEN_CLASSES[type] ?? 'text-text-primary'}>
-            {text}
-          </span>
-        ))}
-      </div>
+    <div className="flex-1 overflow-auto py-3">
+      {lines.map((line, idx) => {
+        const lineNum = idx + 1;
+        const isHighlighted = file.highlight?.includes(lineNum) ?? false;
+        let highlighted: string;
+        try {
+          highlighted = hljs.highlight(line, { language: lang, ignoreIllegals: true }).value;
+        } catch {
+          highlighted = line.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+        return (
+          <div
+            key={lineNum}
+            className={`flex min-w-0 ${isHighlighted ? 'bg-red-500/10 border-l-2 border-red-500' : 'border-l-2 border-transparent'}`}
+          >
+            <div className={`w-8 shrink-0 text-right pr-3 text-[10px] font-mono select-none ${isHighlighted ? 'text-red-400/50' : 'text-text-secondary/30'}`}>
+              {lineNum}
+            </div>
+            <div
+              className="flex-1 px-3 text-xs font-mono whitespace-nowrap"
+              dangerouslySetInnerHTML={{ __html: highlighted || ' ' }}
+            />
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -65,12 +97,21 @@ function CodeLine({ line, lineNum, isHighlighted }: { line: MiniWorkspaceLine; l
 export default function MiniWorkspace({ defaultFile, height = 400, tree }: MiniWorkspaceProps) {
   const [activeFileId, setActiveFileId] = useState(defaultFile);
 
-  const allFiles = tree.flatMap(folder =>
-    folder.children.flatMap(child =>
-      'id' in child ? [child as MiniWorkspaceFile] : (child as MiniWorkspaceSubfolder).children
-    )
+  const allFiles = useMemo(
+    () =>
+      tree.flatMap(folder =>
+        folder.children.flatMap(child =>
+          'id' in child ? [child] : child.children
+        )
+      ),
+    [tree]
   );
-  const activeFile = allFiles.find(f => f.id === activeFileId) ?? allFiles[0];
+  const activeFile = useMemo(
+    () => allFiles.find(f => f.id === activeFileId) ?? allFiles[0] ?? null,
+    [allFiles, activeFileId]
+  );
+
+  if (!activeFile) return null;
 
   return (
     <div
@@ -99,14 +140,25 @@ export default function MiniWorkspace({ defaultFile, height = 400, tree }: MiniW
               </div>
               {folder.children.map((child) =>
                 'id' in child ? (
-                  <FileButton key={child.id} file={child} activeFileId={activeFileId} setActiveFileId={setActiveFileId} />
+                  <FileButton
+                    key={child.id}
+                    file={child}
+                    activeFileId={activeFileId}
+                    setActiveFileId={setActiveFileId}
+                  />
                 ) : (
                   <div key={child.label}>
                     <div className="px-3 py-1 text-[10px] font-mono text-text-secondary/40 truncate">
                       {child.label}/
                     </div>
                     {child.children.map((file) => (
-                      <FileButton key={file.id} file={file} activeFileId={activeFileId} setActiveFileId={setActiveFileId} indent />
+                      <FileButton
+                        key={file.id}
+                        file={file}
+                        activeFileId={activeFileId}
+                        setActiveFileId={setActiveFileId}
+                        indent
+                      />
                     ))}
                   </div>
                 )
@@ -115,16 +167,13 @@ export default function MiniWorkspace({ defaultFile, height = 400, tree }: MiniW
           ))}
         </div>
 
-        <div className="flex-1 overflow-auto py-3">
-          {activeFile.content.map((line, idx) => (
-            <CodeLine
-              key={idx}
-              line={line}
-              lineNum={idx + 1}
-              isHighlighted={activeFile.highlight?.includes(idx + 1) ?? false}
-            />
-          ))}
-        </div>
+        <Suspense fallback={
+          <div className="flex-1 flex items-center justify-center text-text-secondary/40 text-xs font-mono">
+            loading…
+          </div>
+        }>
+          <FileViewer file={activeFile} />
+        </Suspense>
       </div>
     </div>
   );

@@ -180,14 +180,12 @@ export type FormulaToCodeProps = {
   code: string;
 };
 
-export type MiniWorkspaceLine = [string, string][];
-
 export type MiniWorkspaceFile = {
   id: string;
   label: string;
   icon: string;
   path: string;
-  content: MiniWorkspaceLine[];
+  src: string;
   highlight?: number[];
 };
 
