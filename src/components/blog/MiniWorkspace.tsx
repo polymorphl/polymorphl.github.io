@@ -1,4 +1,4 @@
-import { useState, use, useMemo, Suspense } from 'react';
+import { useState, use, useMemo, useRef, useEffect, Suspense } from 'react';
 import hljs from 'highlight.js/lib/core';
 import typescript from 'highlight.js/lib/languages/typescript';
 import markdown from 'highlight.js/lib/languages/markdown';
@@ -70,6 +70,98 @@ function FileButton({ file, activeFileId, setActiveFileId, indent = false }: {
       <IconBadge icon={file.icon} />
       <span className="truncate">{file.label}</span>
     </button>
+  );
+}
+
+function MobileTabStrip({ tree, activeFileId, setActiveFileId }: {
+  tree: MiniWorkspaceFolder[];
+  activeFileId: string;
+  setActiveFileId: (id: string) => void;
+}) {
+  const [activeFolderIndex, setActiveFolderIndex] = useState(() => {
+    const idx = tree.findIndex(folder =>
+      folder.children.some(child =>
+        'id' in child
+          ? child.id === activeFileId
+          : child.children.some(f => f.id === activeFileId)
+      )
+    );
+    return idx >= 0 ? idx : 0;
+  });
+
+  const folderFiles = useMemo(
+    () =>
+      (tree[activeFolderIndex]?.children ?? []).flatMap(child =>
+        'id' in child ? [child] : child.children
+      ),
+    [tree, activeFolderIndex]
+  );
+
+  const folderTabsRef = useRef<HTMLDivElement>(null);
+  const fileTabsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    folderTabsRef.current
+      ?.querySelector<HTMLElement>('[data-active="true"]')
+      ?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+  }, [activeFolderIndex]);
+
+  useEffect(() => {
+    fileTabsRef.current
+      ?.querySelector<HTMLElement>('[data-active="true"]')
+      ?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+  }, [activeFileId, activeFolderIndex]);
+
+  const handleFolderClick = (idx: number) => {
+    setActiveFolderIndex(idx);
+    const files = (tree[idx]?.children ?? []).flatMap(child =>
+      'id' in child ? [child] : child.children
+    );
+    if (files[0]) setActiveFileId(files[0].id);
+  };
+
+  const singleFolder = tree.length === 1;
+
+  return (
+    <div className="block md:hidden border-b border-border shrink-0">
+      {!singleFolder && (
+        <div ref={folderTabsRef} className="flex overflow-x-auto border-b border-border/50">
+          {tree.map((folder, idx) => (
+            <button
+              key={folder.label}
+              type="button"
+              data-active={idx === activeFolderIndex}
+              onClick={() => handleFolderClick(idx)}
+              className={`shrink-0 px-3 py-1.5 text-[9px] font-mono uppercase tracking-widest whitespace-nowrap transition-colors ${
+                idx === activeFolderIndex
+                  ? 'text-[var(--color-accent-on-surface)] border-b-2 border-accent bg-accent/5'
+                  : 'text-text-secondary/50 hover:text-text-secondary border-b-2 border-transparent'
+              }`}
+            >
+              {folder.label}
+            </button>
+          ))}
+        </div>
+      )}
+      <div ref={fileTabsRef} className="flex overflow-x-auto">
+        {folderFiles.map(file => (
+          <button
+            key={file.id}
+            type="button"
+            data-active={file.id === activeFileId}
+            onClick={() => setActiveFileId(file.id)}
+            className={`shrink-0 flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-mono whitespace-nowrap transition-colors ${
+              file.id === activeFileId
+                ? 'text-text-primary border-b-2 border-accent bg-accent/5'
+                : 'text-text-secondary hover:text-text-primary border-b-2 border-transparent'
+            }`}
+          >
+            <IconBadge icon={file.icon} />
+            <span className="truncate max-w-[120px]">{file.label}</span>
+          </button>
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -145,8 +237,14 @@ function MiniWorkspaceInner({ defaultFile, height = 400, tree }: { defaultFile: 
         )}
       </div>
 
+      <MobileTabStrip
+        tree={tree}
+        activeFileId={activeFileId}
+        setActiveFileId={setActiveFileId}
+      />
+
       <div className="flex flex-1 overflow-hidden">
-        <div className="w-36 shrink-0 bg-background border-r border-border overflow-y-auto py-2">
+        <div className="hidden md:flex w-36 shrink-0 flex-col bg-background border-r border-border overflow-y-auto py-2">
           {tree.map((folder) => (
             <div key={folder.label}>
               <div className="px-3 py-1 text-[9px] font-mono text-text-secondary/50 uppercase tracking-widest truncate">
