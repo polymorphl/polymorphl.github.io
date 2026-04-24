@@ -2,7 +2,7 @@ import { useState, use, useMemo, Suspense } from 'react';
 import hljs from 'highlight.js/lib/core';
 import typescript from 'highlight.js/lib/languages/typescript';
 import markdown from 'highlight.js/lib/languages/markdown';
-import type { MiniWorkspaceProps, MiniWorkspaceFile } from '@ui/components';
+import type { MiniWorkspaceProps, MiniWorkspaceFile, MiniWorkspaceConfig, MiniWorkspaceFolder } from '@ui/components';
 
 hljs.registerLanguage('typescript', typescript);
 hljs.registerLanguage('markdown', markdown);
@@ -13,6 +13,7 @@ const ICON_TO_LANG: Record<string, string> = {
 };
 
 const contentCache = new Map<string, Promise<string>>();
+const configCache = new Map<string, Promise<MiniWorkspaceConfig>>();
 
 function fetchContent(url: string): Promise<string> {
   if (!contentCache.has(url)) {
@@ -27,6 +28,19 @@ function fetchContent(url: string): Promise<string> {
     );
   }
   return contentCache.get(url)!;
+}
+
+function fetchConfig(url: string): Promise<MiniWorkspaceConfig> {
+  if (!configCache.has(url)) {
+    configCache.set(
+      url,
+      fetch(url).then(res => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json() as Promise<MiniWorkspaceConfig>;
+      })
+    );
+  }
+  return configCache.get(url)!;
 }
 
 function IconBadge({ icon }: { icon: string }) {
@@ -94,7 +108,7 @@ function FileViewer({ file }: { file: MiniWorkspaceFile }) {
   );
 }
 
-export default function MiniWorkspace({ defaultFile, height = 400, tree }: MiniWorkspaceProps) {
+function MiniWorkspaceInner({ defaultFile, height = 400, tree }: { defaultFile: string; height?: number; tree: MiniWorkspaceFolder[] }) {
   const [activeFileId, setActiveFileId] = useState(defaultFile);
 
   const allFiles = useMemo(
@@ -177,4 +191,25 @@ export default function MiniWorkspace({ defaultFile, height = 400, tree }: MiniW
       </div>
     </div>
   );
+}
+
+function ConfigLoader({ src, height }: { src: string; height?: number }) {
+  const config = use(fetchConfig(src));
+  return <MiniWorkspaceInner defaultFile={config.defaultFile} height={height} tree={config.tree} />;
+}
+
+export default function MiniWorkspace(props: MiniWorkspaceProps) {
+  if ('src' in props && props.src) {
+    return (
+      <Suspense fallback={
+        <div className="rounded-xl border border-border my-6 bg-background flex items-center justify-center text-text-secondary/40 text-xs font-mono" style={{ height: props.height ?? 400 }}>
+          loading…
+        </div>
+      }>
+        <ConfigLoader src={props.src} height={props.height} />
+      </Suspense>
+    );
+  }
+  const { defaultFile, height, tree } = props as { defaultFile: string; height?: number; tree: MiniWorkspaceFolder[] };
+  return <MiniWorkspaceInner defaultFile={defaultFile} height={height} tree={tree} />;
 }

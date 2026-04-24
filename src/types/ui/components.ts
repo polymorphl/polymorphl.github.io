@@ -199,8 +199,11 @@ export type MiniWorkspaceFolder = {
   children: (MiniWorkspaceFile | MiniWorkspaceSubfolder)[];
 };
 
-export type MiniWorkspaceProps = {
+export type MiniWorkspaceConfig = {
   defaultFile: string;
-  height?: number;
   tree: MiniWorkspaceFolder[];
 };
+
+export type MiniWorkspaceProps =
+  | ({ height?: number; src: string; tree?: never } & Partial<MiniWorkspaceConfig>)
+  | ({ height?: number; src?: never } & MiniWorkspaceConfig);
