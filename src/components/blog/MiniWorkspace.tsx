@@ -1,4 +1,8 @@
-import { useState, use, useMemo, useRef, useEffect, Suspense } from 'react';
+import { useState, use, useMemo, useRef, useEffect, Suspense, useCallback } from 'react';
+import { createPortal } from 'react-dom';
+import { useBodyScrollLock } from '@hooks/useBodyScrollLock';
+import { useEscapeKey } from '@hooks/useEscapeKey';
+import { useLanguage } from '@hooks/useLanguage';
 import hljs from 'highlight.js/lib/core';
 import typescript from 'highlight.js/lib/languages/typescript';
 import markdown from 'highlight.js/lib/languages/markdown';
@@ -11,6 +15,22 @@ const ICON_TO_LANG: Record<string, string> = {
   ts: 'typescript',
   md: 'markdown',
 };
+
+function ExpandIcon() {
+  return (
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+      <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
+    </svg>
+  );
+}
+
+function CollapseIcon() {
+  return (
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+      <path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3" />
+    </svg>
+  );
+}
 
 const contentCache = new Map<string, Promise<string>>();
 const configCache = new Map<string, Promise<MiniWorkspaceConfig>>();
@@ -200,8 +220,136 @@ function FileViewer({ file }: { file: MiniWorkspaceFile }) {
   );
 }
 
+function WorkspaceLightbox({
+  tree,
+  activeFileId,
+  setActiveFileId,
+  activeFile,
+  onClose,
+}: {
+  tree: MiniWorkspaceFolder[];
+  activeFileId: string;
+  setActiveFileId: (id: string) => void;
+  activeFile: MiniWorkspaceFile;
+  onClose: () => void;
+}) {
+  useBodyScrollLock(true);
+  useEscapeKey(onClose, true);
+  const { t } = useLanguage();
+
+  return createPortal(
+    <>
+      {/* Backdrop */}
+      <div
+        className="fixed inset-0 z-[1100] backdrop-blur-lg bg-black/40"
+        onClick={onClose}
+        aria-hidden="true"
+      />
+
+      {/* Modal */}
+      <div
+        className="fixed inset-0 z-[1101] flex items-center justify-center p-4"
+        role="dialog"
+        aria-modal="true"
+        aria-label={`${activeFile.path}${activeFile.label} — fullscreen workspace`}
+      >
+        <div
+          className="flex flex-col rounded-xl border border-border bg-background shadow-[var(--shadow-floating)] overflow-hidden"
+          style={{ width: '88vw', height: '80vh' }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Lightbox header */}
+          <div className="flex items-center justify-between px-3 py-2 bg-surface border-b border-border shrink-0">
+            <div className="flex items-center gap-2 min-w-0">
+              <IconBadge icon={activeFile.icon} />
+              <span className="text-text-secondary text-xs font-mono truncate">{activeFile.path}</span>
+              <span className="text-text-primary text-xs font-mono font-medium truncate">{activeFile.label}</span>
+            </div>
+            <div className="flex items-center gap-2 shrink-0 ml-2">
+              {activeFile.highlight && activeFile.highlight.length > 0 && (
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-mono bg-red-500/10 text-red-400 border border-red-500/30">
+                  ✗ violation
+                </span>
+              )}
+              <button
+                type="button"
+                onClick={onClose}
+                className="flex items-center gap-1.5 px-2 py-1 rounded-lg text-text-secondary hover:text-text-primary hover:bg-border/50 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent text-[10px] font-mono"
+                aria-label={t('blog.workspace.collapse')}
+              >
+                <CollapseIcon />
+                <span>{t('blog.workspace.collapse')}</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Mobile tab strip */}
+          <MobileTabStrip
+            tree={tree}
+            activeFileId={activeFileId}
+            setActiveFileId={setActiveFileId}
+          />
+
+          {/* Body */}
+          <div className="flex flex-1 overflow-hidden">
+            {/* Sidebar (desktop) */}
+            <div className="hidden md:flex w-36 shrink-0 flex-col bg-background border-r border-border overflow-y-auto py-2">
+              {tree.map((folder) => (
+                <div key={folder.label}>
+                  <div className="px-3 py-1 text-[9px] font-mono text-text-secondary/50 uppercase tracking-widest truncate">
+                    {folder.label}
+                  </div>
+                  {folder.children.map((child) =>
+                    'id' in child ? (
+                      <FileButton
+                        key={child.id}
+                        file={child}
+                        activeFileId={activeFileId}
+                        setActiveFileId={setActiveFileId}
+                      />
+                    ) : (
+                      <div key={child.label}>
+                        <div className="px-3 py-1 text-[10px] font-mono text-text-secondary/40 truncate">
+                          {child.label}/
+                        </div>
+                        {child.children.map((file) => (
+                          <FileButton
+                            key={file.id}
+                            file={file}
+                            activeFileId={activeFileId}
+                            setActiveFileId={setActiveFileId}
+                            indent
+                          />
+                        ))}
+                      </div>
+                    )
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {/* File viewer */}
+            <Suspense fallback={
+              <div className="flex-1 flex items-center justify-center text-text-secondary/40 text-xs font-mono">
+                loading…
+              </div>
+            }>
+              <FileViewer file={activeFile} />
+            </Suspense>
+          </div>
+        </div>
+      </div>
+    </>,
+    document.body
+  );
+}
+
 function MiniWorkspaceInner({ defaultFile, height = 400, tree }: { defaultFile: string; height?: number; tree: MiniWorkspaceFolder[] }) {
   const [activeFileId, setActiveFileId] = useState(defaultFile);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const openFullscreen = useCallback(() => setIsFullscreen(true), []);
+  const closeFullscreen = useCallback(() => setIsFullscreen(false), []);
+  const { t } = useLanguage();
 
   const allFiles = useMemo(
     () =>
@@ -230,11 +378,22 @@ function MiniWorkspaceInner({ defaultFile, height = 400, tree }: { defaultFile: 
           <span className="text-text-secondary text-xs font-mono truncate">{activeFile.path}</span>
           <span className="text-text-primary text-xs font-mono font-medium truncate">{activeFile.label}</span>
         </div>
-        {activeFile.highlight && activeFile.highlight.length > 0 && (
-          <span className="shrink-0 ml-2 px-2 py-0.5 rounded-full text-[10px] font-mono bg-red-500/10 text-red-400 border border-red-500/30">
-            ✗ violation
-          </span>
-        )}
+        <div className="flex items-center gap-2 shrink-0 ml-2">
+          {activeFile.highlight && activeFile.highlight.length > 0 && (
+            <span className="px-2 py-0.5 rounded-full text-[10px] font-mono bg-red-500/10 text-red-400 border border-red-500/30">
+              ✗ violation
+            </span>
+          )}
+          <button
+            type="button"
+            onClick={openFullscreen}
+            className="hidden md:flex items-center gap-1.5 px-2 py-1 rounded-lg text-text-secondary hover:text-text-primary hover:bg-border/50 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent text-[10px] font-mono"
+            aria-label={t('blog.workspace.expand')}
+          >
+            <ExpandIcon />
+            <span>{t('blog.workspace.expand')}</span>
+          </button>
+        </div>
       </div>
 
       <MobileTabStrip
@@ -287,6 +446,15 @@ function MiniWorkspaceInner({ defaultFile, height = 400, tree }: { defaultFile: 
           <FileViewer file={activeFile} />
         </Suspense>
       </div>
+      {isFullscreen && (
+        <WorkspaceLightbox
+          tree={tree}
+          activeFileId={activeFileId}
+          setActiveFileId={setActiveFileId}
+          activeFile={activeFile}
+          onClose={closeFullscreen}
+        />
+      )}
     </div>
   );
 }
