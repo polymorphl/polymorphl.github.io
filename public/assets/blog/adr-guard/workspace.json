@@ -1,0 +1,109 @@
+{
+  "defaultFile": "adr003",
+  "tree": [
+    {
+      "label": "docs/adr",
+      "children": [
+        {
+          "id": "adr003",
+          "label": "ADR-layered-arch.md",
+          "icon": "md",
+          "path": "docs/adr/",
+          "src": "/assets/blog/adr-guard/ADR-layered-arch.md"
+        },
+        {
+          "id": "adr005",
+          "label": "ADR-error-handling.md",
+          "icon": "md",
+          "path": "docs/adr/",
+          "src": "/assets/blog/adr-guard/ADR-error-handling.md"
+        },
+        {
+          "id": "adr007",
+          "label": "ADR-dto-validation.md",
+          "icon": "md",
+          "path": "docs/adr/",
+          "src": "/assets/blog/adr-guard/ADR-dto-validation.md"
+        },
+        {
+          "id": "adr009",
+          "label": "ADR-order-status.md",
+          "icon": "md",
+          "path": "docs/adr/",
+          "src": "/assets/blog/adr-guard/ADR-order-status.md"
+        }
+      ]
+    },
+    {
+      "label": "src",
+      "children": [
+        {
+          "label": "orders",
+          "children": [
+            {
+              "id": "ctrl-bad",
+              "label": "orders.controller.bad.ts",
+              "icon": "ts",
+              "path": "src/orders/",
+              "src": "/assets/blog/adr-guard/orders.controller.bad.ts",
+              "highlight": [
+                4,
+                5,
+                12
+              ]
+            },
+            {
+              "id": "svc-bad",
+              "label": "orders.service.bad.ts",
+              "icon": "ts",
+              "path": "src/orders/",
+              "src": "/assets/blog/adr-guard/orders.service.bad.ts",
+              "highlight": [
+                10
+              ]
+            }
+          ]
+        },
+        {
+          "label": "payments",
+          "children": [
+            {
+              "id": "pay-bad",
+              "label": "payments.controller.bad.ts",
+              "icon": "ts",
+              "path": "src/payments/",
+              "src": "/assets/blog/adr-guard/payments.controller.bad.ts",
+              "highlight": [
+                7
+              ]
+            },
+            {
+              "id": "webhook-bad",
+              "label": "payment-webhook.service.bad.ts",
+              "icon": "ts",
+              "path": "src/payments/",
+              "src": "/assets/blog/adr-guard/payment-webhook.service.bad.ts",
+              "highlight": [
+                17,
+                18,
+                19
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Root",
+      "children": [
+        {
+          "id": "report",
+          "label": "report.md",
+          "icon": "md",
+          "path": "~",
+          "src": "/assets/blog/adr-guard/adr-guard-report.md"
+        }
+      ]
+    }
+  ]
+}
