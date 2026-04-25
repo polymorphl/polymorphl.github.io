@@ -1,4 +1,4 @@
-import { useState, use, useMemo, useRef, useEffect, Suspense } from 'react';
+import { useState, use, useMemo, useRef, useEffect, Suspense, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { useBodyScrollLock } from '@hooks/useBodyScrollLock';
 import { useEscapeKey } from '@hooks/useEscapeKey';
@@ -344,6 +344,9 @@ function WorkspaceLightbox({
 
 function MiniWorkspaceInner({ defaultFile, height = 400, tree }: { defaultFile: string; height?: number; tree: MiniWorkspaceFolder[] }) {
   const [activeFileId, setActiveFileId] = useState(defaultFile);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const openFullscreen = useCallback(() => setIsFullscreen(true), []);
+  const closeFullscreen = useCallback(() => setIsFullscreen(false), []);
 
   const allFiles = useMemo(
     () =>
@@ -372,11 +375,22 @@ function MiniWorkspaceInner({ defaultFile, height = 400, tree }: { defaultFile: 
           <span className="text-text-secondary text-xs font-mono truncate">{activeFile.path}</span>
           <span className="text-text-primary text-xs font-mono font-medium truncate">{activeFile.label}</span>
         </div>
-        {activeFile.highlight && activeFile.highlight.length > 0 && (
-          <span className="shrink-0 ml-2 px-2 py-0.5 rounded-full text-[10px] font-mono bg-red-500/10 text-red-400 border border-red-500/30">
-            ✗ violation
-          </span>
-        )}
+        <div className="flex items-center gap-2 shrink-0 ml-2">
+          {activeFile.highlight && activeFile.highlight.length > 0 && (
+            <span className="px-2 py-0.5 rounded-full text-[10px] font-mono bg-red-500/10 text-red-400 border border-red-500/30">
+              ✗ violation
+            </span>
+          )}
+          <button
+            type="button"
+            onClick={openFullscreen}
+            className="hidden md:flex items-center gap-1.5 px-2 py-1 rounded-lg text-text-secondary hover:text-text-primary hover:bg-border/50 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent text-[10px] font-mono"
+            aria-label="Expand workspace"
+          >
+            <ExpandIcon />
+            <span>Expand</span>
+          </button>
+        </div>
       </div>
 
       <MobileTabStrip
@@ -429,6 +443,15 @@ function MiniWorkspaceInner({ defaultFile, height = 400, tree }: { defaultFile: 
           <FileViewer file={activeFile} />
         </Suspense>
       </div>
+      {isFullscreen && activeFile && (
+        <WorkspaceLightbox
+          tree={tree}
+          activeFileId={activeFileId}
+          setActiveFileId={setActiveFileId}
+          activeFile={activeFile}
+          onClose={closeFullscreen}
+        />
+      )}
     </div>
   );
 }
