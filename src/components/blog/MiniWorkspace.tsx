@@ -249,7 +249,7 @@ function WorkspaceLightbox({
         className="fixed inset-0 z-[1101] flex items-center justify-center p-4"
         role="dialog"
         aria-modal="true"
-        aria-label={`${activeFile.path}${activeFile.label}`}
+        aria-label={`${activeFile.path}${activeFile.label} — fullscreen workspace`}
       >
         <div
           className="flex flex-col rounded-xl border border-border bg-background shadow-[var(--shadow-floating)] overflow-hidden"
@@ -443,7 +443,7 @@ function MiniWorkspaceInner({ defaultFile, height = 400, tree }: { defaultFile: 
           <FileViewer file={activeFile} />
         </Suspense>
       </div>
-      {isFullscreen && activeFile && (
+      {isFullscreen && (
         <WorkspaceLightbox
           tree={tree}
           activeFileId={activeFileId}
