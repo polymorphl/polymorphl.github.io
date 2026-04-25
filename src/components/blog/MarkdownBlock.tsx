@@ -60,7 +60,7 @@ function fetchContent(url: string): Promise<string> {
 
 function MarkdownBlockWithFile({ contentFile, language }: { contentFile: string; language: string }) {
   const text = use(fetchContent(contentFile));
-  const content = `\`\`\`${language}\n${text}\n\`\`\``;
+  const content = language === 'markdown' ? text : `\`\`\`${language}\n${text}\n\`\`\``;
   return (
     <ReactMarkdown rehypePlugins={[rehypeHighlight]} components={components}>
       {content}
