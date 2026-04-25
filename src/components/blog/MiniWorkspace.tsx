@@ -2,6 +2,7 @@ import { useState, use, useMemo, useRef, useEffect, Suspense, useCallback } from
 import { createPortal } from 'react-dom';
 import { useBodyScrollLock } from '@hooks/useBodyScrollLock';
 import { useEscapeKey } from '@hooks/useEscapeKey';
+import { useLanguage } from '@hooks/useLanguage';
 import hljs from 'highlight.js/lib/core';
 import typescript from 'highlight.js/lib/languages/typescript';
 import markdown from 'highlight.js/lib/languages/markdown';
@@ -234,6 +235,7 @@ function WorkspaceLightbox({
 }) {
   useBodyScrollLock(true);
   useEscapeKey(onClose, true);
+  const { t } = useLanguage();
 
   return createPortal(
     <>
@@ -273,10 +275,10 @@ function WorkspaceLightbox({
                 type="button"
                 onClick={onClose}
                 className="flex items-center gap-1.5 px-2 py-1 rounded-lg text-text-secondary hover:text-text-primary hover:bg-border/50 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent text-[10px] font-mono"
-                aria-label="Collapse workspace"
+                aria-label={t('blog.workspace.collapse')}
               >
                 <CollapseIcon />
-                <span>Collapse</span>
+                <span>{t('blog.workspace.collapse')}</span>
               </button>
             </div>
           </div>
@@ -347,6 +349,7 @@ function MiniWorkspaceInner({ defaultFile, height = 400, tree }: { defaultFile: 
   const [isFullscreen, setIsFullscreen] = useState(false);
   const openFullscreen = useCallback(() => setIsFullscreen(true), []);
   const closeFullscreen = useCallback(() => setIsFullscreen(false), []);
+  const { t } = useLanguage();
 
   const allFiles = useMemo(
     () =>
@@ -385,10 +388,10 @@ function MiniWorkspaceInner({ defaultFile, height = 400, tree }: { defaultFile: 
             type="button"
             onClick={openFullscreen}
             className="hidden md:flex items-center gap-1.5 px-2 py-1 rounded-lg text-text-secondary hover:text-text-primary hover:bg-border/50 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent text-[10px] font-mono"
-            aria-label="Expand workspace"
+            aria-label={t('blog.workspace.expand')}
           >
             <ExpandIcon />
-            <span>Expand</span>
+            <span>{t('blog.workspace.expand')}</span>
           </button>
         </div>
       </div>

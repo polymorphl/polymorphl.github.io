@@ -145,7 +145,11 @@
   },
   "blog": {
     "noPosts": "Aucun article pour le moment.",
-    "readingTime": "min de lecture"
+    "readingTime": "min de lecture",
+    "workspace": {
+      "expand": "Agrandir",
+      "collapse": "Réduire"
+    }
   },
   "projects": {
     "title": "Projets open-source",
