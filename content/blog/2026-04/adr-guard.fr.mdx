@@ -1,0 +1,158 @@
+---
+title: "Les ADR comme gardiens de codebase"
+slug: "adr-guard"
+date: "2026-04-23"
+tags: ["IA", "Claude Code", "ADR", "architecture", "agents", "développement", "qualité"]
+summary: "Ce que le linter ne peut pas faire. Comment transformer des ADR en contraintes actives pour garder une codebase saine, que le code soit écrit par une équipe ou généré par des agents."
+cover: "/assets/blog/adr-guard/meme.jpg"
+readingTime: 7
+---
+
+Que ce soit en tant que lead dans des équipes ou plus récemment en travaillant avec des agents, j'ai toujours rencontré le même problème : faire respecter les choix d'architecture. Pas le style de code, pas les conventions de nommage. Les vraies décisions. Celles qui ont été discutées, validées, documentées. Et qui se font silencieusement violer trois semaines plus tard, sans mauvaise intention, juste par manque de temps pour accompagner chaque dev individuellement.
+
+Pendant longtemps, la réponse partielle à ce problème tenait en un mot : le linter.
+
+[ESLint](https://eslint.org/), [Prettier](https://prettier.io/), puis [Biome](https://biomejs.dev/). Des outils qui s'intègrent en pre-commit, en CI, dans l'éditeur. Rapides, automatisables, impossibles à ignorer sans un `--no-verify` explicite. Le linter a gagné cette bataille. Et il la mérite.
+
+Mais il y a une limite. Une limite qui existait bien avant les agents, et que l'IA a simplement rendue impossible à ignorer.
+
+## Ce que le linter sait faire
+
+Sur une API NestJS bien tenue, un linter couvre les bases sans effort :
+
+- Le style de code : quotes, semicolons, trailing commas, line endings
+- Les imports interdits : barrel exports enforced via `noRestrictedImports`, impossible d'importer depuis `orders/domain/` au lieu de `orders/`
+- Les conventions TypeScript : `interface` banni au profit des `type`, `any` interdit en dehors des cas explicitement commentés
+
+Ces règles ont un point commun : elles sont **mécaniques**. Elles s'expriment en syntaxe. Le linter peut les vérifier sans rien connaître du projet, de ses intentions, de ses contraintes métier. C'est précisément sa force.
+
+Et sa limite.
+
+## Ce que le linter ne voit pas
+
+Certaines décisions ne s'expriment pas en syntaxe. Elles s'expriment en **intention**.
+
+Prenons un cas concret. On a décidé que les controllers ne touchent jamais la base de données directement. Tout passe par un service. La règle est claire, l'équipe est alignée, c'est dans le wiki.
+
+ESLint ne peut pas exprimer ça. Il voit deux imports TypeScript valides. Il ne sait pas que l'un d'eux trahit une décision d'architecture fondamentale.
+
+Autre exemple : on a décidé de ne jamais throw d'`Error` natif dans un service. On utilise les exceptions NestJS pour que le filtre global les intercepte correctement. Un `throw new Error('Order not found')` est syntaxiquement parfait. Le linter n'y voit rien. Pourtant c'est une violation.
+
+Même chose pour les DTOs : tout body entrant doit être typé avec `class-validator`. Un `@Body() body: any` passe le linter sans broncher.
+
+Le linter protège la forme. Pas le sens.
+
+<Callout type="warning">
+Ce fossé existait avant les agents. Ils l'ont rendu impossible à ignorer : un agent peut générer en quelques secondes autant de code qu'un sprint entier, à une vitesse que la revue humaine ne peut pas absorber.
+</Callout>
+
+## Les ADR, et pourquoi ils restent passifs par défaut
+
+Les ADR (*Architecture Decision Records*) ne sont pas une nouveauté. [Michael Nygard en décrit le format en 2011](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions.html) : un fichier Markdown par décision, avec trois sections. Le contexte qui a rendu la décision nécessaire. La décision elle-même. Les conséquences, positives et négatives.
+
+Le format est simple, le principe est solide. Mais le problème classique avec les ADR : ils sont **passifs**. Un fichier Markdown que l'équipe est censée relire avant de contribuer. En pratique, ça dérive. Les nouveaux arrivants ne les lisent pas tous. Les revues de PR brassent trop de code pour croiser chaque changement avec chaque décision. Les seniors qui les ont écrits finissent par être les seuls à s'en souvenir. Et les agents ne les lisent pas du tout, sauf si on le leur demande explicitement.
+
+## De la documentation passive à la contrainte active
+
+C'est là que le paradigme change, et pas seulement pour les agents. Si les ADR sont structurés de façon à rendre leurs règles extractibles, n'importe quel outil peut les comprendre, les appliquer, et surtout les **vérifier**. Un hook de pre-push, une étape de CI, une commande lancée manuellement avant une PR.
+
+La clé : ajouter dans chaque ADR une section explicite qui formalise ce qui est contrôlable.
+
+<MarkdownBlock
+  contentFile="/assets/blog/adr-guard/ADR-layered-arch.md"
+  language="markdown"
+  variant="accordion"
+  accordionLabel="ADR-layered-arch.md"
+/>
+
+L'ADR cesse d'être de la documentation pour devenir une **instruction machine**.
+
+## Un exemple concret
+
+Le workspace ci-dessous illustre quatre ADR sur une API [NestJS](https://nestjs.com/) : architecture des couches, gestion des erreurs, contrat d'entrée, transitions d'état. Pour chacun, la règle, sa violation, et le rapport de `/adr-guard`.
+
+<MiniWorkspace src="/assets/blog/adr-guard/workspace.json" height={480} />
+
+C'est ce que `/adr-guard` vérifie en une seule passe.
+
+## `/adr-guard` : le linter du comportement
+
+La commande est un fichier Markdown dans `.claude/skills/adr-guard/SKILL.md`. Claude Code la rend disponible via `/adr-guard`.
+
+<MarkdownBlock
+  contentFile="/assets/blog/adr-guard/SKILL.md"
+  language="markdown"
+  variant="accordion"
+  accordionLabel="Voir la commande /adr-guard complète"
+  downloadUrl="/assets/blog/adr-guard/SKILL.md"
+  downloadLabel="Télécharger adr-guard.md"
+/>
+
+Contrairement à ce qu'on pourrait imaginer, elle ne lit pas les ADR pour en déduire des règles à la volée. Elle embarque un **checklist de vérifications bash concrètes**, une par décision d'architecture. Les règles mécanisables deviennent des `grep` — un `@InjectRepository` dans un controller, un `throw new Error` dans un service. Les règles qui demandent du contexte (vérifier qu'une couche ne dépend pas d'une autre, valider un cycle de vie d'état) restent des points de contrôle manuels que l'agent passe en revue explicitement. Le rapport final consolide les deux.
+
+<Callout type="tip">
+Le linter et `/adr-guard` ne font pas le même travail. Ensemble, ils ferment le fossé.
+</Callout>
+
+### Trois niveaux d'intégration
+
+La commande peut s'adapter à n'importe quel workflow, humain ou agentique.
+
+**Niveau 1 — Manuel dans Claude Code**
+
+Tu lances `/adr-guard` après une session d'implémentation, avant de soumettre une PR. Le rapport s'affiche dans le terminal, tu corriges avant de pousser.
+
+<Callout type="info">
+Le rapport est aussi exportable directement en Markdown : `claude -p "/adr-guard" --output-format text > report.md` — pratique pour l'attacher à une PR ou archiver un état de conformité.
+</Callout>
+
+Sur un projet un peu plus établi, avec une dizaine d'ADRs en place, le rapport ressemble à ça :
+
+<ArticleImage src="/assets/blog/adr-guard/report-example.png" alt="Exemple de rapport de conformité ADR généré par adr-guard" caption="Exemple de rapport de conformité ADR généré par adr-guard" />
+
+**Niveau 2 — Hook automatique avec Lefthook**
+
+[Lefthook](https://lefthook.dev/) s'installe comme dev dependency et se branche sur les hooks git. `lefthook.yml` suffit pour que `/adr-guard` tourne automatiquement à chaque `git push` :
+
+```yaml
+# lefthook.yml
+pre-push:
+  commands:
+    adr-guard:
+      run: |
+        report=$(claude -p "/adr-guard" --output-format text)
+        echo "$report"
+        ! grep -q "✗" <<< "$report"
+```
+
+`claude -p` sort toujours avec un code 0 — c'est le contenu du rapport qui détermine le blocage. Le wrapper capture la sortie, l'affiche, puis fait échouer la commande si elle contient des violations (`✗`). Violations détectées, push bloqué, rapport dans le terminal. Même réflexe que Biome sur le style, registre différent.
+
+**Niveau 3 — CI**
+
+Même logique en étape GitHub Actions pour bloquer les merges sur main :
+
+```yaml
+- name: ADR Guard
+  run: |
+    report=$(claude -p "/adr-guard" --output-format text)
+    echo "$report"
+    ! grep -q "✗" <<< "$report"
+```
+
+Un dev humain, un agent, une PR en CI : le circuit est toujours le même. Les ADR définissent les règles, `/adr-guard` les vérifie, le rapport indique quoi corriger.
+
+## Ce que ça change vraiment
+
+Le rôle d'arbitre architectural ne disparaît pas avec `/adr-guard`. Le modèle lit plus ou moins bien les ADR selon son réglage, certaines violations passent, et il reste des décisions qui demandent un jugement humain qu'aucun `grep` ne peut remplacer.
+
+Mais ça déplace le curseur. Une partie de la relecture de PR qui servait uniquement à vérifier le respect de conventions documentées peut être automatisée. Ce temps récupéré va à ce qui compte vraiment : les décisions nouvelles, les cas limites, les arbitrages qui n'ont pas encore d'ADR.
+
+Les ADR ont toujours eu raison sur le fond. Le problème n'était pas le format, c'était l'absence de contrainte réelle. Un fichier Markdown sans outil pour le faire respecter, c'est une règle d'honneur. `/adr-guard` les rend applicables. Lefthook les rend automatiques. La CI les rend incontournables.
+
+Le linter a mis une décennie à devenir un réflexe, de JSHint à Biome. Les ADR actifs en sont au début de ce chemin.
+
+<ArticleImage
+  src="/assets/blog/adr-guard/meme.jpg"
+  alt="Le chien 'This is fine' assis dans un bâtiment en feu, disant : THE LINTER IS GREEN."
+  caption="The linter is green."
+/>
