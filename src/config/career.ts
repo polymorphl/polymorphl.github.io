@@ -67,4 +67,11 @@ export const CERTIFICATIONS_BASE: CertificationBase[] = [
     date: '03/2026',
     pdf: '/assets/certifications/blent-ai-python.pdf',
   },
+  {
+    id: 'claude-101',
+    issuer: 'Anthropic',
+    date: '04/2026',
+    pdf: '/assets/certifications/claude-101.pdf',
+    verifyUrl: 'https://verify.skilljar.com/c/pjn9ee9w3846'
+  },
 ];

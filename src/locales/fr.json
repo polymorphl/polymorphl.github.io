@@ -63,6 +63,10 @@
     {
       "id": "blent-ai-python",
       "name": "Langage Python"
+    },
+    {
+      "id": "claude-101",
+      "name": "Claude 101"
     }
   ],
   "entries": [
