@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import { useLanguage } from "@hooks/useLanguage";
 import { useHomeScroll } from "@hooks/useHomeScroll";
-import ProjectsGrid from "@components/ProjectsGrid";
-import HeroSection from "@components/HeroSection";
+import ProjectsGrid from "@components/project/ProjectsGrid";
+import HeroSection from "@components/home/HeroSection";
 import FeaturedPosts from "@components/blog/FeaturedPosts";
-import ActionBar from "@components/ActionBar";
+import ActionBar from "@components/ui/ActionBar";
 
 export default function HomePage() {
   const { t } = useLanguage();
