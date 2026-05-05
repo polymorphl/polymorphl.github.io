@@ -2,6 +2,22 @@ import type { ProjectConfig } from '@domain/project';
 
 export const PROJECTS: ReadonlyArray<ProjectConfig> = [
   {
+    id: 'blent-ai-customer-service-assistant',
+    title: 'Customer Service Assistant',
+    url: 'https://github.com/polymorphl/blent-ai-customer-service-assistant',
+    image: '/assets/projects/blent-ai-customer-service-assistant.webp',
+    techIds: ['python', 'langchain'],
+    featured: true
+  },
+  {
+    id: 'blent-ai-python-api-rest',
+    title: 'DigiMarket API',
+    url: 'https://github.com/polymorphl/blent-ai-python-api-rest',
+    image: '/assets/projects/blent-ai-python-api-rest.webp',
+    techIds: ['python', 'flask'],
+    featured: true
+  },
+  {
     id: 'claude-weekly-insights',
     title: 'Claude Weekly Insights',
     url: 'https://github.com/polymorphl/claude-weekly-insights',
@@ -27,6 +43,6 @@ export const PROJECTS: ReadonlyArray<ProjectConfig> = [
     title: 'Orcrux',
     url: 'https://github.com/polymorphl/orcrux',
     image: '/assets/projects/orcrux.webp',
-    techIds: ['go', 'typescript', 'react', 'vanillajs'],
-  },
+    techIds: ['go', 'typescript', 'react'],
+  }
 ] as const;

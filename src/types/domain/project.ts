@@ -10,4 +10,5 @@ export type ProjectConfig = {
   url: string;
   image: string;
   techIds: TechId[];
+  featured?: true;
 };

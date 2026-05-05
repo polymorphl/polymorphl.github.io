@@ -170,6 +170,12 @@
     },
     "claude-weekly-insights": {
       "description": "Insights hebdomadaires de Claude Code. Analyse la base de code de la semaine et génère des insights."
+    },
+    "blent-ai-customer-service-assistant": {
+      "description": "Chatbot basé sur LangChain qui répond aux questions sur les commandes e-commerce en langage naturel en interrogeant une base de données SQL en temps réel."
+    },
+    "blent-ai-python-api-rest": {
+      "description": "Une API REST utilisant le framework Flask, SQLAlchemy pour l'ORM et une base de donnée SQLite."
     }
   },
   "home": {
