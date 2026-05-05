@@ -82,7 +82,7 @@ const ALL_CATEGORY_IDS: { labelKey: string; techIds: readonly string[] }[] = [
   },
   {
     labelKey: "tech.frameworks",
-    techIds: ["react", "nextjs", "nestjs", "vuejs", "angular", "jquery"],
+    techIds: ["react", "nextjs", "nestjs", "vuejs", "angular", "flask", "langchain", "jquery"],
   },
   {
     labelKey: "tech.database",
