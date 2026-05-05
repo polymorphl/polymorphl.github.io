@@ -67,6 +67,10 @@
     {
       "id": "claude-101",
       "name": "Claude 101"
+    },
+    {
+      "id": "blent-ai-llm-engineer",
+      "name": "LLM Engineer"
     }
   ],
   "entries": [

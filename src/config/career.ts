@@ -55,6 +55,19 @@ export const CAREER_ENTRIES_BASE: CareerEntryBase[] = [
 
 export const CERTIFICATIONS_BASE: CertificationBase[] = [
   {
+    id: 'blent-ai-llm-engineer',
+    issuer: 'Blent.ai',
+    date: '05/2026',
+    pdf:  '/assets/certifications/blent-ai-llm-engineer.pdf'
+  },
+  {
+    id: 'claude-101',
+    issuer: 'Anthropic',
+    date: '04/2026',
+    pdf: '/assets/certifications/claude-101.pdf',
+    verifyUrl: 'https://verify.skilljar.com/c/pjn9ee9w3846'
+  },
+  {
     id: 'claude-code-in-action',
     issuer: 'Anthropic',
     date: '04/2026',
@@ -66,12 +79,5 @@ export const CERTIFICATIONS_BASE: CertificationBase[] = [
     issuer: 'Blent.ai',
     date: '03/2026',
     pdf: '/assets/certifications/blent-ai-python.pdf',
-  },
-  {
-    id: 'claude-101',
-    issuer: 'Anthropic',
-    date: '04/2026',
-    pdf: '/assets/certifications/claude-101.pdf',
-    verifyUrl: 'https://verify.skilljar.com/c/pjn9ee9w3846'
   },
 ];
