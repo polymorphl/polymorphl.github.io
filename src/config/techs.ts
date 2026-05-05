@@ -37,6 +37,8 @@ export const TECH_REGISTRY = {
   redis: { id: 'redis', displayName: 'Redis', icon: 'redis' },
   zeromq: { id: 'zeromq', displayName: 'ZeroMQ', icon: 'zeromq' },
   python: { id: 'python', displayName: 'Python', icon: 'python' },
+  langchain: { id: 'langchain', displayName: 'LangChain', icon: 'langchain'},
+  flask: { id: 'flask', displayName: 'Flask', icon: 'flask'}
 } as const satisfies Record<string, TechDefinition>;
 
 /** Tech ID — union of registry keys. E.g. 'react' | 'nextjs' | 'nodejs' | ... */

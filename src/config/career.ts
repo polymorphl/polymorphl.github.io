@@ -4,7 +4,7 @@ export const CAREER_ENTRIES_BASE: CareerEntryBase[] = [
   {
     company: 'Formation & Open Source',
     period: ['09/2025', 'present'],
-    stack: ['rust', 'go', 'python', 'react'],
+    stack: ['rust', 'go', 'python', 'langchain', 'flask', 'react'],
     logoId: 'formation-and-open-source',
     logoLight: true,
   },
