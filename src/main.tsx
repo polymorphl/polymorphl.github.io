@@ -2,7 +2,7 @@ import './global.css';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
-import PostHogLazyProvider from '@components/PostHogLazyProvider';
+import PostHogLazyProvider from '@components/providers/PostHogLazyProvider';
 import { initI18n } from '@lib/i18n';
 import App from './App';
 

@@ -2,14 +2,14 @@ import * as m from 'motion/react-m';
 import { useLanguage } from '@hooks/useLanguage';
 import { useMotionTransition, useLogoTransition } from '@hooks/useMotionTransition';
 import { containerCareer, fadeInUp30 } from '@config/motion';
-import CareerLogo from '@components/CareerLogo';
-import TechPill from '@components/TechPill';
+import CareerLogo from '@components/home/CareerLogo';
+import TechPill from '@components/tech/TechPill';
 import { CAREER_ENTRIES_BASE } from '@config/career';
 import { getTech, toIconConfig } from '@config/techs';
 import { getPeriodDurationInYears } from '@lib/computeTechExperience';
 import { formatPeriodForDisplay, formatExperienceDuration } from '@lib/formatPeriod';
 import { parseTextWithLinks } from '@lib/parseLinks';
-import SurfaceCard from '@components/SurfaceCard';
+import SurfaceCard from '@components/ui/SurfaceCard';
 import type { CareerEntry, CareerEntryI18n } from '@domain/career';
 
 function mergeCareerEntries(

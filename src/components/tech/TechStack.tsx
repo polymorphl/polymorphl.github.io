@@ -4,7 +4,7 @@ import { useLanguage } from "@hooks/useLanguage";
 import { useMotionTransition } from "@hooks/useMotionTransition";
 import { containerTechStack, fadeInUp30 } from "@config/motion";
 import { TechListRow } from "@components/tech/TechListRow";
-import SurfaceCard from "@components/SurfaceCard";
+import SurfaceCard from "@components/ui/SurfaceCard";
 import { CAREER_ENTRIES_BASE } from "@config/career";
 import { PROJECTS } from "@config/projects";
 import { getTech } from "@config/techs";

@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useTheme } from '@components/ThemeProvider';
+import { useTheme } from '@components/providers/ThemeProvider';
 import { useLanguage } from '@hooks/useLanguage';
 import { useBodyScrollLock } from '@hooks/useBodyScrollLock';
 import { useEscapeKey } from '@hooks/useEscapeKey';

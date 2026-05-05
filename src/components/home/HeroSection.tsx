@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import { useLanguage } from "@hooks/useLanguage";
 import { useMotionTransition } from "@hooks/useMotionTransition";
 import { containerHero, fadeInUp20, scaleIn, underlineDrawIn } from "@config/motion";
-import HeroPhoto from "@components/HeroPhoto";
-import TechPill from "@components/TechPill";
+import HeroPhoto from "@components/home/HeroPhoto";
+import TechPill from "@components/tech/TechPill";
 
 export default function HeroSection() {
   const { t } = useLanguage();

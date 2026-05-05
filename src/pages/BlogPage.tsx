@@ -5,7 +5,7 @@ import { useLanguageNavigation } from '@hooks/useLanguageNavigation';
 import { useMotionTransition } from '@hooks/useMotionTransition';
 import { containerBlogList, fadeInUp30 } from '@config/motion';
 import { getBlogList } from '@lib/blog';
-import SurfaceCard from '@components/SurfaceCard';
+import SurfaceCard from '@components/ui/SurfaceCard';
 
 export default function BlogPage() {
   const { lang, t } = useLanguage();

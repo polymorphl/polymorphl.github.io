@@ -3,7 +3,7 @@ import { useLanguage } from "@hooks/useLanguage";
 import { useMotionTransition } from "@hooks/useMotionTransition";
 import { fadeInUp30 } from "@config/motion";
 import { CERTIFICATIONS_BASE } from "@config/career";
-import SurfaceCard from "@components/SurfaceCard";
+import SurfaceCard from "@components/ui/SurfaceCard";
 import type { Lang } from "@domain/i18n";
 import type { Certification, CertificationI18n } from "@domain/career";
 

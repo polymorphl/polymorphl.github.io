@@ -5,10 +5,10 @@ import { useLanguageNavigation } from '@hooks/useLanguageNavigation';
 import { useMotionTransition } from '@hooks/useMotionTransition';
 import { containerCareer, fadeInUp30 } from '@config/motion';
 import TableOfContents from '@components/blog/TableOfContents';
-import ActionBar from '@components/ActionBar';
-import CareerTimeline from '@components/CareerTimeline';
-import TechStack from '@components/TechStack';
-import Certifications from '@components/Certifications';
+import ActionBar from '@components/ui/ActionBar';
+import CareerTimeline from '@components/home/CareerTimeline';
+import TechStack from '@components/tech/TechStack';
+import Certifications from '@components/home/Certifications';
 
 export default function CareerPage() {
   const { lang, t } = useLanguage();

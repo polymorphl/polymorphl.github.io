@@ -2,11 +2,11 @@ import { useLayoutEffect } from 'react';
 import { BrowserRouter, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { LazyMotion } from 'motion/react';
 import { useLanguage } from '@hooks/useLanguage';
-import { ThemeProvider } from '@components/ThemeProvider';
-import { ThemedBackground } from '@components/ThemedBackground';
+import { ThemeProvider } from '@components/providers/ThemeProvider';
+import { ThemedBackground } from '@components/ui/ThemedBackground';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
-import PageTransition from './components/PageTransition';
+import PageTransition from '@components/providers/PageTransition';
 
 const loadMotionFeatures = () => import('motion/react').then(m => m.domAnimation);
 
