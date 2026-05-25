@@ -1,20 +1,20 @@
-import { usePostHog } from 'posthog-js/react';
+import { usePostHogCapture } from '@/context/PostHogContext';
 import type { BlogPostViewedEvent, BlogPostReadEvent } from '@api/tracking';
 
 export function useTracking() {
-  const posthog = usePostHog();
+  const capture = usePostHogCapture();
 
   return {
     trackResumeDownloaded: (source: string) => {
-      posthog?.capture('resume_downloaded', { source });
+      capture?.('resume_downloaded', { source });
     },
 
     trackSocialLinkClicked: (platform: 'linkedin' | 'github' | 'email', source: string) => {
-      posthog?.capture('social_link_clicked', { platform, source });
+      capture?.('social_link_clicked', { platform, source });
     },
 
     trackProjectClicked: (projectId: string, projectTitle: string, projectUrl: string) => {
-      posthog?.capture('project_clicked', {
+      capture?.('project_clicked', {
         project_id: projectId,
         project_title: projectTitle,
         project_url: projectUrl,
@@ -22,23 +22,23 @@ export function useTracking() {
     },
 
     trackCareerCompanyClicked: (company: string, website: string, source: string) => {
-      posthog?.capture('career_company_clicked', { company, website, source });
+      capture?.('career_company_clicked', { company, website, source });
     },
 
     trackBlogPostViewed: (event: BlogPostViewedEvent) => {
-      posthog?.capture('blog_post_viewed', event);
+      capture?.('blog_post_viewed', event as Record<string, unknown>);
     },
 
     trackThemeToggled: (theme: string, previousTheme: string) => {
-      posthog?.capture('theme_toggled', { theme, previous_theme: previousTheme });
+      capture?.('theme_toggled', { theme, previous_theme: previousTheme });
     },
 
     trackLanguageChanged: (language: string, previousLanguage?: string) => {
-      posthog?.capture('language_changed', { language, previous_language: previousLanguage });
+      capture?.('language_changed', { language, previous_language: previousLanguage });
     },
 
     trackBlogPostRead: (event: BlogPostReadEvent) => {
-      posthog?.capture('blog_post_read', event);
+      capture?.('blog_post_read', event as Record<string, unknown>);
     },
   };
 }

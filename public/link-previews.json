@@ -9,10 +9,10 @@
   },
   "https://www.cursor.com": {
     "url": "https://www.cursor.com",
-    "title": "The best way to code with AI",
-    "description": "Built to make you extraordinarily productive, Cursor is the best way to build software with AI.",
+    "title": "The best coding agent",
+    "description": "Built to make you extraordinarily productive, Cursor is the best coding agent.",
     "image": "https://cursor.com/public/opengraph-image.png",
-    "favicon": "https://www.cursor.com/marketing-static/favicon-bimi-temporary.svg",
+    "favicon": "https://www.cursor.com/marketing-static/favicon.svg",
     "domain": "www.cursor.com"
   },
   "https://claude.ai/code": {

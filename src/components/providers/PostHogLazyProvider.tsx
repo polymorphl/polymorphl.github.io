@@ -1,21 +1,25 @@
-import React, { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useState } from 'react';
 import type { PostHogLazyProviderProps } from '@ui/components';
+import { PostHogCaptureContext } from '@/context/PostHogContext';
+
+type CaptureFunction = (event: string, properties?: Record<string, unknown>) => void;
+
+let initialized = false;
 
 export default function PostHogLazyProvider({ children }: PostHogLazyProviderProps) {
-  const [PostHogWrapper, setPostHogWrapper] = useState<
-    ((props: { children: ReactNode }) => React.ReactElement) | null
-  >(null);
+  const [capture, setCapture] = useState<CaptureFunction | null>(null);
 
   useEffect(() => {
     const loadPostHog = () => {
-      Promise.all([import('posthog-js'), import('@posthog/react')]).then(([ph, phReact]) => {
+      if (initialized) return;
+      initialized = true;
+      import('posthog-js').then((ph) => {
         ph.default.init(import.meta.env.VITE_POSTHOG_KEY as string, {
           api_host: import.meta.env.VITE_POSTHOG_HOST as string,
         });
-        const client = ph.default;
-        setPostHogWrapper(() => (props: { children: ReactNode }) => (
-          <phReact.PostHogProvider client={client}>{props.children}</phReact.PostHogProvider>
-        ));
+        const captureRef: CaptureFunction = (event, properties) =>
+          ph.default.capture(event, properties);
+        setCapture(() => captureRef);
       });
     };
 
@@ -26,8 +30,9 @@ export default function PostHogLazyProvider({ children }: PostHogLazyProviderPro
     }
   }, []);
 
-  if (PostHogWrapper) {
-    return <PostHogWrapper>{children}</PostHogWrapper>;
-  }
-  return <>{children}</>;
+  return (
+    <PostHogCaptureContext.Provider value={capture}>
+      {children}
+    </PostHogCaptureContext.Provider>
+  );
 }
